@@ -24,7 +24,7 @@ class SplashScreen extends StatelessWidget {
         alignment: Alignment.center,
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
-          child: Image.asset('assets/raiden.jpg',)),
+          child: Image.asset('assets/images/raiden.jpg',)),
     ));
   }
 }
