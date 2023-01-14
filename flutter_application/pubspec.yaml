@@ -34,6 +34,7 @@ dependencies:
   firebase_core: ^2.4.1
   flutter:
     sdk: flutter
+  flutter_login: ^4.1.1
   flutter_native_splash: ^2.2.16
   get: ^4.6.5
   introduction_screen: ^3.1.2
