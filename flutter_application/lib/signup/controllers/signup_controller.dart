@@ -10,7 +10,7 @@ class SignupController extends GetxController {
 
 
   final users = const {
-  'dribbble@gmail.com': '12345',
+  'niama@gmail.com': '12345',
   'hunter@gmail.com': 'hunter',
 };
   

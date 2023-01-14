@@ -4,15 +4,15 @@ import 'package:flutter_application/splash_screen.dart';
 import 'package:flutter_login/flutter_login.dart';
 import 'package:get/get.dart';
 
-class SignupScreen extends StatelessWidget {
-  const SignupScreen({super.key});
+class MySignupScreen extends StatelessWidget {
+  const MySignupScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(SignupController());
 
     return FlutterLogin(
-      title: 'ECORP',
+      title: 'Re:Energize',
       onLogin: controller.authUser,
       onSignup: controller.signupUser,
       onSubmitAnimationCompleted: () {
