@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application/authetication/authetication_repository.dart';
+import 'package:flutter_application/signup/controllers/signup_controller.dart';
+import 'package:get/get.dart';
 
-class SplashScreen extends StatelessWidget {
+class SplashScreen extends GetView<SignupController> {
   final Color startingColor = const Color(0xff393a3e);
   final Color endingColor = const Color(0xff27282c);
   final double colorStopOne = 0.0;
@@ -21,10 +24,30 @@ class SplashScreen extends StatelessWidget {
         ),
       ),
       child: Container(
-        alignment: Alignment.center,
+          alignment: Alignment.center,
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
-          child: Image.asset('assets/images/raiden.jpg',)),
+          child: Column(
+            children: [
+              Flexible(
+                  flex: 4,
+                  child: Image.asset(
+                    'assets/images/raiden.jpg',
+                  )),
+              Flexible(
+                  child: Ink(
+                decoration: const ShapeDecoration(
+                  color: Colors.lightBlue,
+                  shape: CircleBorder(),
+                ),
+                child: IconButton(
+                  onPressed: () => AutheticationRepository.instance.signOut(),
+                  icon: const Icon(Icons.logout),
+                  color: Colors.white,
+                ),
+              ))
+            ],
+          )),
     ));
   }
 }

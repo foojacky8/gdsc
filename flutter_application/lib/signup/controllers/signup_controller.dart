@@ -1,4 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_application/authetication/authetication_repository.dart';
+import 'package:flutter_application/authetication/exceptions/login_with_email_password_failure.dart';
+import 'package:flutter_application/authetication/exceptions/signup_with_email_password_failure.dart';
 import 'package:flutter_login/flutter_login.dart';
 import 'package:get/get.dart';
 
@@ -8,31 +12,26 @@ class SignupController extends GetxController {
   final email = TextEditingController();
   final password = TextEditingController();
 
-
   final users = const {
-  'niama@gmail.com': '12345',
-  'hunter@gmail.com': 'hunter',
-};
-  
+    'niama@gmail.com': '12345',
+    'hunter@gmail.com': 'hunter',
+  };
+
   Duration get loginTime => const Duration(milliseconds: 2250);
 
   Future<String?> signupUser(SignupData data) {
     debugPrint('Signup Name: ${data.name}, Password: ${data.password}');
     return Future.delayed(loginTime).then((_) {
-      return null;
+      return AutheticationRepository.instance
+          .createUserWithEmailAndPassword(data.name!, data.password!);
     });
   }
 
   Future<String?> authUser(LoginData data) {
     debugPrint('Name: ${data.name}, Password: ${data.password}');
     return Future.delayed(loginTime).then((_) {
-      if (!users.containsKey(data.name)) {
-        return 'User not exists';
-      }
-      if (users[data.name] != data.password) {
-        return 'Password does not match';
-      }
-      return null;
+      return AutheticationRepository.instance
+          .signInWithEmailAndPassword(data.name, data.password);
     });
   }
 
