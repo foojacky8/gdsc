@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application/signup/controllers/signup_controller.dart';
+import 'package:flutter_application/authetication/controllers/signup_controller.dart';
 import 'package:flutter_application/splash_screen.dart';
 import 'package:flutter_login/flutter_login.dart';
 import 'package:get/get.dart';

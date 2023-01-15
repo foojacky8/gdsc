@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_application/authetication/exceptions/login_with_email_password_failure.dart';
-import 'package:flutter_application/authetication/exceptions/signup_with_email_password_failure.dart';
+import 'package:flutter_application/repository/authentication_repository/exceptions/login_with_email_password_failure.dart';
+import 'package:flutter_application/repository/authentication_repository/exceptions/signup_with_email_password_failure.dart';
 import 'package:get/get.dart';
 
 class AutheticationRepository extends GetxController {
