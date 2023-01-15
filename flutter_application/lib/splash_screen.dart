@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application/authetication/authetication_repository.dart';
-import 'package:flutter_application/signup/controllers/signup_controller.dart';
+import 'package:flutter_application/repository/authentication_repository/authetication_repository.dart';
+import 'package:flutter_application/authentication/controllers/signup_controller.dart';
 import 'package:get/get.dart';
 
 class SplashScreen extends GetView<SignupController> {

@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_application/authetication/authetication_repository.dart';
+import 'package:flutter_application/repository/authentication_repository/authetication_repository.dart';
 import 'package:flutter_login/flutter_login.dart';
 import 'package:get/get.dart';
 
