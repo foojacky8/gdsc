@@ -92,24 +92,6 @@ func generateJWT(userData User) (string, error) {
 	return tokenString, nil
 }
 
-func handleVerifyJWT(w http.ResponseWriter, r *http.Request) {
-	userid, err := verifyJWT(w, r)
-	print(userid)
-	if err != nil {
-		fmt.Println(err)
-		respondWithJSON(w, r, http.StatusUnauthorized, "")
-		return
-	}
-	if userid == "" {
-		fmt.Println("Cannot get user id")
-		respondWithJSON(w, r, http.StatusUnauthorized, "")
-		return
-	}
-	respondWithJSON(w, r, http.StatusAccepted, userid)
-	return
-
-}
-
 func verifyJWT(_ http.ResponseWriter, request *http.Request) (string, error) {
 	if request.Header["Token"] != nil {
 		tokenString := request.Header["Token"][0]
