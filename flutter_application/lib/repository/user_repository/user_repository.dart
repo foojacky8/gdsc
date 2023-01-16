@@ -25,6 +25,16 @@ class UserRepository extends GetxController {
     });
   }
 
-  
+  getUserByEmail(String email) async {
+    final snapshot = await _db.collection('users').where('email', isEqualTo: email).get();
+    final userData = snapshot.docs.map((e) => User.fromSnapshot(e)).single;
+    return userData;
+  }
+
+  getAllUsers() async {
+    final snapshot = await _db.collection('users').get();
+    final userData = snapshot.docs.map((e) => User.fromSnapshot(e)).toList();
+    return userData;
+  }
 
 }
