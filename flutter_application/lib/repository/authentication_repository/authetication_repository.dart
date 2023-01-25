@@ -18,9 +18,9 @@ class AutheticationRepository extends GetxController {
 
   void _setInitialScreen(User? user) {
     if (user == null) {
-      Get.offAllNamed('/signupScreen');
+      Get.offAll('/signupScreen');
     } else {
-      Get.offAllNamed('/splashScreen');
+      Get.offAll('/splashScreen');
     }
   }
 
@@ -32,8 +32,8 @@ class AutheticationRepository extends GetxController {
         password: password,
       );
       firebaseUser.value != null
-          ? Get.offAllNamed('/splashScreen')
-          : Get.offAllNamed('/signupScreen');
+          ? Get.offAll('/splashScreen')
+          : Get.offAll('/signupScreen');
     } on FirebaseAuthException catch (e) {
       final exception = SignupWithEmailPasswordFailure.code(e.code);
       // Get.snackbar('Error creating account - ', exception.message);
