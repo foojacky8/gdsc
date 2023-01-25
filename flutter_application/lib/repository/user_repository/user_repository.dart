@@ -26,7 +26,8 @@ class UserRepository extends GetxController {
   }
 
   getUserByEmail(String email) async {
-    final snapshot = await _db.collection('users').where('email', isEqualTo: email).get();
+    final snapshot =
+        await _db.collection('users').where('email', isEqualTo: email).get();
     final userData = snapshot.docs.map((e) => User.fromSnapshot(e)).single;
     return userData;
   }
@@ -37,4 +38,21 @@ class UserRepository extends GetxController {
     return userData;
   }
 
+  updateUser(User user) async {
+    await _db
+        .collection('users')
+        .doc(user.id)
+        .update(user.toJson())
+        .whenComplete(() => Get.snackbar(
+            "Success", "Your account has been updated",
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: Colors.green.withOpacity(0.1),
+            colorText: Colors.green))
+        .catchError((error, stackTrace) {
+      Get.snackbar("Error", "Something went wrong. Try again later",
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.red.withOpacity(0.1),
+          colorText: Colors.red);
+    });
+  }
 }

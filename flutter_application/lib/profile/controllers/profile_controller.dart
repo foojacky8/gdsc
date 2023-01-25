@@ -1,3 +1,4 @@
+import 'package:flutter_application/authentication/models/user.dart';
 import 'package:flutter_application/repository/authentication_repository/authetication_repository.dart';
 import 'package:flutter_application/repository/user_repository/user_repository.dart';
 import 'package:get/get.dart';
@@ -20,5 +21,9 @@ class ProfileController extends GetxController {
 
   getAllUserData() async {
     return await _userRepository.getAllUsers();
+  }
+
+  updateUserData(User user) async {
+    await _userRepository.updateUser(user);
   }
 }
