@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application/authentication/controllers/signup_controller.dart';
-import 'package:flutter_application/splash_screen.dart';
 import 'package:flutter_login/flutter_login.dart';
 import 'package:get/get.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+import '../../../home/views/home_page.dart';
 
 class MySignupScreen extends StatelessWidget {
   const MySignupScreen({super.key});
@@ -33,7 +34,7 @@ class MySignupScreen extends StatelessWidget {
         ],
       onSubmitAnimationCompleted: () {
         Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (context) => const SplashScreen(),
+          builder: (context) => const HomePage(),
         ));
       },
       onRecoverPassword: controller.recoverPassword,
