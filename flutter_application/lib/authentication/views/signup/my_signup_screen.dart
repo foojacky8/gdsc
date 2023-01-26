@@ -34,7 +34,7 @@ class MySignupScreen extends StatelessWidget {
         ],
       onSubmitAnimationCompleted: () {
         Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (context) => const HomePage(),
+          builder: (context) => HomePage(),
         ));
       },
       onRecoverPassword: controller.recoverPassword,
