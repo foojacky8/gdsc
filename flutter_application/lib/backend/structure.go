@@ -37,11 +37,6 @@ type BiddingRangeRequest struct {
 	MaxSellPrice float64 `json:"maxSellPrice"`
 }
 
-type Transaction struct {
-	UserID string  `json:"userID"`
-	Money  float64 `json:"money"`
-	Energy float64 `json:"energy"`
-}
 type Block struct {
 	Index    int         `json:"index"`
 	Hash     string      `json:"hash"`
@@ -52,4 +47,13 @@ type Block struct {
 type PredResult struct {
 	GenData float64 `json:"genData"`
 	UseData float64 `json:"useData"`
+}
+
+type Transaction struct {
+	BidID     string  `json:"bidID"`
+	UserID    string  `json:"userID"`
+	Price     float64 `json:"price"`
+	ToGrid    float64 `json:"toGrid"`
+	ToMarket  float64 `json:"toMarket"`
+	BuyOrSell string  `json:"BuyOrSell"`
 }
