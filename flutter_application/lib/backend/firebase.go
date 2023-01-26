@@ -59,6 +59,8 @@ func AddUser(newUser User) error {
 		"email":        newUser.Email,
 		"password":     newUser.Password,
 		"smartMeterNo": newUser.SmartMeterNo,
+		"genData":      newUser.GenData,
+		"useData":      newUser.UseData,
 	})
 	if err != nil {
 		fmt.Println("Failed to add user: ", err)
@@ -67,7 +69,34 @@ func AddUser(newUser User) error {
 	fmt.Println("User added successfully")
 	return nil
 }
+func GetEnergyDataById(uid string) (User, error) {
+	var retrieveUserData User
+	var GenDataInterface []interface{}
+	var UseDataInterface []interface{}
+	iter := dB.Collection("users").Documents(context.Background())
+	for {
+		doc, err := iter.Next()
+		if err == iterator.Done {
+			fmt.Println("Cannot found user", err)
+			return retrieveUserData, err
+		}
+		if err != nil {
+			fmt.Println("Failed to iterate:", err)
+			return retrieveUserData, err
+		}
+		if doc.Data()["userID"].(string) == uid {
+			GenDataInterface = doc.Data()["genData"].([]interface{})
+			UseDataInterface = doc.Data()["useData"].([]interface{})
+			// type assertion
+			for i := 0; i < 24; i++ {
+				retrieveUserData.GenData = append(retrieveUserData.GenData, GenDataInterface[i].(float64))
+				retrieveUserData.UseData = append(retrieveUserData.UseData, UseDataInterface[i].(float64))
+			}
+			return retrieveUserData, nil
+		}
+	}
 
+}
 func GetUserById(uid string) (User, error) {
 	var retrieveUserData User
 	iter := dB.Collection("users").Documents(context.Background())

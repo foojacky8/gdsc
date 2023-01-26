@@ -6,11 +6,13 @@ type Login struct {
 }
 
 type User struct {
-	UserID       string `json:"userID"`
-	Username     string `json:"username"`
-	Email        string `json:"email"`
-	Password     string `json:"password"`
-	SmartMeterNo string `json:"smartMeterNo"`
+	UserID       string    `json:"userID"`
+	Username     string    `json:"username"`
+	Email        string    `json:"email"`
+	Password     string    `json:"password"`
+	SmartMeterNo string    `json:"smartMeterNo"`
+	GenData      []float64 `json:"genData"`
+	UseData      []float64 `json:"useData"`
 }
 
 type EnergyRequest struct {
@@ -45,4 +47,9 @@ type Block struct {
 	Hash     string      `json:"hash"`
 	PrevHash string      `json:"prevHash"`
 	Data     Transaction `json:"data"`
+}
+
+type PredResult struct {
+	GenData float64 `json:"genData"`
+	UseData float64 `json:"useData"`
 }

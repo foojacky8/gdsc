@@ -2,10 +2,14 @@ package main
 
 import (
 	"crypto/sha256"
+	"encoding/csv"
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
+	"math/rand"
 	"net/http"
+	"os"
+	"strconv"
 	"time"
 
 	"github.com/golang-jwt/jwt"
@@ -24,11 +28,17 @@ func handleSignUp(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	defer r.Body.Close()
+
+	// create unique user id from hashing user's email and username
 	userInfo := newUser.Email + newUser.Username
 	h := sha256.New()
 	h.Write([]byte(userInfo))
 	hash := h.Sum(nil)
 	newUser.UserID = hex.EncodeToString(hash)
+
+	// obtain generation and usage data randomly from csv file
+	newUser.GenData, newUser.UseData = ObtainEnergyData()
+
 	err := AddUser(newUser)
 	if err != nil {
 		fmt.Println(err)
@@ -112,4 +122,33 @@ func verifyJWT(_ http.ResponseWriter, request *http.Request) (string, error) {
 		}
 	}
 	return "", nil
+}
+
+func ObtainEnergyData() ([]float64, []float64) {
+	var GenData []float64
+	var gen float64
+	var UseData []float64
+	var use float64
+
+	file, err := os.Open("GenInHours.csv")
+	if err != nil {
+		fmt.Println(err)
+	}
+	records, err := csv.NewReader(file).ReadAll()
+	if err != nil {
+		fmt.Println(err)
+	}
+	// generate a random number that is multiple of 24
+	RandomInt := rand.Intn(349)
+	Start := RandomInt * 24
+	for i := 0; i < 24; i++ {
+		gen, _ = strconv.ParseFloat(records[Start+i][0], 32)
+		GenData = append(GenData, gen)
+		use, _ = strconv.ParseFloat(records[Start+i][1], 32)
+		UseData = append(UseData, use)
+	}
+	fmt.Println("Gen Data: ", GenData)
+	fmt.Println("Use Data: ", UseData)
+
+	return GenData, UseData
 }

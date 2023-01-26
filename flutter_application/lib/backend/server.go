@@ -24,11 +24,12 @@ func makeMuxRouter() http.Handler {
 
 	// not yet done
 	// this function will forecast the user's energy production and usage
-	r.HandleFunc("/energyForecast", handleEnergyForecast).Methods("POST")
+	r.HandleFunc("/energyForecast", handleEnergyForecast).Methods("GET")
+
 	// this function will send the blockchain to frontend
 	r.HandleFunc("/getBlockchain", handleGetBlockchain).Methods("GET")
 
-	// Some dummer handle function to start auction and create request
+	// Some dummy handle function to start auction and create request
 	r.HandleFunc("/initAuction", handleInitAuction).Methods("GET")
 	r.HandleFunc("/createRequest", createSomeRequest).Methods("GET")
 	return r
@@ -46,24 +47,6 @@ func handleGetBlockchain(w http.ResponseWriter, r *http.Request) {
 	Blockchain = append(Blockchain, newBlock)
 	respondWithJSON(w, r, http.StatusAccepted, Blockchain)
 	fmt.Println(Blockchain)
-}
-
-func handleEnergyForecast(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-	var Data UserIDRequest
-	decoder := json.NewDecoder(r.Body)
-	if err := decoder.Decode(&Data); err != nil {
-		fmt.Println("Error occured")
-		respondWithJSON(w, r, http.StatusBadRequest, r.Body)
-		return
-	}
-	defer r.Body.Close()
-	var ForecastedEnergy EnergyPredRequest
-	ForecastedEnergy.ConsEnergy = 20
-	ForecastedEnergy.ProdEnergy = 15
-	respondWithJSON(w, r, http.StatusCreated, ForecastedEnergy)
-	fmt.Println(Data)
-	return
 }
 
 // Obtain from mycoralhealth website, simply return the HTTP status and data to the front end
