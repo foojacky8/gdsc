@@ -16,6 +16,10 @@ class MySignupScreen extends StatelessWidget {
 
     return FlutterLogin(
       logo: AssetImage('assets/images/people2ppl.png'),
+      theme: LoginTheme(
+        primaryColor: Color(0xFF198f4c),
+        errorColor: Colors.deepOrange,
+      ),
       title: 'Re:Energize',
       onLogin: controller.authUser,
       onSignup: controller.signupUser,

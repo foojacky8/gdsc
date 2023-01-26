@@ -11,7 +11,6 @@ import '../../market/views/market_views.dart';
 import '../../profile/views/profile_page.dart';
 
 class HomeBottomAppBarController extends GetxController{
-  final int currentIndex = 0;
   RxList<TabItem> tabBottomList = RxList<TabItem>();
   RxInt bottomBarSelectedIndex = 0.obs;
   RxList<Widget> bottomBarPages = RxList<Widget>();
