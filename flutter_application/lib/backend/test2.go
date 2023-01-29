@@ -20,8 +20,8 @@ import (
 
 // Block represents each 'item' in the blockchain
 type Block struct {
-	Index     	int
-	Timestamp 	string
+	Index		int
+	Timestamp	string
 	TotalPrice	float64
 	TotalProfit	float64
 	Hash      	string
@@ -31,13 +31,10 @@ type Block struct {
 // Blockchain is a series of validated Blocks
 var Blockchain []Block
 
-// Message takes incoming JSON payload for writing calculations
+// Message takes incoming JSON payload for writing heart rate
 type Message struct {
-	Price		float64 `json:"userID"`
-	PowerMB		float64 `json:"userID"`
-	PowerMS		float64 `json:"userID"`
-	PriceGB		float64 `json:"userID"`
-	PriceGS		float64 `json:"userID"`
+	TotalPrice float64
+	TotalProfit	float64
 }
 
 var mutex = &sync.Mutex{}
@@ -100,7 +97,7 @@ func handleGetBlockchain(w http.ResponseWriter, r *http.Request) {
 	io.WriteString(w, string(bytes))
 }
 
-// takes JSON payload as an input for heart rate (BPM)
+// takes JSON payload as an input for heart rate (TotalPrice)
 func handleWriteBlock(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	var msg Message
@@ -114,7 +111,7 @@ func handleWriteBlock(w http.ResponseWriter, r *http.Request) {
 
 	mutex.Lock()
 	prevBlock := Blockchain[len(Blockchain)-1]
-	newBlock := generateBlock(prevBlock, msg.Price, msg.PowerMB, msg.PowerMS, msg.PriceGB, msg.PriceGS)
+	newBlock := generateBlock(prevBlock, msg.TotalPrice, msg.TotalProfit)
 
 	if isBlockValid(newBlock, prevBlock) {
 		Blockchain = append(Blockchain, newBlock)
@@ -164,7 +161,7 @@ func calculateHash(block Block) string {
 }
 
 // create a new block using previous block's hash
-func generateBlock(oldBlock Block, Price float64, PowerMB float64, PriceGB float64, PowerMS float64, PriceGS float64) Block {
+func generateBlock(oldBlock Block, TotalPrice float64, TotalProfit float64) Block {
 
 	var newBlock Block
 
@@ -172,18 +169,10 @@ func generateBlock(oldBlock Block, Price float64, PowerMB float64, PriceGB float
 
 	newBlock.Index = oldBlock.Index + 1
 	newBlock.Timestamp = t.String()
-	newBlock.TotalPrice	= totalPriceCalc(PowerMB, Price, PriceGB)
-	newBlock.TotalProfit = totalProfitCalc(PowerMS, Price, PriceGS)
+	newBlock.TotalPrice = TotalPrice
+	newBlock.TotalProfit = TotalProfit
 	newBlock.PrevHash = oldBlock.Hash
 	newBlock.Hash = calculateHash(newBlock)
 
 	return newBlock
-}
-
-func totalPriceCalc(PowerMB float64, Price float64, PriceGB float64) float64 {
-	return PowerMB*Price + PriceGB*0.5
-}
-
-func totalProfitCalc(PowerMS float64, Price float64, PriceGS float64) float64 {
-	return PowerMS*Price + PriceGS*0.3
 }
