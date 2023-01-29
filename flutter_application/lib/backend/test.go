@@ -33,11 +33,11 @@ var Blockchain []Block
 
 // Message takes incoming JSON payload for writing calculations
 type Message struct {
-	Price		float64 `json:"userID"`
-	PowerMB		float64 `json:"userID"`
-	PowerMS		float64 `json:"userID"`
-	PriceGB		float64 `json:"userID"`
-	PriceGS		float64 `json:"userID"`
+	Price		float64 `json:"Price"`
+	PowerMB		float64 `json:"PowerMB"`
+	PowerMS		float64 `json:"PowerMS"`
+	PriceGB		float64 `json:"PriceGB"`
+	PriceGS		float64 `json:"PriceGS"`
 }
 
 var mutex = &sync.Mutex{}
