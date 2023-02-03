@@ -4,7 +4,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
 class DashboardPage extends StatelessWidget {
-  bool isRecentOrder = false;
+  bool isRecentOrder = true;
 
   @override
   Widget build(BuildContext context) {
