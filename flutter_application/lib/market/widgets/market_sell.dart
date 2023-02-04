@@ -98,11 +98,16 @@ class _MarketSellViewState extends State<MarketSellView> {
                       ),
                     );
                   }, 
-                  child: Text('Submit Bid'),),
-              ), 
-            ],)
+                  child: Text('Submit Ask',
+                    style: TextStyle(
+                      color: Colors.red
+                      )
+                    ),
+                  ), 
+                )
+              ],
+            )
           )
-
         ],
       ),
     );
