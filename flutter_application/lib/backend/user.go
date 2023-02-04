@@ -2,14 +2,10 @@ package main
 
 import (
 	"crypto/sha256"
-	"encoding/csv"
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
-	"math/rand"
 	"net/http"
-	"os"
-	"strconv"
 	"time"
 
 	"github.com/golang-jwt/jwt"
@@ -29,22 +25,22 @@ func handleSignUp(w http.ResponseWriter, r *http.Request) {
 	}
 	defer r.Body.Close()
 
-	// create unique user id from hashing user's email and username
+	// create a unique identifier for each user
 	userInfo := newUser.Email + newUser.Username
 	h := sha256.New()
 	h.Write([]byte(userInfo))
 	hash := h.Sum(nil)
 	newUser.UserID = hex.EncodeToString(hash)
 
-	// obtain generation and usage data randomly from csv file
-	newUser.GenData, newUser.UseData = ObtainEnergyData()
-
+	// add the new user to firestore
 	err := AddUser(newUser)
 	if err != nil {
 		fmt.Println(err)
 		respondWithJSON(w, r, http.StatusBadRequest, r.Body)
 		return
 	}
+
+	// After the user signed up, generate a jwt token for user
 	jwToken, err := generateJWT(newUser)
 	if err != nil {
 		fmt.Println(err)
@@ -66,12 +62,16 @@ func handleUserLogin(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	defer r.Body.Close()
+
+	// Get user email's and password
 	userData, err := GetUserByEmail(loginRequest.Email, loginRequest.Password)
 	if err != nil {
 		fmt.Println(err)
 		respondWithJSON(w, r, http.StatusBadRequest, r.Body)
 		return
 	}
+
+	// If login credentials is correct, create jwt token for user
 	if userData.Password == loginRequest.Password {
 		fmt.Println("Login successful")
 		fmt.Println("Generating jwtToken")
@@ -87,6 +87,7 @@ func handleUserLogin(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
+// This function generates a jwt token that lasts for 24 hours
 func generateJWT(userData User) (string, error) {
 	var secretKey = []byte("DoNotShareThis")
 	token := jwt.New(jwt.SigningMethodHS256)
@@ -102,6 +103,26 @@ func generateJWT(userData User) (string, error) {
 	return tokenString, nil
 }
 
+// This is a handle function used to test the verifyJWT function
+func handleVerifyJWT(w http.ResponseWriter, r *http.Request) {
+	userid, err := verifyJWT(w, r)
+	print(userid)
+	if err != nil {
+		fmt.Println(err)
+		respondWithJSON(w, r, http.StatusUnauthorized, "")
+		return
+	}
+	if userid == "" {
+		fmt.Println("Cannot get user id")
+		respondWithJSON(w, r, http.StatusUnauthorized, "")
+		return
+	}
+	respondWithJSON(w, r, http.StatusAccepted, userid)
+	return
+
+}
+
+// This function verifies the jwt token and extract the userid from the claims
 func verifyJWT(_ http.ResponseWriter, request *http.Request) (string, error) {
 	if request.Header["Token"] != nil {
 		tokenString := request.Header["Token"][0]
@@ -122,33 +143,4 @@ func verifyJWT(_ http.ResponseWriter, request *http.Request) (string, error) {
 		}
 	}
 	return "", nil
-}
-
-func ObtainEnergyData() ([]float64, []float64) {
-	var GenData []float64
-	var gen float64
-	var UseData []float64
-	var use float64
-
-	file, err := os.Open("GenInHours.csv")
-	if err != nil {
-		fmt.Println(err)
-	}
-	records, err := csv.NewReader(file).ReadAll()
-	if err != nil {
-		fmt.Println(err)
-	}
-	// generate a random number that is multiple of 24
-	RandomInt := rand.Intn(349)
-	Start := RandomInt * 24
-	for i := 0; i < 24; i++ {
-		gen, _ = strconv.ParseFloat(records[Start+i][0], 32)
-		GenData = append(GenData, gen)
-		use, _ = strconv.ParseFloat(records[Start+i][1], 32)
-		UseData = append(UseData, use)
-	}
-	fmt.Println("Gen Data: ", GenData)
-	fmt.Println("Use Data: ", UseData)
-
-	return GenData, UseData
 }

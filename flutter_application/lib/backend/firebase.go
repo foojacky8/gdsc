@@ -30,28 +30,6 @@ func initFirebase() {
 	dB = firestore
 }
 
-// func GetUserById(uid string) {
-// 	user, err := Auth.GetUser(context.Background(), uid)
-// 	if err != nil {
-// 		fmt.Println("Error getting user", uid, err)
-// 	}
-// 	fmt.Println(user)
-// }
-
-// func CreateUser(User) {
-// 	params := (&auth.UserToCreate{}).
-// 		UID(User.UserID).
-// 		Email(User.Email).
-// 		Password(User.Password).
-// 		SmartMeterNo(User.SmartMeterNo).
-// 		Username(User.Username)
-// 	u, err := Auth.CreateUser(context.Background(), params)
-// 	if err != nil {
-// 		fmt.Println("error creating user", err)
-// 	}
-// 	fmt.Println(u)
-// }
-
 func AddUser(newUser User) error {
 	_, _, err := dB.Collection("users").Add(context.Background(), map[string]interface{}{
 		"userID":       newUser.UserID,

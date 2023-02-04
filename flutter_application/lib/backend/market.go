@@ -12,8 +12,11 @@ import (
 
 var ListOfReq []EnergyRequest
 
+// This function fetch the energy request from the frontend
+// and store it in ListOfReq array
 func handleEnergyRequest(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
+	// Decode the data from HTTP request
 	var newEnergyReq EnergyRequest
 	decoder := json.NewDecoder(r.Body)
 	if err := decoder.Decode(&newEnergyReq); err != nil {
@@ -21,6 +24,7 @@ func handleEnergyRequest(w http.ResponseWriter, r *http.Request) {
 		respondWithJSON(w, r, http.StatusBadRequest, r.Body)
 		return
 	}
+	// verify the jwt and extract the user id
 	userID, err := verifyJWT(w, r)
 	if err != nil {
 		fmt.Println(err)
@@ -30,11 +34,14 @@ func handleEnergyRequest(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 	newEnergyReq.UserID = userID
 	newEnergyReq.BidID = "BD " + strconv.Itoa(len(ListOfReq)+1)
+
+	// Append it to ListOfReq function
 	ListOfReq = append(ListOfReq, newEnergyReq)
 	respondWithJSON(w, r, http.StatusCreated, newEnergyReq)
 	return
 }
 
+// This is a test function to create multiple request from Postman
 func createSomeRequest(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	var newRequest EnergyRequest
@@ -76,6 +83,7 @@ func createSomeRequest(w http.ResponseWriter, r *http.Request) {
 	ListOfReq = append(ListOfReq, newRequest)
 }
 
+// This is a handle function to run the auction algorithm
 func handleInitAuction(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
@@ -138,6 +146,7 @@ func handleInitAuction(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// This function read the AuctionResult.csv and convert it to an array of Transaction
 func readAuctionResult() []Transaction {
 	var AuctionResult []Transaction
 	var Record Transaction
