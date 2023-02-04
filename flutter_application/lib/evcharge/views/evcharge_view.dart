@@ -20,9 +20,9 @@ class EvChargePage extends StatelessWidget {
         title: Center(child: Text('EV Charge')),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(10.0),
+        padding: const EdgeInsets.all(30.0),
         child: Container(
-          height: MediaQuery.of(context).size.height * 0.8,
+          height: MediaQuery.of(context).size.height * 0.75,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [

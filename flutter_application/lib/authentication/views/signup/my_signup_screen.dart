@@ -15,7 +15,7 @@ class MySignupScreen extends StatelessWidget {
     final controller = Get.put(SignupController());
 
     return FlutterLogin(
-      logo: AssetImage('assets/images/people2ppl.png'),
+      logo: AssetImage('assets/images/Logo.png'),
       theme: LoginTheme(
         primaryColor: Color(0xFF198f4c),
         errorColor: Colors.deepOrange,

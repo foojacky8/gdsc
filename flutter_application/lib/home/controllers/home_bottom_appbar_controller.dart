@@ -7,6 +7,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import '../../blockchain/views/blockchain_view.dart';
 import '../../dashboard/views/dashboard_view.dart';
 import '../../evcharge/views/evcharge_view.dart';
+import '../../market/views/market_latest_price.dart';
 import '../../market/views/market_views.dart';
 import '../../profile/views/profile_page.dart';
 
@@ -28,7 +29,7 @@ class HomeBottomAppBarController extends GetxController{
     bottomBarPages.addAll(
       [
         DashboardPage(),
-        MarketPage(),
+        MarketLatestPrice(),
         BlockChainPage(),
         EvChargePage(),
         ProfilePage(),

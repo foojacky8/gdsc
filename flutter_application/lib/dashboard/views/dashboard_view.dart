@@ -23,15 +23,14 @@ class DashboardPage extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Hi, Eng Teck',
+                        Text('Hi, Eng Teck!',
                         style: 
                           TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
+                            color: Colors.white
                           ),
-                        ),
-                        SizedBox(height: 5,),
-                        Text('Your Current Balance: 0.00 kWh')
+                        )
                       ],
                     ),
 
