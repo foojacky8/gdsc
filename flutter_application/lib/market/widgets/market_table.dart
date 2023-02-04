@@ -20,7 +20,27 @@ class MarketTableData extends StatelessWidget {
           ),
           Table(
             border: TableBorder(
+              top: BorderSide(
+                color: Colors.black,
+                width: 1,
+                style: BorderStyle.solid,
+              ),
+              bottom: BorderSide(
+                color: Colors.black,
+                width: 1,
+                style: BorderStyle.solid,
+              ),
               horizontalInside: BorderSide(
+                color: Colors.black,
+                width: 1,
+                style: BorderStyle.solid,
+              ),
+              left: BorderSide(
+                color: Colors.black,
+                width: 1,
+                style: BorderStyle.solid,
+              ),
+              right: BorderSide(
                 color: Colors.black,
                 width: 1,
                 style: BorderStyle.solid,
