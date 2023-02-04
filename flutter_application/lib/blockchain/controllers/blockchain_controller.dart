@@ -1,4 +1,3 @@
-import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application/blockchain/models/transactions.dart';
 import 'package:get/get.dart';
@@ -26,15 +25,15 @@ class BlockChainController extends GetxController {
       'Column NUMBERS',
     ];
 
-    return DataTable2(
+    return DataTable(
       columns: getColumns(columns), 
       rows: getRows(transactions));
   }
 
-  List<DataColumn2> getColumns(List columns) {
-    return List<DataColumn2>.generate(
+  List<DataColumn> getColumns(List columns) {
+    return List<DataColumn>.generate(
       columns.length,
-      (index) => DataColumn2(
+      (index) => DataColumn(
         label: Text(columns[index]),
       ),
     );

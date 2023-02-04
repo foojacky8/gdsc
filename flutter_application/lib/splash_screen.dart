@@ -32,7 +32,7 @@ class SplashScreen extends GetView<SignupController> {
               Flexible(
                   flex: 5,
                   child: Image.asset(
-                    'assets/images/people2ppl.png',
+                    'assets/images/Logo.png',
                   )),
               Flexible(
                   child: Ink(
