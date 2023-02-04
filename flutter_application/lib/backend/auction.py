@@ -8,16 +8,20 @@ if __name__=="__main__":
     ### Obtain bidding data from csv ###
     BuyReq = pd.read_csv("BuyReq.csv")
     BuyBidID = BuyReq.get('Bid ID').values.tolist()
+    BuyUserID = BuyReq.get('User ID').values.tolist()
     BuyEnergy = BuyReq.get('Energy').values.tolist()
     BuyPrice = BuyReq.get('Price').values.tolist()
     print("Bid ID: ",BuyBidID)
+    print("User ID: ",BuyUserID)
     print("Energy: ",BuyEnergy)
     print("Price: ",BuyPrice)
     SellReq = pd.read_csv("SellReq.csv")
     SellBidID = SellReq.get('Bid ID').values.tolist()
+    SellUserID = SellReq.get('User ID').values.tolist()
     SellEnergy = SellReq.get('Energy').values.tolist()
     SellPrice = SellReq.get('Price').values.tolist()
     print("Bid ID: ",SellBidID)
+    print("User ID: ",SellUserID)
     print("Energy: ",SellEnergy)
     print("Price: ",SellPrice)
 
@@ -59,34 +63,49 @@ if __name__=="__main__":
     ### Optimize the mip problem ###
     model.optimize()
 
-    ### Extract the output ###
-    OutputID = []
-    OutputMB = []
-    OutputMS = []
-    OutputGB = []
-    OutputGS = []
-    
+    ### Extract the output and convert to csv ###
+    ### output csv should have 5 columns: ###
+    ### Bid ID | User ID | Bidding Price | Energy Buy/Sell To Grid | Energy Buy/Sell From Grid ###  
     if model.num_solutions:
         print("Total Transaction Amount in P2P market: ",model.objective_value)
+        OutputBidID = []
+        OutputUserID = []
+        OutputPrice = []
+        OutputGrid = []
+        OutputMarket = []
         for i in BuyRange:
-            OutputID.append(BuyBidID[i])
-            OutputMB.append(PowerMB[i].x)
-            OutputGB.append(PowerGB[i].x)
-            OutputMS.append(0)
-            OutputGS.append(0)
-        for j in SellRange:
-            OutputID.append(SellBidID[j])
-            OutputMB.append(0)
-            OutputGB.append(0)
-            OutputMS.append(PowerMS[j].x)
-            OutputGS.append(PowerGS[j].x)
-
+            OutputBidID.append(BuyBidID[i])
+            OutputUserID.append(BuyUserID[i])
+            OutputPrice.append(BuyPrice[i])
+            OutputGrid.append(PowerGB[i].x)
+            OutputMarket.append(PowerMB[i].x)
         output = {
-            'Bid ID': OutputID,
-            'PowerMB': OutputMB,
-            'PowerGB': OutputGB,
-            'PowerMS': OutputMS,
-            'PowerGS': OutputGS
+            'Bid ID': OutputBidID,
+            'User ID': OutputUserID,
+            'Price': OutputPrice,
+            'Grid': OutputGrid,
+            'Market': OutputMarket
+        }
+        outputDF = pd.DataFrame(output)    
+        print(outputDF)
+        outputDF.to_csv("BuyAuctionResult.csv",index=False)
+        OutputBidID = []
+        OutputUserID = []
+        OutputPrice = []
+        OutputGrid = []
+        OutputMarket = []
+        for j in SellRange:
+            OutputBidID.append(SellBidID[j])
+            OutputUserID.append(SellUserID[j])
+            OutputPrice.append(SellPrice[j])
+            OutputGrid.append(PowerGS[j].x)
+            OutputMarket.append(PowerMS[j].x)
+        output = {
+            'Bid ID': OutputBidID,
+            'User ID': OutputUserID,
+            'Price': OutputPrice,
+            'Grid': OutputGrid,
+            'Market': OutputMarket
         }
 
         # Total amount the user need to pay for buying would be
@@ -96,5 +115,5 @@ if __name__=="__main__":
         # convert into pandas dataframe and print into csv file
         outputDF = pd.DataFrame(output)    
         print(outputDF)
-        outputDF.to_csv("AuctionResult.csv",index=False)
+        outputDF.to_csv("SellAuctionResult.csv",index=False)
 

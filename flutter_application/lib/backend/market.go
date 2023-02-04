@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/csv"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -81,16 +82,20 @@ func handleInitAuction(w http.ResponseWriter, r *http.Request) {
 	//write energy request into csv file
 	var empDataBuy [][]string
 	var BuyBidIDList []string
+	var BuyUserIDList []string
 	var BuyEnergyList []string
 	var BuyBiddingPriceList []string
 	var empDataSell [][]string
 	var SellBidIDList []string
+	var SellUserIDList []string
 	var SellEnergyList []string
 	var SellBiddingPriceList []string
 	BuyBidIDList = append(BuyBidIDList, "Bid ID")
+	BuyUserIDList = append(BuyUserIDList, "User ID")
 	BuyEnergyList = append(BuyEnergyList, "Energy")
 	BuyBiddingPriceList = append(BuyBiddingPriceList, "Price")
 	SellBidIDList = append(SellBidIDList, "Bid ID")
+	SellUserIDList = append(SellUserIDList, "User ID")
 	SellEnergyList = append(SellEnergyList, "Energy")
 	SellBiddingPriceList = append(SellBiddingPriceList, "Price")
 
@@ -98,19 +103,23 @@ func handleInitAuction(w http.ResponseWriter, r *http.Request) {
 		if ListOfReq[i].BuyOrSell == "Buy" {
 			// write to BuyReq.csv
 			BuyBidIDList = append(BuyBidIDList, ListOfReq[i].BidID)
+			BuyUserIDList = append(BuyUserIDList, ListOfReq[i].UserID)
 			BuyEnergyList = append(BuyEnergyList, fmt.Sprintf("%v", ListOfReq[i].Energy))
 			BuyBiddingPriceList = append(BuyBiddingPriceList, fmt.Sprintf("%v", ListOfReq[i].Price))
 		} else if ListOfReq[i].BuyOrSell == "Sell" {
 			SellBidIDList = append(SellBidIDList, ListOfReq[i].BidID)
+			SellUserIDList = append(SellUserIDList, ListOfReq[i].UserID)
 			SellEnergyList = append(SellEnergyList, fmt.Sprintf("%v", ListOfReq[i].Energy))
 			SellBiddingPriceList = append(SellBiddingPriceList, fmt.Sprintf("%v", ListOfReq[i].Price))
 		}
 	}
 	empDataBuy = append(empDataBuy, BuyBidIDList)
+	empDataBuy = append(empDataBuy, BuyUserIDList)
 	empDataBuy = append(empDataBuy, BuyEnergyList)
 	empDataBuy = append(empDataBuy, BuyBiddingPriceList)
 	empDataBuy = transpose(empDataBuy)
 	empDataSell = append(empDataSell, SellBidIDList)
+	empDataSell = append(empDataSell, SellUserIDList)
 	empDataSell = append(empDataSell, SellEnergyList)
 	empDataSell = append(empDataSell, SellBiddingPriceList)
 	empDataSell = transpose(empDataSell)
@@ -127,5 +136,44 @@ func handleInitAuction(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		fmt.Println(err)
 	}
+}
 
+func readAuctionResult() []Transaction {
+	var AuctionResult []Transaction
+	var Record Transaction
+	file, err := os.Open("BuyAuctionResult.csv")
+	if err != nil {
+		fmt.Println(err)
+	}
+	records, err := csv.NewReader(file).ReadAll()
+	if err != nil {
+		fmt.Println(err)
+	}
+	for i := 0; i < len(records); i++ {
+		Record.BidID = records[i][0]
+		Record.UserID = records[i][1]
+		Record.Price, _ = strconv.ParseFloat(records[i][2], 32)
+		Record.ToGrid, _ = strconv.ParseFloat(records[i][3], 32)
+		Record.ToMarket, _ = strconv.ParseFloat(records[i][4], 32)
+		Record.BuyOrSell = "Buy"
+		AuctionResult = append(AuctionResult, Record)
+	}
+	file, err = os.Open("SellAuctionResult.csv")
+	if err != nil {
+		fmt.Println(err)
+	}
+	records, err = csv.NewReader(file).ReadAll()
+	if err != nil {
+		fmt.Println(err)
+	}
+	for i := 0; i < len(records); i++ {
+		Record.BidID = records[i][0]
+		Record.UserID = records[i][1]
+		Record.Price, _ = strconv.ParseFloat(records[i][2], 32)
+		Record.ToGrid, _ = strconv.ParseFloat(records[i][3], 32)
+		Record.ToMarket, _ = strconv.ParseFloat(records[i][4], 32)
+		Record.BuyOrSell = "Sell"
+		AuctionResult = append(AuctionResult, Record)
+	}
+	return AuctionResult
 }
