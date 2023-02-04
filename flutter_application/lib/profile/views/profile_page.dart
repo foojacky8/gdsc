@@ -2,11 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter_application/profile/widgets/profile_change_password.dart';
-import 'package:flutter_application/profile/widgets/profile_edit_profile.dart';
-import 'package:flutter_application/profile/widgets/profile_notifcations.dart';
-import 'package:get/get.dart';
-import 'package:lottie/lottie.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -27,50 +22,36 @@ class ProfilePage extends StatelessWidget {
               subtitle: Text('John Doe'),
             ),
             Container(
-              height: MediaQuery.of(context).size.height * 0.4,
-              child: 
-                ListView(
+              height: MediaQuery.of(context).size.height * 0.5,
+              child: ListView(
                 children: [
                   Text('Preferences', style: TextStyle(fontSize: 16),),
 
                   ListTile(
                     onTap: (){
-                      Get.to(ProfileEditProfile());
+                      Navigator.pushNamed(context, '/edit_profile');
                     },
-                    leading: Icon(Icons.edit),
+                    leading: Icon(Icons.person),
                     title: Text('Edit Profile'),
-                    trailing: Icon(Icons.arrow_forward_ios),
                   ),
 
                   ListTile(
                     leading: Icon(Icons.lock),
-                    title: Text('Change Password'),
-                    trailing: Icon(Icons.arrow_forward_ios),
-                    onTap: (){
-                      Get.to(ProfileChangePassword());
-                    },),
+                    title: Text('Change Password'),),
 
                   ListTile(
-                    trailing: Icon(Icons.arrow_forward_ios),
                     leading: Icon(Icons.notifications),
-                    title: Text('Notifications'),
-                    onTap: (){
-                      Get.to(ProfileNotification());
-                    },)
+                    title: Text('Notifications'),)
                 ],
               ),
             ),
-          CupertinoButton(
-            onPressed: () {},
-            color: Colors.red,
-            child: Text('Log Out'),),
-          Spacer(),
-          Container(
-            child: Lottie.asset('assets/animations/energy.json', 
-                frameRate: FrameRate.max,
-                repeat: true,
-                animate: true,
-                fit: BoxFit.contain,)),
+          Positioned(
+            bottom: 0,
+            child: CupertinoButton(
+              onPressed: () {},
+              color: Colors.red,
+              child: Text('Log Out'),),
+          )
           ],
 
         ),

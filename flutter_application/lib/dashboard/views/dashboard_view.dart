@@ -85,72 +85,69 @@ class DashboardPage extends StatelessWidget {
                         ],
                       ),
                     ),
-                    child: Container(
-                      padding: EdgeInsets.all(10),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('Recent Order', 
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            ),
+                            Text('See All',
+                            style: TextStyle(
+                              color: Colors.blue,
+                              ),
+                            )
+                          ],
+                        ),
+                        SizedBox(height: 5,),
+                        Container(
+                          child: Table(
                             children: [
-                              Text('Recent Order', 
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
+                              TableRow(
+                                children: [
+                                  Text(''),
+                                  Text('Order ID'),
+                                  Text('Energy (kWh)'),
+                                  Text('Price (RM)'),
+                                  Text('Action'),
+                                ]
                               ),
+                              TableRow(
+                                children: [
+                                  Text('BUY'),
+                                  Text('123'),
+                                  Text('10.0)'),
+                                  Text('10.0'),
+                                  Icon(Icons.delete, color: Colors.blue,)
+                                ]
                               ),
-                              Text('See All',
-                              style: TextStyle(
-                                color: Colors.blue,
-                                ),
-                              )
-                            ],
-                          ),
-                          SizedBox(height: 5,),
-                          Container(
-                            child: Table(
-                              children: [
-                                TableRow(
-                                  children: [
-                                    Text(''),
-                                    Text('Order ID'),
-                                    Text('Energy (kWh)'),
-                                    Text('Price (RM)'),
-                                    Text('Action'),
-                                  ]
-                                ),
-                                TableRow(
-                                  children: [
-                                    Text('BUY'),
-                                    Text('123'),
-                                    Text('10.0)'),
-                                    Text('10.0'),
-                                    Icon(Icons.delete, color: Colors.blue,)
-                                  ]
-                                ),
-                                TableRow(
-                                  children: [
-                                    Text('SELL'),
-                                    Text('124'),
-                                    Text('20.0'),
-                                    Text('10.0'),
-                                    Icon(Icons.delete, color: Colors.blue,)
-                                  ]
-                                ),
-                                TableRow(
-                                  children: [
-                                    Text('BUY'),
-                                    Text('125'),
-                                    Text('20.0'),
-                                    Text('20.0'),
-                                    Icon(Icons.delete, color: Colors.blue,)
-                                  ]
-                                ),
-                              ]
+                              TableRow(
+                                children: [
+                                  Text('SELL'),
+                                  Text('124'),
+                                  Text('20.0'),
+                                  Text('10.0'),
+                                  Icon(Icons.delete, color: Colors.blue,)
+                                ]
                               ),
-                          )
-                        ],
-                      ),
+                              TableRow(
+                                children: [
+                                  Text('BUY'),
+                                  Text('125'),
+                                  Text('20.0'),
+                                  Text('20.0'),
+                                  Icon(Icons.delete, color: Colors.blue,)
+                                ]
+                              ),
+                            ]
+                            ),
+                        )
+                      ],
                     ),
                   )
                 )

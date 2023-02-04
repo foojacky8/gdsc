@@ -38,10 +38,6 @@ class EvChargePage extends StatelessWidget {
               ),
               Text(
                 controller.randomNumber.toString(),
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold
-                ),
               ),
 
               Spacer(),
