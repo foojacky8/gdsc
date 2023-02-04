@@ -1,4 +1,3 @@
-import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application/market/views/market_views.dart';
@@ -53,7 +52,7 @@ class MarketLatestPrice extends StatelessWidget {
 
             Container(
               height: MediaQuery.of(context).size.height * 0.2,
-              child: DataTable2(
+              child: DataTable(
                 decoration: BoxDecoration(
                   border: Border.all(color: Colors.grey),
                   borderRadius: BorderRadius.circular(10),
