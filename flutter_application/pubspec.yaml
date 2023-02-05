@@ -40,6 +40,7 @@ dependencies:
   flutter_native_splash: ^2.2.16
   font_awesome_flutter: ^10.3.0
   get: ^4.6.5
+  http: ^0.13.5
   introduction_screen: ^3.1.2
   material_design_icons_flutter: ^6.0.7096
   percent_indicator: ^4.2.2

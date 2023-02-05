@@ -11,11 +11,11 @@ import (
 	"google.golang.org/api/option"
 )
 
-//var Auth *auth.Client
+// var Auth *auth.Client
 var dB *firestore.Client
 
 func initFirebase() {
-	opt := option.WithCredentialsFile("D:/Downloads/p2p-energy-trading-da7e6-firebase-adminsdk-2pf44-478096e9ff.json")
+	opt := option.WithCredentialsFile("E:/p2p-energy-trading-da7e6-firebase-adminsdk-2pf44-478096e9ff.json")
 	config := &firebase.Config{ProjectID: "p2p-energy-trading-da7e6"}
 	app, err := firebase.NewApp(context.Background(), config, opt)
 	if err != nil {

@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class User {
+class MyUser {
   /// Email address of the user
   final String username;
   /// Email address of the user
@@ -10,7 +10,7 @@ class User {
   /// Firebase authentication id of the user
   final String? id;
 
-  User({
+  MyUser({
     this.smartMeterNo,
     this.id,
     required this.username,
@@ -18,21 +18,30 @@ class User {
   });
 
   toJson() {
-    return {
-      'username': username,
-      'email': email,
-      'smartMeterNo': smartMeterNo,
-      'id': id,
-    };
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['username'] = username;
+    data['email'] = email;
+    data['smartMeterNo'] = smartMeterNo;
+    data['id'] = id;
+    return data;
   }
 
-  factory User.fromSnapshot(DocumentSnapshot<Map<String, dynamic>> snapshot) {
+  factory MyUser.fromSnapshot(DocumentSnapshot<Map<String, dynamic>> snapshot) {
     final data = snapshot.data();
-    return User(
+    return MyUser(
       id: snapshot.id,
       username: data?['username'],
       email: data?['email'],
       smartMeterNo: data?['smartMeterNo'],
+    );
+  }
+
+  factory MyUser.fromJson(Map<String, dynamic> json) {
+    return MyUser(
+      username: json['username'],
+      email: json['email'],
+      smartMeterNo: json['smartMeterNo'],
+      id: json['id'],
     );
   }
 }

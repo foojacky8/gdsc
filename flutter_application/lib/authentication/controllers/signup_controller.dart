@@ -39,8 +39,8 @@ class SignupController extends GetxController {
     });
   }
 
-  User createUserObject(SignupData signupData) {
-    return User(
+  MyUser createUserObject(SignupData signupData) {
+    return MyUser(
         username: signupData.name!,
         email: signupData.name!,
         id: signupData.name!);

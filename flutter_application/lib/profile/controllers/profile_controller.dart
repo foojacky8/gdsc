@@ -23,7 +23,7 @@ class ProfileController extends GetxController {
     return await _userRepository.getAllUsers();
   }
 
-  updateUserData(User user) async {
+  updateUserData(MyUser user) async {
     await _userRepository.updateUser(user);
   }
 }
