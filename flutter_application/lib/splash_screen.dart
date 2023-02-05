@@ -30,14 +30,14 @@ class SplashScreen extends GetView<SignupController> {
           child: Column(
             children: [
               Flexible(
-                  flex: 4,
+                  flex: 5,
                   child: Image.asset(
-                    'assets/images/raiden.jpg',
+                    'assets/images/Logo.png',
                   )),
               Flexible(
                   child: Ink(
                 decoration: const ShapeDecoration(
-                  color: Colors.lightBlue,
+                  color: Color(0xFF198f4c),
                   shape: CircleBorder(),
                 ),
                 child: IconButton(
