@@ -12,150 +12,157 @@ class DashboardPage extends StatelessWidget {
       backgroundColor: Color(0xFF198f4c),
       body: Column(
         children: [
-          Padding(
-            padding: EdgeInsets.fromLTRB(25, 50, 25, 0),
-            child: Column(
-              children: [
-                //greeting row
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Hi, Eng Teck!',
-                        style: 
-                          TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white
-                          ),
-                        )
-                      ],
-                    ),
-
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Colors.blue,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      padding: EdgeInsets.all(10),
-                      child: Icon(
-                        Icons.notifications, 
-                        color: Colors.white),
-                    ),
-
-                  ],
-                ),
-                SizedBox(height: 10,),
-                //Recent Order
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  padding: EdgeInsets.all(10),
-                  child: Visibility(
-                    visible: isRecentOrder,
-                    replacement: Container(
-                      padding: EdgeInsets.all(10),
-                      child: Column(
+          Flexible(
+            flex: 4,
+            child: Padding(
+              padding: EdgeInsets.fromLTRB(25, 30, 25, 0),
+              child: Column(
+                children: [
+                  //greeting row
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('No Recent Order',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          ),
-                          SizedBox(height: 5,),
-                          Text('You have not made any recent order. Please make an order to see the details here.'),
-                          SizedBox(height: 5,),
-                          Container(
-                            decoration: BoxDecoration(
-                              color: Colors.blue,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            padding: EdgeInsets.all(10),
-                            child: Text('Make an Order',
-                            style: TextStyle(
-                              color: Colors.white,
-                            ),
+                          Text('Hi, Eng Teck!',
+                          style: 
+                            TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white
                             ),
                           )
                         ],
                       ),
+
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.blue,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        padding: EdgeInsets.all(10),
+                        child: Icon(
+                          Icons.notifications, 
+                          color: Colors.white),
+                      ),
+
+                    ],
+                  ),
+                  SizedBox(height: 10,),
+                  //Recent Order
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10),
                     ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    padding: EdgeInsets.all(10),
+                    child: Visibility(
+                      visible: isRecentOrder,
+                      replacement: Container(
+                        padding: EdgeInsets.all(10),
+                        child: Column(
                           children: [
-                            Text('Recent Order', 
+                            Text('No Recent Order',
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
                             ),
                             ),
-                            Text('See All',
-                            style: TextStyle(
-                              color: Colors.blue,
+                            SizedBox(height: 5,),
+                            Text('You have not made any recent order. Please make an order to see the details here.'),
+                            SizedBox(height: 5,),
+                            Container(
+                              decoration: BoxDecoration(
+                                color: Colors.blue,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              padding: EdgeInsets.all(10),
+                              child: Text('Make an Order',
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
                               ),
                             )
                           ],
                         ),
-                        SizedBox(height: 5,),
-                        Container(
-                          child: Table(
-                            children: [
-                              TableRow(
-                                children: [
-                                  Text(''),
-                                  Text('Order ID'),
-                                  Text('Energy (kWh)'),
-                                  Text('Price (RM)'),
-                                  Text('Action'),
-                                ]
-                              ),
-                              TableRow(
-                                children: [
-                                  Text('BUY'),
-                                  Text('123'),
-                                  Text('10.0)'),
-                                  Text('10.0'),
-                                  Icon(Icons.delete, color: Colors.blue,)
-                                ]
-                              ),
-                              TableRow(
-                                children: [
-                                  Text('SELL'),
-                                  Text('124'),
-                                  Text('20.0'),
-                                  Text('10.0'),
-                                  Icon(Icons.delete, color: Colors.blue,)
-                                ]
-                              ),
-                              TableRow(
-                                children: [
-                                  Text('BUY'),
-                                  Text('125'),
-                                  Text('20.0'),
-                                  Text('20.0'),
-                                  Icon(Icons.delete, color: Colors.blue,)
-                                ]
-                              ),
-                            ]
+                      ),
+                      child: Container(
+                        padding: EdgeInsets.all(10),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('Recent Order', 
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                ),
+                                Text('See All',
+                                style: TextStyle(
+                                  color: Colors.blue,
+                                  ),
+                                )
+                              ],
                             ),
-                        )
-                      ],
-                    ),
+                            SizedBox(height: 5,),
+                            Container(
+                              child: Table(
+                                children: [
+                                  TableRow(
+                                    children: [
+                                      Text(''),
+                                      Text('Order ID'),
+                                      Text('Energy (kWh)'),
+                                      Text('Price (RM)'),
+                                      Text('Action'),
+                                    ]
+                                  ),
+                                  TableRow(
+                                    children: [
+                                      Text('BUY'),
+                                      Text('123'),
+                                      Text('10.0)'),
+                                      Text('10.0'),
+                                      Icon(Icons.delete, color: Colors.blue,)
+                                    ]
+                                  ),
+                                  TableRow(
+                                    children: [
+                                      Text('SELL'),
+                                      Text('124'),
+                                      Text('20.0'),
+                                      Text('10.0'),
+                                      Icon(Icons.delete, color: Colors.blue,)
+                                    ]
+                                  ),
+                                  TableRow(
+                                    children: [
+                                      Text('BUY'),
+                                      Text('125'),
+                                      Text('20.0'),
+                                      Text('20.0'),
+                                      Icon(Icons.delete, color: Colors.blue,)
+                                    ]
+                                  ),
+                                ]
+                                ),
+                            )
+                          ],
+                        ),
+                      ),
+                    )
                   )
-                )
-              ],
+                ],
+              ),
             ),
           ),
           SizedBox(height: 10,),
-          Expanded(
+          Flexible(
+            flex: 6,
             child: Container(
               padding: EdgeInsets.fromLTRB(20, 0, 20, 20),
               height:MediaQuery.of(context).size.height*0.9,
@@ -202,7 +209,7 @@ class DashboardPage extends StatelessWidget {
                   SizedBox(height: 10,),
 
                   Container(
-                    height: MediaQuery.of(context).size.height*0.45,
+                    // height: MediaQuery.of(context).size.height*0.4,
                     width: MediaQuery.of(context).size.width*0.9,
                     padding: EdgeInsets.all(10),
                     decoration: BoxDecoration(

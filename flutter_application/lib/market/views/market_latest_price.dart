@@ -59,6 +59,7 @@ class MarketLatestPrice extends StatelessWidget {
                 ),
                 columnSpacing: 12,
                 horizontalMargin: 12,
+
                 columns: 
                 [
                   DataColumn(
@@ -94,7 +95,7 @@ class MarketLatestPrice extends StatelessWidget {
               borderRadius: BorderRadius.circular(25),
               child: Text('Trade Now'), 
               onPressed: () {
-                Get.to(MarketPage());
+                Get.to(MarketSubmitLayout());
               }
             )
             
