@@ -1,7 +1,7 @@
 class ApiConstants {
-  static const String baseUrl = 'https://8000';
-  static const String loginUrl = '$baseUrl/login';
-  static const String registerUrl = '/register';
+  static const String baseUrl = 'localhost:8000';
+  static const String loginUrl = 'login';
+  static const String signUpUrl = 'signUp';
   static const String logoutUrl = '/logout';
   static const String refreshTokenUrl = '/refresh';
   static const String resetPasswordUrl = '/reset-password';

@@ -16,7 +16,7 @@ class SignupController extends GetxController {
   Duration get loginTime => const Duration(milliseconds: 2250);
 
   Future<String?> signupUser(SignupData data) async {
-    await userRepository.createUser(createUserObject(data));
+    // await userRepository.createUser(createUserObject(data));
     return AutheticationRepository.instance
         .createUserWithEmailAndPassword(data.name!, data.password!);
   }

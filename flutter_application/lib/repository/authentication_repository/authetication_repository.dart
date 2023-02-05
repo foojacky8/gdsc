@@ -56,11 +56,11 @@ class AutheticationRepository extends GetxController {
     // Flutter + Golang approach
     ApiResponse apiResponse = ApiResponse();
     try {
-      final response = await http.post(Uri.parse(ApiConstants.loginUrl), body: {
-      'email': email,
-      'password': password,
+      final response = await http.post(Uri.http(ApiConstants.baseUrl, ApiConstants.signUpUrl), body: {
+      "email": email,
+      "password": password,
     });
-
+    print('This is the code: ${response.statusCode}');
     switch (response.statusCode) {
       case 200:
         apiResponse.data = MyUser.fromJson(jsonDecode(response.body));
