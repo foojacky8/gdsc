@@ -66,6 +66,7 @@ class ProfilePage extends StatelessWidget {
             child: Text('Log Out'),),
           Spacer(),
           Container(
+            height: MediaQuery.of(context).size.height * 0.2,
             child: Lottie.asset('assets/animations/energy.json', 
                 frameRate: FrameRate.max,
                 repeat: true,

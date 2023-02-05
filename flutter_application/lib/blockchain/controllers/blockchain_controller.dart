@@ -22,10 +22,11 @@ class BlockChainController extends GetxController {
       'Date',
       'Total Transaction',
       'Total Traded Amount',
-      'Column NUMBERS',
+      'Details',
     ];
 
     return DataTable(
+      columnSpacing: 20,
       columns: getColumns(columns), 
       rows: getRows(transactions));
   }
@@ -34,7 +35,11 @@ class BlockChainController extends GetxController {
     return List<DataColumn>.generate(
       columns.length,
       (index) => DataColumn(
-        label: Text(columns[index]),
+        label: Expanded(
+          child: Text(columns[index], 
+          softWrap: false, 
+          maxLines: 3,
+          overflow: TextOverflow.ellipsis)),
       ),
     );
   }
