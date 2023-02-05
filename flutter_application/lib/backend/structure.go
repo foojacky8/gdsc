@@ -6,11 +6,13 @@ type Login struct {
 }
 
 type User struct {
-	UserID       string `json:"userID"`
-	Username     string `json:"username"`
-	Email        string `json:"email"`
-	Password     string `json:"password"`
-	SmartMeterNo string `json:"smartMeterNo"`
+	UserID       string    `json:"userID"`
+	Username     string    `json:"username"`
+	Email        string    `json:"email"`
+	Password     string    `json:"password"`
+	SmartMeterNo string    `json:"smartMeterNo"`
+	GenData      []float64 `json:"genData"`
+	UseData      []float64 `json:"useData"`
 }
 
 type EnergyRequest struct {
@@ -19,10 +21,6 @@ type EnergyRequest struct {
 	Energy    float64 `json:"energyAmount"`
 	Price     float64 `json:"biddingPrice"`
 	BuyOrSell string  `json:"BuyOrSell"`
-}
-
-type UserIDRequest struct {
-	UserID string `json:"userID"`
 }
 
 type EnergyPredRequest struct {
@@ -36,13 +34,27 @@ type BiddingRangeRequest struct {
 }
 
 type Transaction struct {
-	UserID string  `json:"userID"`
-	Money  float64 `json:"money"`
-	Energy float64 `json:"energy"`
+	BidID     string  `json:"bidID"`
+	UserID    string  `json:"userID"`
+	Price     float64 `json:"price"`
+	ToGrid    float64 `json:"toGrid"`
+	ToMarket  float64 `json:"toMarket"`
+	BuyOrSell string  `json:"BuyOrSell"`
 }
 type Block struct {
 	Index    int         `json:"index"`
 	Hash     string      `json:"hash"`
 	PrevHash string      `json:"prevHash"`
 	Data     Transaction `json:"data"`
+}
+
+type StakeRequest struct {
+	Node  int `json:"node"`
+	Port  int `json:"port"`
+	Stake int `json:"stake"`
+}
+
+type PredResult struct {
+	GenData float64 `json:"genData"`
+	UseData float64 `json:"useData"`
 }

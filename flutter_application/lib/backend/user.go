@@ -24,17 +24,23 @@ func handleSignUp(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	defer r.Body.Close()
+
+	// create a unique identifier for each user
 	userInfo := newUser.Email + newUser.Username
 	h := sha256.New()
 	h.Write([]byte(userInfo))
 	hash := h.Sum(nil)
 	newUser.UserID = hex.EncodeToString(hash)
+
+	// add the new user to firestore
 	err := AddUser(newUser)
 	if err != nil {
 		fmt.Println(err)
 		respondWithJSON(w, r, http.StatusBadRequest, r.Body)
 		return
 	}
+
+	// After the user signed up, generate a jwt token for user
 	jwToken, err := generateJWT(newUser)
 	if err != nil {
 		fmt.Println(err)
@@ -56,12 +62,16 @@ func handleUserLogin(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	defer r.Body.Close()
+
+	// Get user email's and password
 	userData, err := GetUserByEmail(loginRequest.Email, loginRequest.Password)
 	if err != nil {
 		fmt.Println(err)
 		respondWithJSON(w, r, http.StatusBadRequest, r.Body)
 		return
 	}
+
+	// If login credentials is correct, create jwt token for user
 	if userData.Password == loginRequest.Password {
 		fmt.Println("Login successful")
 		fmt.Println("Generating jwtToken")
@@ -77,6 +87,7 @@ func handleUserLogin(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
+// This function generates a jwt token that lasts for 24 hours
 func generateJWT(userData User) (string, error) {
 	var secretKey = []byte("DoNotShareThis")
 	token := jwt.New(jwt.SigningMethodHS256)
@@ -92,6 +103,7 @@ func generateJWT(userData User) (string, error) {
 	return tokenString, nil
 }
 
+// This is a handle function used to test the verifyJWT function
 func handleVerifyJWT(w http.ResponseWriter, r *http.Request) {
 	userid, err := verifyJWT(w, r)
 	print(userid)
@@ -110,6 +122,7 @@ func handleVerifyJWT(w http.ResponseWriter, r *http.Request) {
 
 }
 
+// This function verifies the jwt token and extract the userid from the claims
 func verifyJWT(_ http.ResponseWriter, request *http.Request) (string, error) {
 	if request.Header["Token"] != nil {
 		tokenString := request.Header["Token"][0]

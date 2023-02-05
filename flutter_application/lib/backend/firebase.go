@@ -30,28 +30,6 @@ func initFirebase() {
 	dB = firestore
 }
 
-// func GetUserById(uid string) {
-// 	user, err := Auth.GetUser(context.Background(), uid)
-// 	if err != nil {
-// 		fmt.Println("Error getting user", uid, err)
-// 	}
-// 	fmt.Println(user)
-// }
-
-// func CreateUser(User) {
-// 	params := (&auth.UserToCreate{}).
-// 		UID(User.UserID).
-// 		Email(User.Email).
-// 		Password(User.Password).
-// 		SmartMeterNo(User.SmartMeterNo).
-// 		Username(User.Username)
-// 	u, err := Auth.CreateUser(context.Background(), params)
-// 	if err != nil {
-// 		fmt.Println("error creating user", err)
-// 	}
-// 	fmt.Println(u)
-// }
-
 func AddUser(newUser User) error {
 	_, _, err := dB.Collection("users").Add(context.Background(), map[string]interface{}{
 		"userID":       newUser.UserID,
@@ -59,6 +37,8 @@ func AddUser(newUser User) error {
 		"email":        newUser.Email,
 		"password":     newUser.Password,
 		"smartMeterNo": newUser.SmartMeterNo,
+		"genData":      newUser.GenData,
+		"useData":      newUser.UseData,
 	})
 	if err != nil {
 		fmt.Println("Failed to add user: ", err)
@@ -67,7 +47,34 @@ func AddUser(newUser User) error {
 	fmt.Println("User added successfully")
 	return nil
 }
+func GetEnergyDataById(uid string) (User, error) {
+	var retrieveUserData User
+	var GenDataInterface []interface{}
+	var UseDataInterface []interface{}
+	iter := dB.Collection("users").Documents(context.Background())
+	for {
+		doc, err := iter.Next()
+		if err == iterator.Done {
+			fmt.Println("Cannot found user", err)
+			return retrieveUserData, err
+		}
+		if err != nil {
+			fmt.Println("Failed to iterate:", err)
+			return retrieveUserData, err
+		}
+		if doc.Data()["userID"].(string) == uid {
+			GenDataInterface = doc.Data()["genData"].([]interface{})
+			UseDataInterface = doc.Data()["useData"].([]interface{})
+			// type assertion
+			for i := 0; i < 24; i++ {
+				retrieveUserData.GenData = append(retrieveUserData.GenData, GenDataInterface[i].(float64))
+				retrieveUserData.UseData = append(retrieveUserData.UseData, UseDataInterface[i].(float64))
+			}
+			return retrieveUserData, nil
+		}
+	}
 
+}
 func GetUserById(uid string) (User, error) {
 	var retrieveUserData User
 	iter := dB.Collection("users").Documents(context.Background())
