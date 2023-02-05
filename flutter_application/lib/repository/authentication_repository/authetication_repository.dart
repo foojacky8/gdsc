@@ -56,24 +56,33 @@ class AutheticationRepository extends GetxController {
     // Flutter + Golang approach
     ApiResponse apiResponse = ApiResponse();
     try {
-      final response = await http.post(Uri.http(ApiConstants.baseUrl, ApiConstants.signUpUrl), body: {
-      "email": email,
-      "password": password,
-    });
-    print('This is the code: ${response.statusCode}');
-    switch (response.statusCode) {
-      case 200:
-        apiResponse.data = MyUser.fromJson(jsonDecode(response.body));
-        break;
-      case 401:
-        apiResponse.apiError = ApiError.fromJson(jsonDecode(response.body));
-        break;
-      default:
-        apiResponse.apiError = ApiError.fromJson(jsonDecode(response.body));
-        break;
-    }
-    } on SocketException {
-      apiResponse.apiError = ApiError(error: 'Server error. Please try again');
+      final response = await http
+          .post(Uri.http(ApiConstants.baseUrl, ApiConstants.signUpUrl),
+              body: jsonEncode({
+                "email": email,
+                "password": password,
+              }),
+              headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+          });
+
+      switch (response.statusCode) {
+        case 200:
+          apiResponse.data = MyUser.fromJson(jsonDecode(response.body));
+          break;
+        case 202:
+          apiResponse.data = MyUser.fromJson(jsonDecode(response.body));
+          break;
+        case 401:
+          apiResponse.apiError = ApiError.fromJson(jsonDecode(response.body));
+          break;
+        default:
+          apiResponse.apiError = ApiError.fromJson(jsonDecode(response.body));
+          break;
+      }
+    } on SocketException catch (e) {
+      apiResponse.apiError = ApiError(error: e.message);
     }
 
     // if api response contains data, most likely no error occured
@@ -81,14 +90,15 @@ class AutheticationRepository extends GetxController {
       firebaseUser.value != null
           ? Get.offAll('/splashScreen')
           : Get.offAll('/signupScreen');
-    } 
+    }
 
     // if api response contains error, most likely error occured
     if (apiResponse.data == null && apiResponse.apiError != null) {
-      final exception = SignupWithEmailPasswordFailure.code(apiResponse.apiError!.error);
+      final exception =
+          SignupWithEmailPasswordFailure.code(apiResponse.apiError!.error);
       return exception.message;
     }
-    
+
     return null;
   }
 
