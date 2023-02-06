@@ -1,11 +1,25 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_application/authentication/models/user.dart';
+import 'package:flutter_application/repository/authentication_repository/api/api_constants.dart';
+import 'package:flutter_application/repository/authentication_repository/api/api_error.dart';
+import 'package:flutter_application/repository/authentication_repository/api/api_response.dart';
 import 'package:flutter_application/repository/authentication_repository/exceptions/login_with_email_password_failure.dart';
 import 'package:flutter_application/repository/authentication_repository/exceptions/signup_with_email_password_failure.dart';
+import 'package:flutter_application/repository/user_repository/user_repository.dart';
+import 'package:flutter_application/storage/secure_storage.dart';
+import 'package:flutter_login/flutter_login.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 
 class AutheticationRepository extends GetxController {
   static AutheticationRepository get instance => Get.find();
 
+  UserRepository userRepository = Get.put(UserRepository());
+
+  // ! FirebaseAuth only works with Flutter only approach atm
   final _auth = FirebaseAuth.instance;
   late final Rx<User?> firebaseUser;
 
@@ -18,35 +32,88 @@ class AutheticationRepository extends GetxController {
 
   void _setInitialScreen(User? user) {
     if (user == null) {
-      Get.offAll('/signupScreen');
+      Get.offAllNamed('/signupScreen');
     } else {
-      Get.offAll('/splashScreen');
+      Get.offAllNamed('/');
     }
   }
 
   Future<String?> createUserWithEmailAndPassword(
-      String email, String password) async {
+      String email, String password, SignupData signupData) async {
+    // Flutter only approach
     try {
       await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
+
+      // create user entry in Firestore
+      userRepository.createUser(userRepository.createUserFromSignupData(signupData));
+
+      // save the firebase user jwt token in local storage
+      SecureStorage.setJwt(await firebaseUser.value!.getIdToken());
+
       firebaseUser.value != null
-          ? Get.offAll('/splashScreen')
-          : Get.offAll('/signupScreen');
+          ? Get.offAllNamed('/')
+          : Get.offAllNamed('/signupScreen');
     } on FirebaseAuthException catch (e) {
       final exception = SignupWithEmailPasswordFailure.code(e.code);
-      // Get.snackbar('Error creating account - ', exception.message);
       return exception.message;
-    } catch (_) {
+    } catch (e) {
       final exception = SignupWithEmailPasswordFailure();
-      // Get.snackbar('Error creating account - ', exception.message);
      return exception.message;
     }
+
+    // Flutter + Golang approach
+    // ApiResponse apiResponse = ApiResponse();
+    // try {
+    //   final response = await http
+    //       .post(Uri.http(ApiConstants.baseUrl, ApiConstants.signUpUrl),
+    //           body: jsonEncode({
+    //             "email": email,
+    //             "password": password,
+    //           }),
+    //           headers: {
+    //         'Content-Type': 'application/json',
+    //         'Accept': 'application/json',
+    //       });
+
+    //   switch (response.statusCode) {
+    //     case 200:
+    //       apiResponse.data = response.body;
+    //       break;
+    //     case 202:
+    //       apiResponse.data = response.body;
+    //       break;
+    //     case 401:
+    //       apiResponse.apiError = ApiError.fromJson(jsonDecode(response.body));
+    //       break;
+    //     default:
+    //       apiResponse.apiError = ApiError.fromJson(jsonDecode(response.body));
+    //       break;
+    //   }
+    // } on SocketException catch (e) {
+    //   apiResponse.apiError = ApiError(error: e.message);
+    // }
+
+    // if api response contains data, most likely no error occured
+    // save the JWT token returned from http GET to local storage
+    // if (apiResponse.data != null) {
+    //   saveJwtToStorage(apiResponse.data.toString());
+    // }
+
+    // if api response contains error, most likely error occured
+    // if (apiResponse.data == null && apiResponse.apiError != null) {
+    //   final exception =
+    //       SignupWithEmailPasswordFailure.code(apiResponse.apiError!.error);
+    //   return exception.message;
+    // }
+
     return null;
   }
 
-  Future<String?> signInWithEmailAndPassword(String email, String password) async {
+  Future<String?> signInWithEmailAndPassword(
+      String email, String password) async {
     try {
       await _auth.signInWithEmailAndPassword(
         email: email,

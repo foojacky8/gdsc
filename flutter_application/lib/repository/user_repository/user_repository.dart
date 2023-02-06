@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_application/authentication/models/user.dart';
+import 'package:flutter_login/flutter_login.dart';
 import 'package:get/get.dart';
 
 class UserRepository extends GetxController {
@@ -8,7 +9,7 @@ class UserRepository extends GetxController {
 
   final _db = FirebaseFirestore.instance;
 
-  createUser(User user) async {
+  createUser(MyUser user) async {
     await _db
         .collection('users')
         .add(user.toJson())
@@ -28,17 +29,17 @@ class UserRepository extends GetxController {
   getUserByEmail(String email) async {
     final snapshot =
         await _db.collection('users').where('email', isEqualTo: email).get();
-    final userData = snapshot.docs.map((e) => User.fromSnapshot(e)).single;
+    final userData = snapshot.docs.map((e) => MyUser.fromSnapshot(e)).single;
     return userData;
   }
 
   getAllUsers() async {
     final snapshot = await _db.collection('users').get();
-    final userData = snapshot.docs.map((e) => User.fromSnapshot(e)).toList();
+    final userData = snapshot.docs.map((e) => MyUser.fromSnapshot(e)).toList();
     return userData;
   }
 
-  updateUser(User user) async {
+  updateUser(MyUser user) async {
     await _db
         .collection('users')
         .doc(user.id)
@@ -54,5 +55,12 @@ class UserRepository extends GetxController {
           backgroundColor: Colors.red.withOpacity(0.1),
           colorText: Colors.red);
     });
+  }
+
+  MyUser createUserFromSignupData(SignupData signupData) {
+    return MyUser(
+        username: signupData.name!,
+        email: signupData.name!,
+        id: signupData.name!);
   }
 }
