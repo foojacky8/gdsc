@@ -18,7 +18,7 @@ class SignupController extends GetxController {
   Future<String?> signupUser(SignupData data) async {
     // await userRepository.createUser(createUserObject(data));
     return AutheticationRepository.instance
-        .createUserWithEmailAndPassword(data.name!, data.password!);
+        .createUserWithEmailAndPassword(data.name!, data.password!, data);
   }
 
   Future<String?> authUser(LoginData data) {

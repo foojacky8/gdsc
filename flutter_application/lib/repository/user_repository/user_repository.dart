@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_application/authentication/models/user.dart';
+import 'package:flutter_login/flutter_login.dart';
 import 'package:get/get.dart';
 
 class UserRepository extends GetxController {
@@ -54,5 +55,12 @@ class UserRepository extends GetxController {
           backgroundColor: Colors.red.withOpacity(0.1),
           colorText: Colors.red);
     });
+  }
+
+  MyUser createUserFromSignupData(SignupData signupData) {
+    return MyUser(
+        username: signupData.name!,
+        email: signupData.name!,
+        id: signupData.name!);
   }
 }

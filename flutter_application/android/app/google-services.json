@@ -1,34 +1,41 @@
 {
   "project_info": {
-    "project_number": "787762285064",
-    "project_id": "p2p-energy-trading-da7e6",
-    "storage_bucket": "p2p-energy-trading-da7e6.appspot.com"
+    "project_number": "883389832495",
+    "project_id": "gdsc-4b58d",
+    "storage_bucket": "gdsc-4b58d.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:787762285064:android:bfb52f9d451a0f5a6b1fbd",
+        "mobilesdk_app_id": "1:883389832495:android:cf030ce18035160e4515da",
         "android_client_info": {
           "package_name": "com.example.flutter_application"
         }
       },
       "oauth_client": [
         {
-          "client_id": "787762285064-tuhv3ujf0e7t98b3cu2cciccj6mcp9e7.apps.googleusercontent.com",
+          "client_id": "883389832495-7qiu6d725ks2c55tfe3l7j6t3cl1aot7.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDWWN-tdsyOavWCe8l_GoXH5hgl1F0iOOU"
+          "current_key": "AIzaSyBSE3BElutpDlYSCxCr7xhZeTt-P-AR_Rs"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "787762285064-tuhv3ujf0e7t98b3cu2cciccj6mcp9e7.apps.googleusercontent.com",
+              "client_id": "883389832495-7qiu6d725ks2c55tfe3l7j6t3cl1aot7.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "883389832495-s0529hec00pmln4fvmpopfqvlsak4abr.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.flutterApplication"
+              }
             }
           ]
         }
