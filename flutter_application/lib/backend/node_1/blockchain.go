@@ -108,3 +108,16 @@ func stringifyData(TransactionDataList []Transaction) string {
 	fmt.Println("Can stringify data here")
 	return record
 }
+
+// Price & Profit calculations
+func calculateAmount (BuyOrSell string, Price float64, ToGrid float64, ToMarket float64) float64 {
+	if BuyOrSell == "Buy" {
+		// Price
+		return ToMarket * Price + ToGrid * 0.5
+	} else if BuyOrSell == "Sell" {
+		// Profit
+		return ToMarket * Price + ToGrid * 0.3
+	} else {
+		return 0.0
+	}
+}
