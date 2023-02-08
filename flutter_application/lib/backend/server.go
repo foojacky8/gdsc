@@ -10,11 +10,8 @@ import (
 func makeMuxRouter() http.Handler {
 	r := mux.NewRouter()
 
-	// takes in email and password as input, return jwtToken if success, else will return a HTTP bad request
-	r.HandleFunc("/login", handleUserLogin).Methods("POST")
-
-	// takes in user information and return jwtToken if success
-	r.HandleFunc("/signUp", handleSignUp).Methods("POST")
+	// return genData and useData to frontend to be stored in database
+	r.HandleFunc("/getEnergyData", handleGetEnergyData).Methods("GET")
 
 	// all request below will verify the jwtToken in HTTP request header
 
