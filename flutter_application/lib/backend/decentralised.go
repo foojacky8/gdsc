@@ -2,6 +2,8 @@ package main
 
 import (
 	"bytes"
+	"crypto/sha256"
+	"encoding/hex"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -63,5 +65,46 @@ func pickWinner() StakeRequest {
 	//winner := rand.Intn(max-min) + min
 	winner := 0
 	return ListOfValidators[winner]
+
+}
+
+func handleVerifyTransaction(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+
+	var ReceivedTransactionHash string
+	decoder := json.NewDecoder(r.Body)
+	if err := decoder.Decode(&ReceivedTransactionHash); err != nil {
+		fmt.Println("Error occured")
+		respondWithJSON(w, r, http.StatusBadRequest, r.Body)
+		return
+	}
+	fmt.Println("ReceivedTransactionHash: ", ReceivedTransactionHash)
+	defer r.Body.Close()
+	ActualTransaction := readAuctionResult()
+	TransactionInString := stringifyData(ActualTransaction)
+	h := sha256.New()
+	h.Write([]byte(TransactionInString))
+	hashed := h.Sum(nil)
+	ActualHash := hex.EncodeToString(hashed)
+	if ActualHash == ReceivedTransactionHash {
+		respondWithJSON(w, r, http.StatusAccepted, "Correct")
+		return
+	} else {
+		respondWithJSON(w, r, http.StatusBadRequest, "Wrong")
+		return
+	}
+}
+
+var ReceiveDoneCount = 0
+var CanProceed = false
+
+func handleDoneAppend(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	ReceiveDoneCount = ReceiveDoneCount + 1
+	if ReceiveDoneCount == 2 {
+		fmt.Println("All nodes had append blockchain")
+		fmt.Println("Can proceed with next block")
+		CanProceed = true
+	}
 
 }

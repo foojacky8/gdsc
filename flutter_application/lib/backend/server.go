@@ -21,6 +21,8 @@ func makeMuxRouter() http.Handler {
 	r.HandleFunc("/initAuction", handleInitAuction).Methods("GET")
 	r.HandleFunc("/createRequest", createSomeRequest).Methods("GET")
 	r.HandleFunc("/initPoS", handleInitPoS).Methods("GET")
+	r.HandleFunc("/verifyTransaction", handleVerifyTransaction).Methods("POST")
+	r.HandleFunc("/doneAppend", handleDoneAppend).Methods("GET")
 	return r
 }
 
