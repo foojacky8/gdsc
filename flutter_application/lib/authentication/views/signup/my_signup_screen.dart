@@ -8,16 +8,16 @@ import '../../../home/views/home_page.dart';
 
 class MySignupScreen extends StatelessWidget {
   const MySignupScreen({super.key});
-  Duration get loginTime => Duration(milliseconds: 2250);
+  Duration get loginTime => const Duration(milliseconds: 2250);
 
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(SignupController());
 
     return FlutterLogin(
-      logo: AssetImage('assets/images/Logo.png'),
+      logo: const AssetImage('assets/images/Logo.png'),
       theme: LoginTheme(
-        primaryColor: Color(0xFF198f4c),
+        primaryColor: const Color(0xFF198f4c),
         errorColor: Colors.deepOrange,
       ),
       title: 'Re:Energize',

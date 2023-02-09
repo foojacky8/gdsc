@@ -1,18 +1,10 @@
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_application/authentication/models/user.dart';
-import 'package:flutter_application/repository/authentication_repository/api/api_constants.dart';
-import 'package:flutter_application/repository/authentication_repository/api/api_error.dart';
-import 'package:flutter_application/repository/authentication_repository/api/api_response.dart';
 import 'package:flutter_application/repository/authentication_repository/exceptions/login_with_email_password_failure.dart';
 import 'package:flutter_application/repository/authentication_repository/exceptions/signup_with_email_password_failure.dart';
 import 'package:flutter_application/repository/user_repository/user_repository.dart';
 import 'package:flutter_application/storage/secure_storage.dart';
 import 'package:flutter_login/flutter_login.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
 
 class AutheticationRepository extends GetxController {
   static AutheticationRepository get instance => Get.find();
@@ -48,10 +40,11 @@ class AutheticationRepository extends GetxController {
       );
 
       // create user entry in Firestore
-      userRepository.createUser(userRepository.createUserFromSignupData(signupData));
+      userRepository
+          .createUser(userRepository.createUserFromSignupData(signupData));
 
       // save the firebase user jwt token in local storage
-      SecureStorage.setJwt(await firebaseUser.value!.getIdToken());
+      SecureStorage.setJwt(await firebaseUser.value!.getIdToken(true));
 
       firebaseUser.value != null
           ? Get.offAllNamed('/')
@@ -61,7 +54,7 @@ class AutheticationRepository extends GetxController {
       return exception.message;
     } catch (e) {
       final exception = SignupWithEmailPasswordFailure();
-     return exception.message;
+      return exception.message;
     }
 
     // Flutter + Golang approach
