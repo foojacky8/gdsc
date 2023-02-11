@@ -26,4 +26,6 @@ class ProfileController extends GetxController {
   updateUserData(MyUser user) async {
     await _userRepository.updateUser(user);
   }
+
+  
 }

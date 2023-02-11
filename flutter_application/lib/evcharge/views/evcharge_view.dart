@@ -15,6 +15,7 @@ class EvChargePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       appBar: AppBar(
         title: Center(child: Text('EV Charge')),
@@ -25,6 +26,7 @@ class EvChargePage extends StatelessWidget {
           height: MediaQuery.of(context).size.height * 0.75,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text('Scan the QR Code to start charging',
               style: TextStyle(
@@ -38,6 +40,10 @@ class EvChargePage extends StatelessWidget {
               ),
               Text(
                 controller.randomNumber.toString(),
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold
+                ),
               ),
 
               Spacer(),
@@ -45,7 +51,8 @@ class EvChargePage extends StatelessWidget {
               CupertinoButton(
                 color: Colors.blue,
                 child: Text('Open QR Code Scanner'),
-                onPressed: (){}
+                onPressed: () {
+                }
               )
             ],
           ),

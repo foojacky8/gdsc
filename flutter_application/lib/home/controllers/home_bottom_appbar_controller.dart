@@ -8,7 +8,7 @@ import '../../blockchain/views/blockchain_view.dart';
 import '../../dashboard/views/dashboard_view.dart';
 import '../../evcharge/views/evcharge_view.dart';
 import '../../market/views/market_latest_price.dart';
-import '../../market/views/market_views.dart';
+import '../../market/views/market_submit_layout.dart';
 import '../../profile/views/profile_page.dart';
 
 class HomeBottomAppBarController extends GetxController{
