@@ -9,10 +9,16 @@ class MyUser {
   final String? smartMeterNo;
   /// Firebase authentication id of the user
   final String? id;
+  /// GenData of the user
+  List<double>? genData;
+  /// UseData of the user
+  List<double>? useData;
 
   MyUser({
     this.smartMeterNo,
     this.id,
+    this.genData,
+    this.useData,
     required this.username,
     required this.email,
   });
@@ -23,6 +29,8 @@ class MyUser {
     data['email'] = email;
     data['smartMeterNo'] = smartMeterNo;
     data['id'] = id;
+    data['genData'] = genData;
+    data['useData'] = useData;
     return data;
   }
 
@@ -33,6 +41,8 @@ class MyUser {
       username: data?['username'],
       email: data?['email'],
       smartMeterNo: data?['smartMeterNo'],
+      genData: data?['genData'],
+      useData: data?['useData'],
     );
   }
 
@@ -42,6 +52,8 @@ class MyUser {
       email: json['email'],
       smartMeterNo: json['smartMeterNo'],
       id: json['id'],
+      genData: json['genData'],
+      useData: json['useData'],
     );
   }
 }

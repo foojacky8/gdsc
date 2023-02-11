@@ -1,4 +1,4 @@
-import 'package:flutter_application/repository/authentication_repository/api/api_error.dart';
+import 'package:flutter_application/repository/api/api_error.dart';
 
 class ApiResponse {
   // _data will hold any response converted into 
