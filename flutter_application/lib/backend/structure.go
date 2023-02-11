@@ -1,10 +1,5 @@
 package main
 
-type Login struct {
-	Email    string `json:"email"`
-	Password string `json:"password"`
-}
-
 type User struct {
 	UserID       string    `json:"userID"`
 	Username     string    `json:"username"`
@@ -21,10 +16,6 @@ type EnergyRequest struct {
 	Energy    float64 `json:"energyAmount"`
 	Price     float64 `json:"biddingPrice"`
 	BuyOrSell string  `json:"BuyOrSell"`
-}
-
-type UserIDRequest struct {
-	UserID string `json:"userID"`
 }
 
 type EnergyPredRequest struct {
@@ -56,4 +47,9 @@ type Transaction struct {
 	ToGrid    float64 `json:"toGrid"`
 	ToMarket  float64 `json:"toMarket"`
 	BuyOrSell string  `json:"BuyOrSell"`
+}
+
+type UserEnergyData struct {
+	GenData []float64 `json:"genData"`
+	UseData []float64 `json:"useData"`
 }

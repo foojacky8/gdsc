@@ -74,6 +74,14 @@ func createSomeRequest(w http.ResponseWriter, r *http.Request) {
 	newRequest.Energy = 60.0
 	newRequest.Price = 0.33
 	ListOfReq = append(ListOfReq, newRequest)
+
+	//write to response
+	jsonList, err := json.Marshal(ListOfReq)
+	if err != nil {
+		fmt.Println(err)
+	} else {
+		w.Write(jsonList)
+	}
 }
 
 func handleInitAuction(w http.ResponseWriter, r *http.Request) {

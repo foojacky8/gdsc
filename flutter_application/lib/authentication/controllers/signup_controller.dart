@@ -16,9 +16,9 @@ class SignupController extends GetxController {
   Duration get loginTime => const Duration(milliseconds: 2250);
 
   Future<String?> signupUser(SignupData data) async {
-    await userRepository.createUser(createUserObject(data));
+    // await userRepository.createUser(createUserObject(data));
     return AutheticationRepository.instance
-        .createUserWithEmailAndPassword(data.name!, data.password!);
+        .createUserWithEmailAndPassword(data.name!, data.password!, data);
   }
 
   Future<String?> authUser(LoginData data) {
@@ -39,8 +39,8 @@ class SignupController extends GetxController {
     });
   }
 
-  User createUserObject(SignupData signupData) {
-    return User(
+  MyUser createUserObject(SignupData signupData) {
+    return MyUser(
         username: signupData.name!,
         email: signupData.name!,
         id: signupData.name!);
