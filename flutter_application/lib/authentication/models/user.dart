@@ -8,7 +8,7 @@ class MyUser {
   /// Smart meter number of the user
   final String? smartMeterNo;
   /// Firebase authentication id of the user
-  final String? id;
+  String? id;
   /// GenData of the user
   List<double>? genData;
   /// UseData of the user

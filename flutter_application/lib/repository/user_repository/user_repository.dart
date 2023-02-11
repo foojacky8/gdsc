@@ -17,7 +17,12 @@ class UserRepository extends GetxController {
 
   final _db = FirebaseFirestore.instance;
 
-  createUser(MyUser user) async {
+  createUser(MyUser user, String firebaseUid) async {
+    // save firebase UID into user object
+    user.id = firebaseUid;
+
+
+    // get user energy data
     final energyData = await getUserEnergyData();
     user.genData = energyData!.genData;
     user.useData = energyData.useData;

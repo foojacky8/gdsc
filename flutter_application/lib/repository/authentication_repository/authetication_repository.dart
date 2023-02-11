@@ -41,7 +41,7 @@ class AutheticationRepository extends GetxController {
 
       // create user entry in Firestore
       userRepository
-          .createUser(userRepository.createUserFromSignupData(signupData));
+          .createUser(userRepository.createUserFromSignupData(signupData), firebaseUser.value!.uid);
 
       // save the firebase user jwt token in local storage
       SecureStorage.setJwt(await firebaseUser.value!.getIdToken(true));
@@ -56,51 +56,6 @@ class AutheticationRepository extends GetxController {
       final exception = SignupWithEmailPasswordFailure();
       return exception.message;
     }
-
-    // Flutter + Golang approach
-    // ApiResponse apiResponse = ApiResponse();
-    // try {
-    //   final response = await http
-    //       .post(Uri.http(ApiConstants.baseUrl, ApiConstants.signUpUrl),
-    //           body: jsonEncode({
-    //             "email": email,
-    //             "password": password,
-    //           }),
-    //           headers: {
-    //         'Content-Type': 'application/json',
-    //         'Accept': 'application/json',
-    //       });
-
-    //   switch (response.statusCode) {
-    //     case 200:
-    //       apiResponse.data = response.body;
-    //       break;
-    //     case 202:
-    //       apiResponse.data = response.body;
-    //       break;
-    //     case 401:
-    //       apiResponse.apiError = ApiError.fromJson(jsonDecode(response.body));
-    //       break;
-    //     default:
-    //       apiResponse.apiError = ApiError.fromJson(jsonDecode(response.body));
-    //       break;
-    //   }
-    // } on SocketException catch (e) {
-    //   apiResponse.apiError = ApiError(error: e.message);
-    // }
-
-    // if api response contains data, most likely no error occured
-    // save the JWT token returned from http GET to local storage
-    // if (apiResponse.data != null) {
-    //   saveJwtToStorage(apiResponse.data.toString());
-    // }
-
-    // if api response contains error, most likely error occured
-    // if (apiResponse.data == null && apiResponse.apiError != null) {
-    //   final exception =
-    //       SignupWithEmailPasswordFailure.code(apiResponse.apiError!.error);
-    //   return exception.message;
-    // }
 
     return null;
   }
