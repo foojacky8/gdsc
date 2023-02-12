@@ -7,46 +7,33 @@ import (
 
 	firestore "cloud.google.com/go/firestore"
 	firebase "firebase.google.com/go"
+	"firebase.google.com/go/auth"
 	"google.golang.org/api/iterator"
 	"google.golang.org/api/option"
 )
 
-//var Auth *auth.Client
+var Auth *auth.Client
 var dB *firestore.Client
 
+// updated the credentials file path
 func initFirebase() {
-	opt := option.WithCredentialsFile("D:/Downloads/p2p-energy-trading-da7e6-firebase-adminsdk-2pf44-478096e9ff.json")
-	config := &firebase.Config{ProjectID: "p2p-energy-trading-da7e6"}
+	opt := option.WithCredentialsFile("E:/gdsc-4b58d-firebase-adminsdk-fctt7-6bbd2ea761.json")
+	config := &firebase.Config{ProjectID: "gdsc-4b58d"}
 	app, err := firebase.NewApp(context.Background(), config, opt)
 	if err != nil {
 		log.Fatalf("error initializing app: %v\n", err)
 	}
-	//auth, err := app.Auth(context.Background())
-	firestore, err := app.Firestore(context.Background())
+	Auth, err = app.Auth(context.Background())
 	if err != nil {
 		fmt.Println("Firebase load error", err)
 	}
-	//Auth = auth
-	dB = firestore
+
+	dB, err = app.Firestore(context.Background())
+	if err != nil {
+		fmt.Println("Firebase load error", err)
+	}
 }
 
-func AddUser(newUser User) error {
-	_, _, err := dB.Collection("users").Add(context.Background(), map[string]interface{}{
-		"userID":       newUser.UserID,
-		"username":     newUser.Username,
-		"email":        newUser.Email,
-		"password":     newUser.Password,
-		"smartMeterNo": newUser.SmartMeterNo,
-		"genData":      newUser.GenData,
-		"useData":      newUser.UseData,
-	})
-	if err != nil {
-		fmt.Println("Failed to add user: ", err)
-		return err
-	}
-	fmt.Println("User added successfully")
-	return nil
-}
 func GetEnergyDataById(uid string) (User, error) {
 	var retrieveUserData User
 	var GenDataInterface []interface{}
@@ -89,30 +76,6 @@ func GetUserById(uid string) (User, error) {
 			return retrieveUserData, err
 		}
 		if doc.Data()["userID"].(string) == uid {
-			retrieveUserData.Email = doc.Data()["email"].(string)
-			retrieveUserData.UserID = doc.Data()["userID"].(string)
-			retrieveUserData.Username = doc.Data()["username"].(string)
-			retrieveUserData.Password = doc.Data()["password"].(string)
-			retrieveUserData.SmartMeterNo = doc.Data()["smartMeterNo"].(string)
-			return retrieveUserData, nil
-		}
-	}
-}
-
-func GetUserByEmail(userEmail string, userPassword string) (User, error) {
-	var retrieveUserData User
-	iter := dB.Collection("users").Documents(context.Background())
-	for {
-		doc, err := iter.Next()
-		if err == iterator.Done {
-			fmt.Println("Cannot found user", err)
-			return retrieveUserData, err
-		}
-		if err != nil {
-			fmt.Println("Failed to iterate:", err)
-			return retrieveUserData, err
-		}
-		if doc.Data()["email"].(string) == userEmail {
 			retrieveUserData.Email = doc.Data()["email"].(string)
 			retrieveUserData.UserID = doc.Data()["userID"].(string)
 			retrieveUserData.Username = doc.Data()["username"].(string)

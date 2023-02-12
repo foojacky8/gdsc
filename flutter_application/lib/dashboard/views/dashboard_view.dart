@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_application/profile/widgets/recent_order.dart';
+import 'package:get/get.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
 class DashboardPage extends StatelessWidget {
@@ -101,11 +103,18 @@ class DashboardPage extends StatelessWidget {
                                   fontWeight: FontWeight.bold,
                                 ),
                                 ),
-                                Text('See All',
-                                style: TextStyle(
-                                  color: Colors.blue,
-                                  ),
+                                 
+                                GestureDetector(
+                                  onTap: () {
+                                    Get.to(RecentOrder());
+                                  },
+                                  child: Text('See All',
+                                      style: TextStyle(
+                                      color: Colors.blue,
+                                      ),
+                                    ),
                                 )
+                                
                               ],
                             ),
                             SizedBox(height: 5,),

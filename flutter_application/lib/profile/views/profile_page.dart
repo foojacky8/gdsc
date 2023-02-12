@@ -5,6 +5,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_application/profile/widgets/profile_change_password.dart';
 import 'package:flutter_application/profile/widgets/profile_edit_profile.dart';
 import 'package:flutter_application/profile/widgets/profile_notifcations.dart';
+import 'package:flutter_application/profile/widgets/recent_order.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
@@ -32,7 +33,13 @@ class ProfilePage extends StatelessWidget {
                 ListView(
                 children: [
                   Text('Preferences', style: TextStyle(fontSize: 16),),
-
+                  ListTile(
+                    leading: Icon(Icons.insert_chart_outlined_sharp),
+                    title: Text('Recent Orders'),
+                    trailing: Icon(Icons.arrow_forward_ios),
+                    onTap: (){
+                      Get.to(RecentOrder());
+                    },),
                   ListTile(
                     onTap: (){
                       Get.to(ProfileEditProfile());
