@@ -1,4 +1,4 @@
-Bid ID,Energy,Price
-BD 4,10,0.47
-BD 5,10,0.38
-BD 6,60,0.33
+Bid ID,User ID,Energy,Price
+BD 4,sdhsdjjsk,10,0.47
+BD 5,sdhsdjjsk,10,0.38
+BD 6,sdhsdjjsk,60,0.33

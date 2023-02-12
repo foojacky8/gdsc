@@ -1,0 +1,66 @@
+[
+ {
+  "bidID": "Bid ID",
+  "userID": "User ID",
+  "price": 0,
+  "toGrid": 0,
+  "toMarket": 0,
+  "BuyOrSell": "Buy"
+ },
+ {
+  "bidID": "BD 1",
+  "userID": "sdhsdjjsk",
+  "price": 0.47999998927116394,
+  "toGrid": 9,
+  "toMarket": 1,
+  "BuyOrSell": "Buy"
+ },
+ {
+  "bidID": "BD 2",
+  "userID": "sdhsdjjsk",
+  "price": 0.36000001430511475,
+  "toGrid": 0,
+  "toMarket": 20,
+  "BuyOrSell": "Buy"
+ },
+ {
+  "bidID": "BD 3",
+  "userID": "sdhsdjjsk",
+  "price": 0.4000000059604645,
+  "toGrid": 3.5714285373687744,
+  "toMarket": 16.428571701049805,
+  "BuyOrSell": "Buy"
+ },
+ {
+  "bidID": "Bid ID",
+  "userID": "User ID",
+  "price": 0,
+  "toGrid": 0,
+  "toMarket": 0,
+  "BuyOrSell": "Sell"
+ },
+ {
+  "bidID": "BD 4",
+  "userID": "sdhsdjjsk",
+  "price": 0.4699999988079071,
+  "toGrid": 0,
+  "toMarket": 10,
+  "BuyOrSell": "Sell"
+ },
+ {
+  "bidID": "BD 5",
+  "userID": "sdhsdjjsk",
+  "price": 0.3799999952316284,
+  "toGrid": 0,
+  "toMarket": 10,
+  "BuyOrSell": "Sell"
+ },
+ {
+  "bidID": "BD 6",
+  "userID": "sdhsdjjsk",
+  "price": 0.33000001311302185,
+  "toGrid": 42.57143020629883,
+  "toMarket": 17.428571701049805,
+  "BuyOrSell": "Sell"
+ }
+]

@@ -7,6 +7,8 @@ import (
 	"github.com/gorilla/mux"
 )
 
+var ListOfValidators []StakeRequest
+
 func makeMuxRouter() http.Handler {
 	r := mux.NewRouter()
 
@@ -17,18 +19,21 @@ func makeMuxRouter() http.Handler {
 
 	// takes in bid information and append to an array contain all bids
 	r.HandleFunc("/energyRequest", handleEnergyRequest).Methods("POST")
-
-	// not yet done
-	// this function will forecast the user's energy production and usage
 	r.HandleFunc("/energyForecast", handleEnergyForecast).Methods("GET")
-
-	// this function will send the blockchain to frontend
+	//r.HandleFunc("/biddingRange", handleBiddingRange).Methods("POST")
 	//r.HandleFunc("/getBlockchain", handleGetBlockchain).Methods("GET")
-
-	// Some dummy handle function to start auction and create request
 	r.HandleFunc("/initAuction", handleInitAuction).Methods("GET")
 	r.HandleFunc("/createRequest", createSomeRequest).Methods("GET")
+	r.HandleFunc("/initPoS", handleInitPoS).Methods("GET")
+	r.HandleFunc("/verifyTransaction", handleVerifyTransaction).Methods("POST")
+	r.HandleFunc("/doneAppend", handleDoneAppend).Methods("GET")
 	return r
+}
+
+// Obtain from mycoralhealth website
+func showData(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	respondWithJSON(w, r, http.StatusAccepted, SomeData)
 }
 
 // Obtain from mycoralhealth website, simply return the HTTP status and data to the front end

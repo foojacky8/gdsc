@@ -11,6 +11,7 @@ import (
 )
 
 func handleEnergyForecast(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
 	// verify jwt token and obtain user id
 	userID, err := verifyJWT(w, r)
 	if err != nil {

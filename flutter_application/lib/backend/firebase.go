@@ -27,6 +27,7 @@ func initFirebase() {
 	if err != nil {
 		fmt.Println("Firebase load error", err)
 	}
+
 	dB, err = app.Firestore(context.Background())
 	if err != nil {
 		fmt.Println("Firebase load error", err)

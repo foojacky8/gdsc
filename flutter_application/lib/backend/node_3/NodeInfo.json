@@ -1,0 +1,20 @@
+[
+ {
+  "nodeID": "Node_1",
+  "nodePubKey": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEBOKnj5unbOWIaFnvhc0IiwNByDaH\nvp8eXchd8pqTsIQxdtGPuxqsuZv2+p61ISoV0Lj02EVVNYhR0SmVSdzrng==\n-----END PUBLIC KEY-----\n",
+  "nodePrivKey": "-----BEGIN PRIVATE KEY-----\nMHcCAQEEIBPUtn63rMpqe21QunXFbIWCZoGLxn/RYWK9VLKtMG/YoAoGCCqGSM49\nAwEHoUQDQgAEBOKnj5unbOWIaFnvhc0IiwNByDaHvp8eXchd8pqTsIQxdtGPuxqs\nuZv2+p61ISoV0Lj02EVVNYhR0SmVSdzrng==\n-----END PRIVATE KEY-----\n",
+  "port": 8001
+ },
+ {
+  "nodeID": "Node_2",
+  "nodePubKey": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE1gGaVJPiE2MbepRNVkjPtbEUi//F\nAGmdx3g8Mag/q601GKzvN6vx+i0gWlgs4KZh141yUZj+lPavNIVP5JPAtA==\n-----END PUBLIC KEY-----\n",
+  "nodePrivKey": "-----BEGIN PRIVATE KEY-----\nMHcCAQEEIAAysNmEnndHoFAz+Zy0Fp/sRsLV9PAPq1LZZ6SVJHdUoAoGCCqGSM49\nAwEHoUQDQgAE1gGaVJPiE2MbepRNVkjPtbEUi//FAGmdx3g8Mag/q601GKzvN6vx\n+i0gWlgs4KZh141yUZj+lPavNIVP5JPAtA==\n-----END PRIVATE KEY-----\n",
+  "port": 8002
+ },
+ {
+  "nodeID": "Node_3",
+  "nodePubKey": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAES0nPtV7kRpxNnVeynEJ1KlUOkH0k\nwKmIwqWYfi5W4xpXsV0ZRpBOPwXdAqbYmTOj/fWV/oarcnq53KI27/qTbg==\n-----END PUBLIC KEY-----\n",
+  "nodePrivKey": "-----BEGIN PRIVATE KEY-----\nMHcCAQEEINje+KuC5olGj+RRfVtY3QxyhmK6vQ1Iz3ZmX1gVX0+9oAoGCCqGSM49\nAwEHoUQDQgAES0nPtV7kRpxNnVeynEJ1KlUOkH0kwKmIwqWYfi5W4xpXsV0ZRpBO\nPwXdAqbYmTOj/fWV/oarcnq53KI27/qTbg==\n-----END PRIVATE KEY-----\n",
+  "port": 8003
+ }
+]
