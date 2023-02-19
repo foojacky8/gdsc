@@ -1,11 +1,17 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_application/repository/authentication_repository/exceptions/login_with_email_password_failure.dart';
 import 'package:flutter_application/repository/authentication_repository/exceptions/signup_with_email_password_failure.dart';
+import 'package:flutter_application/repository/user_repository/user_repository.dart';
+import 'package:flutter_application/storage/secure_storage.dart';
+import 'package:flutter_login/flutter_login.dart';
 import 'package:get/get.dart';
 
 class AutheticationRepository extends GetxController {
   static AutheticationRepository get instance => Get.find();
 
+  UserRepository userRepository = Get.put(UserRepository());
+
+  // ! FirebaseAuth only works with Flutter only approach atm
   final _auth = FirebaseAuth.instance;
   late final Rx<User?> firebaseUser;
 
@@ -18,35 +24,44 @@ class AutheticationRepository extends GetxController {
 
   void _setInitialScreen(User? user) {
     if (user == null) {
-      Get.offAll('/signupScreen');
+      Get.offAllNamed('/signupScreen');
     } else {
-      Get.offAll('/splashScreen');
+      Get.offAllNamed('/');
     }
   }
 
   Future<String?> createUserWithEmailAndPassword(
-      String email, String password) async {
+      String email, String password, SignupData signupData) async {
+    // Flutter only approach
     try {
       await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
+
+      // create user entry in Firestore
+      userRepository
+          .createUser(userRepository.createUserFromSignupData(signupData), firebaseUser.value!.uid);
+
+      // save the firebase user jwt token in local storage
+      SecureStorage.setJwt(await firebaseUser.value!.getIdToken(true));
+
       firebaseUser.value != null
-          ? Get.offAll('/splashScreen')
-          : Get.offAll('/signupScreen');
+          ? Get.offAllNamed('/')
+          : Get.offAllNamed('/signupScreen');
     } on FirebaseAuthException catch (e) {
       final exception = SignupWithEmailPasswordFailure.code(e.code);
-      // Get.snackbar('Error creating account - ', exception.message);
       return exception.message;
-    } catch (_) {
+    } catch (e) {
       final exception = SignupWithEmailPasswordFailure();
-      // Get.snackbar('Error creating account - ', exception.message);
-     return exception.message;
+      return exception.message;
     }
+
     return null;
   }
 
-  Future<String?> signInWithEmailAndPassword(String email, String password) async {
+  Future<String?> signInWithEmailAndPassword(
+      String email, String password) async {
     try {
       await _auth.signInWithEmailAndPassword(
         email: email,

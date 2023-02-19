@@ -10,9 +10,13 @@ import (
 
 func makeMuxRouter() http.Handler {
 	r := mux.NewRouter()
-	r.HandleFunc("/", showData).Methods("GET")
-	r.HandleFunc("/login", handleUserLogin).Methods("POST")
-	r.HandleFunc("/signUp", handleSignUp).Methods("POST")
+
+	// return genData and useData to frontend to be stored in database
+	r.HandleFunc("/getEnergyData", handleGetEnergyData).Methods("GET")
+
+	// all request below will verify the jwtToken in HTTP request header
+
+	// takes in bid information and append to an array contain all bids
 	r.HandleFunc("/energyRequest", handleEnergyRequest).Methods("POST")
 	r.HandleFunc("/energyForecast", handleEnergyForecast).Methods("GET")
 	//r.HandleFunc("/biddingRange", handleBiddingRange).Methods("POST")

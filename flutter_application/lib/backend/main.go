@@ -52,6 +52,5 @@ func readjson() {
 
 }
 
-var SomeData Login
 var Blockchain []Block
 var ListOfValidators []StakeRequest

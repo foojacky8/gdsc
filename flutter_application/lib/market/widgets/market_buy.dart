@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_application/market/widgets/market_table.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 
 class MarketBuyView extends StatefulWidget {
   MarketBuyView({super.key});
@@ -86,17 +88,16 @@ class _MarketBuyViewState extends State<MarketBuyView> {
                 margin: EdgeInsets.all(25),
                 child: OutlinedButton(
                   onPressed: (){
-                    final snackBar = Positioned(
-                      top: 10,
-                      child: SnackBar(
-                        margin: EdgeInsets.all(25),
-                        content: Text('Bid Submitted'),
-                        action: SnackBarAction(
-                          label: 'Undo',
-                          onPressed: (){},
-                        ),
-                      ),
+                    Fluttertoast.showToast(
+                      msg: "Ask Submmited",
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.BOTTOM,
+                      timeInSecForIosWeb: 1,
+                      // backgroundColor: Colors.red,
+                      textColor: Colors.white,
+                      fontSize: 14.0
                     );
+                    Get.back();
                   }, 
                   child: Text('Submit Bid'),),
               ), 
