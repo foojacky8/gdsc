@@ -30,12 +30,6 @@ func makeMuxRouter() http.Handler {
 	return r
 }
 
-// Obtain from mycoralhealth website
-func showData(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-	respondWithJSON(w, r, http.StatusAccepted, SomeData)
-}
-
 func handleClearBlockchain(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	jsonFile, _ := json.MarshalIndent(nil, "", " ")
