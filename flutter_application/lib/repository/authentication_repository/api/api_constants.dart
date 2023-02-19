@@ -1,5 +1,7 @@
 class ApiConstants {
   // if running on emuulator, use 10.0.0.2 instead of localhost
+  // 10.0.2.2:8000 '192.168.43.187:8000'
+  // my phone ip address: 192.168.68.108
   static const String baseUrl = '10.0.2.2:8000';
   static const String loginUrl = 'login';
   static const String signUpUrl = 'signUp';
