@@ -2,12 +2,11 @@ package main
 
 import (
 	"encoding/json"
+	"io/ioutil"
 	"net/http"
 
 	"github.com/gorilla/mux"
 )
-
-var ListOfValidators []StakeRequest
 
 func makeMuxRouter() http.Handler {
 	r := mux.NewRouter()
@@ -19,10 +18,11 @@ func makeMuxRouter() http.Handler {
 	//r.HandleFunc("/biddingRange", handleBiddingRange).Methods("POST")
 	//r.HandleFunc("/getBlockchain", handleGetBlockchain).Methods("GET")
 	r.HandleFunc("/initAuction", handleInitAuction).Methods("GET")
+	r.HandleFunc("/clearBlockchain", handleClearBlockchain).Methods("GET")
 	r.HandleFunc("/createRequest", createSomeRequest).Methods("GET")
 	r.HandleFunc("/initPoS", handleInitPoS).Methods("GET")
 	r.HandleFunc("/verifyTransaction", handleVerifyTransaction).Methods("POST")
-	r.HandleFunc("/doneAppend", handleDoneAppend).Methods("GET")
+	r.HandleFunc("/readyToAppend", handleReadyToAppend).Methods("GET")
 	return r
 }
 
@@ -30,6 +30,15 @@ func makeMuxRouter() http.Handler {
 func showData(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	respondWithJSON(w, r, http.StatusAccepted, SomeData)
+}
+
+func handleClearBlockchain(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	jsonFile, _ := json.MarshalIndent(nil, "", " ")
+
+	ioutil.WriteFile("./node_1/Blockchain.json", jsonFile, 0644)
+	ioutil.WriteFile("./node_2/Blockchain.json", jsonFile, 0644)
+	ioutil.WriteFile("./node_3/Blockchain.json", jsonFile, 0644)
 }
 
 // Obtain from mycoralhealth website, simply return the HTTP status and data to the front end

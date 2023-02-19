@@ -1,7 +1,9 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
@@ -19,8 +21,8 @@ func run() error {
 	s := &http.Server{
 		Addr:           ":" + httpAddr,
 		Handler:        mux,
-		ReadTimeout:    10 * time.Second,
-		WriteTimeout:   10 * time.Second,
+		ReadTimeout:    20 * time.Second,
+		WriteTimeout:   20 * time.Second,
 		MaxHeaderBytes: 1 << 20,
 	}
 
@@ -34,12 +36,22 @@ func run() error {
 func main() {
 	err := godotenv.Load()
 	initFirebase()
+	readjson()
 	if err != nil {
 		log.Fatal(err)
 	}
 	log.Fatal(run())
 
 }
+func readjson() {
+	byteValue, _ := ioutil.ReadFile("NodeInfo.json")
+	err := json.Unmarshal(byteValue, &ListOfValidators)
+	if err != nil {
+		fmt.Println("Error reading json file: ", err)
+	}
+
+}
 
 var SomeData Login
 var Blockchain []Block
+var ListOfValidators []StakeRequest

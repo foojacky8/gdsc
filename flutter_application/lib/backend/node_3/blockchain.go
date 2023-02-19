@@ -75,13 +75,14 @@ func handleAppendBlockchain(w http.ResponseWriter, r *http.Request) {
 	}
 	if resp.StatusCode == 202 {
 		fmt.Println("Transaction Data is correct")
-		fmt.Println("Appending received block to my blockchain")
+		fmt.Println("Ready to append new block to my blockchain")
+		http.Get("http://localhost:8000/readyToAppend")
 		Blockchain = append(Blockchain, ReceivedBlock)
 		writejson(Blockchain, "Blockchain.json")
-		resp, err = http.Get("http://localhost:8000/doneAppend")
 	} else {
 		fmt.Println("Transaction Data is incorrect")
 		fmt.Println("Notifying main server to restart PoS")
+		http.Get("http://localhost:8000/initPoS")
 	}
 
 }

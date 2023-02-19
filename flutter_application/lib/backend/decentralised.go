@@ -7,19 +7,17 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"os/exec"
+	"strconv"
 )
 
 // This is a handle function to start Proof Of Stake algo
 func handleInitPoS(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	var ListOfNodesPort []int
-	ListOfNodesPort = append(ListOfNodesPort, 8001)
-	//ListOfNodesPort = append(ListOfNodesPort, 8002)
-	//ListOfNodesPort = append(ListOfNodesPort, 8003)
 
-	for i := 0; i < len(ListOfNodesPort); i++ {
+	for i := 0; i < len(ListOfValidators); i++ {
 		// Ask the node on how much stake they are willing to put in
-		req, err := http.Get(fmt.Sprintf("http://localhost:%d/wantsToMine", ListOfNodesPort[i]))
+		req, err := http.Get(fmt.Sprintf("http://localhost:%d/wantsToMine", ListOfValidators[i].Port))
 		var stake StakeRequest
 		decoder := json.NewDecoder(req.Body)
 		if err := decoder.Decode(&stake); err != nil {
@@ -28,16 +26,14 @@ func handleInitPoS(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		defer r.Body.Close()
-
-		// Append their information into a List
-		ListOfValidators = append(ListOfValidators, stake)
+		ListOfValidators[i].Stake = stake.Stake
 		if err != nil {
 			fmt.Println(err)
 		}
 	}
 	fmt.Println(ListOfValidators)
 	// Pick a winner randomly
-	Winner := pickWinner()
+	Winner := pickWinner(ListOfValidators)
 	// Read the auction result and send the result to the winning node
 	AuctionResult := readAuctionResult()
 	data, err := json.MarshalIndent(AuctionResult, "", "  ")
@@ -51,20 +47,22 @@ func handleInitPoS(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func pickWinner() StakeRequest {
-	var Probability []float64
-	TotalStake := 0
-	for i := 0; i < len(ListOfValidators); i++ {
-		TotalStake += ListOfValidators[i].Stake
+func pickWinner(AllStake []StakeRequest) StakeRequest {
+	Stake_1 := strconv.Itoa(AllStake[0].Stake)
+	Stake_2 := strconv.Itoa(AllStake[1].Stake)
+	Stake_3 := strconv.Itoa(AllStake[2].Stake)
+	cmd := exec.Command("python", "randomPick.py", Stake_1, Stake_2, Stake_3)
+	stdout, err := cmd.Output()
+	if err != nil {
+		fmt.Println(err)
 	}
-	for i := 0; i < len(ListOfValidators); i++ {
-		Probability = append(Probability, float64(ListOfValidators[i].Stake/TotalStake))
+	s := string(stdout)
+
+	var i int
+	if _, err := fmt.Sscanf(s, "%d\r\t", &i); err == nil {
+		fmt.Println(i)
 	}
-	//min := 1
-	//max := len(Probability)
-	//winner := rand.Intn(max-min) + min
-	winner := 0
-	return ListOfValidators[winner]
+	return AllStake[i-1]
 
 }
 
@@ -98,13 +96,14 @@ func handleVerifyTransaction(w http.ResponseWriter, r *http.Request) {
 var ReceiveDoneCount = 0
 var CanProceed = false
 
-func handleDoneAppend(w http.ResponseWriter, r *http.Request) {
+func handleReadyToAppend(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	ReceiveDoneCount = ReceiveDoneCount + 1
-	if ReceiveDoneCount == 2 {
-		fmt.Println("All nodes had append blockchain")
+	if ReceiveDoneCount == len(ListOfValidators) {
+		fmt.Println("All nodes can proceed to append blockchain")
 		fmt.Println("Can proceed with next block")
 		CanProceed = true
+		ReceiveDoneCount = 0
 	}
 
 }

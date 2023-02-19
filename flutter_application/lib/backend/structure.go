@@ -1,5 +1,7 @@
 package main
 
+import "net/http"
+
 type Login struct {
 	Email    string `json:"email"`
 	Password string `json:"password"`
@@ -49,12 +51,17 @@ type Block struct {
 }
 
 type StakeRequest struct {
-	Node  int `json:"node"`
-	Port  int `json:"port"`
-	Stake int `json:"stake"`
+	Node  string `json:"nodeID"`
+	Port  int    `json:"port"`
+	Stake int    `json:"stake"`
 }
 
 type PredResult struct {
 	GenData float64 `json:"genData"`
 	UseData float64 `json:"useData"`
+}
+
+type NodeHttpReq struct {
+	Writer http.ResponseWriter
+	Reader *http.Request
 }
