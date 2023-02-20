@@ -86,7 +86,7 @@ class MarketLatestPrice extends StatelessWidget {
               children: [
                 InkWell(
                   onTap: () {
-                    Get.to(MarketSubmitLayout(selectedPage: 0));
+                    Get.to(MarketSubmitLayout());
                     MarketController.to.updateTabController(0);
                   },
                   child: Container(
@@ -108,7 +108,7 @@ class MarketLatestPrice extends StatelessWidget {
 
                 InkWell(
                   onTap: () {
-                    Get.to(MarketSubmitLayout(selectedPage: 1,));
+                    Get.to(MarketSubmitLayout());
                     MarketController.to.updateTabController(1);
                   },
                   child: Container(
