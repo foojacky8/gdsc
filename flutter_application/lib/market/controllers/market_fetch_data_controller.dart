@@ -4,7 +4,7 @@ import 'package:flutter_application/market/models/order.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
-import '../../repository/authentication_repository/api/api_constants.dart';
+import '../../repository/api/api_constants.dart';
 import '../models/market.dart';
 
 class MarketFetchDataController extends GetxController{
