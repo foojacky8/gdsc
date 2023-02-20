@@ -19,8 +19,8 @@ func run() error {
 	s := &http.Server{
 		Addr:           ":" + httpAddr,
 		Handler:        mux,
-		ReadTimeout:    10 * time.Second,
-		WriteTimeout:   10 * time.Second,
+		ReadTimeout:    20 * time.Second,
+		WriteTimeout:   20 * time.Second,
 		MaxHeaderBytes: 1 << 20,
 	}
 
@@ -41,5 +41,4 @@ func main() {
 
 }
 
-var SomeData Login
 var Blockchain []Block

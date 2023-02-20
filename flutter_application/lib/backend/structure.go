@@ -1,10 +1,5 @@
 package main
 
-type Login struct {
-	Email    string `json:"email"`
-	Password string `json:"password"`
-}
-
 type User struct {
 	UserID       string    `json:"userID"`
 	Username     string    `json:"username"`
@@ -23,10 +18,6 @@ type EnergyRequest struct {
 	BuyOrSell string  `json:"BuyOrSell"`
 }
 
-type UserIDRequest struct {
-	UserID string `json:"userID"`
-}
-
 type EnergyPredRequest struct {
 	ProdEnergy float64 `json:"prodEnergy"`
 	ConsEnergy float64 `json:"consEnergy"`
@@ -37,6 +28,14 @@ type BiddingRangeRequest struct {
 	MaxSellPrice float64 `json:"maxSellPrice"`
 }
 
+type Transaction struct {
+	BidID     string  `json:"bidID"`
+	UserID    string  `json:"userID"`
+	Price     float64 `json:"price"`
+	ToGrid    float64 `json:"toGrid"`
+	ToMarket  float64 `json:"toMarket"`
+	BuyOrSell string  `json:"BuyOrSell"`
+}
 type Block struct {
 	Index    int         `json:"index"`
 	Hash     string      `json:"hash"`
@@ -44,10 +43,17 @@ type Block struct {
 	Data     Transaction `json:"data"`
 }
 
+type StakeRequest struct {
+	Node  int `json:"node"`
+	Port  int `json:"port"`
+	Stake int `json:"stake"`
+}
+
 type PredResult struct {
 	GenData float64 `json:"genData"`
 	UseData float64 `json:"useData"`
 }
+
 
 type Transaction struct {
 	BidID     string  `json:"bidID"`
@@ -57,3 +63,9 @@ type Transaction struct {
 	ToMarket  float64 `json:"toMarket"`
 	BuyOrSell string  `json:"BuyOrSell"`
 }
+
+type UserEnergyData struct {
+	GenData []float64 `json:"genData"`
+	UseData []float64 `json:"useData"`
+}
+
