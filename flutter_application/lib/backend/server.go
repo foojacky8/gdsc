@@ -31,10 +31,10 @@ func makeMuxRouter() http.Handler {
 }
 
 // Obtain from mycoralhealth website
-func showData(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-	respondWithJSON(w, r, http.StatusAccepted, SomeData)
-}
+// func showData(w http.ResponseWriter, r *http.Request) {
+// 	w.Header().Set("Content-Type", "application/json")
+// 	respondWithJSON(w, r, http.StatusAccepted, SomeData)
+// }
 
 // Obtain from mycoralhealth website, simply return the HTTP status and data to the front end
 func respondWithJSON(w http.ResponseWriter, r *http.Request, code int, payload interface{}) {
