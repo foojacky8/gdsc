@@ -29,7 +29,7 @@ class HomeBottomAppBarController extends GetxController{
     bottomBarPages.addAll(
       [
         DashboardPage(),
-        MarketLatestPrice(),
+        MarketSubmitLayout(),
         BlockChainPage(),
         EvChargePage(),
         ProfilePage(),

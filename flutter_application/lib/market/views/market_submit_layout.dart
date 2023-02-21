@@ -8,8 +8,8 @@ import 'package:get/get_state_manager/get_state_manager.dart';
 
 class MarketSubmitLayout extends StatelessWidget {
 
-  int selectedPage;
-  MarketSubmitLayout({super.key, required this.selectedPage});
+  int selectedPage = 0;
+  MarketSubmitLayout({super.key});
 
   @override
   Widget build(BuildContext context) {

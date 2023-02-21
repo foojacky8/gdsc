@@ -24,7 +24,7 @@ class _MarketBuyViewState extends State<MarketBuyView> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          MarketTableData(),
+          MarketTableData(action: 'Buy'),
           SizedBox(height: 30,),
           Center(
             child: Column(
