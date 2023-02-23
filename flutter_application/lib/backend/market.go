@@ -45,6 +45,7 @@ func handleEnergyRequest(w http.ResponseWriter, r *http.Request) {
 func createSomeRequest(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	var newRequest EnergyRequest
+	var ListOfReq []EnergyRequest
 	newRequest.BidID = "BD 1"
 	newRequest.UserID = "sdhsdjjsk"
 	newRequest.BuyOrSell = "Buy"

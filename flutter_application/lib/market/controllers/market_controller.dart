@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application/market/models/order.dart';
+import 'package:flutter_application/market/models/energy_request.dart';
+import 'package:flutter_application/repository/market_repository/market_repository.dart';
 import 'package:get/get.dart';
-
-import '../models/market.dart';
 import '../widgets/market_buy.dart';
 import '../widgets/market_sell.dart';
 
@@ -15,10 +14,10 @@ class MarketController extends GetxController
   RxInt selectedIndex = 0.obs;
 
   RxInt count = 0.obs;
-  final data = List<Order>.empty().obs;
-
+  final data = List<EnergyRequest>.empty().obs;
 
   static MarketController to = Get.find();
+  MarketRepository marketRepository = Get.put(MarketRepository());
 
   @override
   void onInit() {
@@ -47,7 +46,7 @@ class MarketController extends GetxController
     tabController.animateTo(index);
   }
 
-  void addItem (Order item) {
+  void addItem (EnergyRequest item) {
     data.add(item);
     count.value++;
     print('Count: $count');
