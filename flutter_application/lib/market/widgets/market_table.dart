@@ -21,60 +21,62 @@ class MarketTableData extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text('Market Depth'),
-              FutureBuilder(
-                future: fetchDataController.futureMarket,
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(child: CircularProgressIndicator());
-                  }
-                  else if (snapshot.hasError) {
-                    return Text('${snapshot.error}');
+              Container(
+                height: MediaQuery.of(context).size.height * 0.2,
+                child: FutureBuilder(
+                  future: fetchDataController.futureMarket,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(child: CircularProgressIndicator());
                     }
-                  else {
-                    List marketdepth = snapshot.data!.marketdepth.where((element) => element.BuyOrSell == action).toList();
-                    marketdepth.take(5);
-                    return 
-                      SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.25,
-                      width: MediaQuery.of(context).size.width * 0.8,
-                      child: 
-                              DataTable(
-                              columnSpacing: 12,
-                              horizontalMargin: 12,
-                              columns: 
-                              [
-                                DataColumn(
-                                label: Text('BidID'),
-                                ),
-                                                    
-                                DataColumn(
-                                label: Text('Actions'),
-                                ),
-                                                    
-                                DataColumn(
-                                label: Text('BiddingPrice'),
-                                ),
-                                                    
-                                DataColumn(
-                                  label: Text('Energy'),
-                                ),
-                              ], 
-                              rows:
-                              marketdepth.map((e) => 
-                                DataRow(
-                                  cells: [
-                                    DataCell(Text(e.bidID.toString())),
-                                    DataCell(Text(e.BuyOrSell.toString())),
-                                    DataCell(Text(e.biddingPrice.toString())),
-                                    DataCell(Text(e.energyAmount.toString())),
-                                  ]
-                                )
-                              ).toList(),
-                          ),
-                        );
-                        }
+                    else if (snapshot.hasError) {
+                      return Text('${snapshot.error}');
                       }
-                    ),
+                    else {
+                      List marketdepth = snapshot.data!.marketdepth.where((element) => element.BuyOrSell == action).toList();
+                      marketdepth.take(5);
+                      return 
+                        SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.8,
+                        child: 
+                                DataTable(
+                                columnSpacing: 12,
+                                horizontalMargin: 12,
+                                columns: 
+                                [
+                                  DataColumn(
+                                  label: Text('BidID'),
+                                  ),
+                                                      
+                                  DataColumn(
+                                  label: Text('Actions'),
+                                  ),
+                                                      
+                                  DataColumn(
+                                  label: Text('BiddingPrice'),
+                                  ),
+                                                      
+                                  DataColumn(
+                                    label: Text('Energy'),
+                                  ),
+                                ], 
+                                rows:
+                                marketdepth.map((e) => 
+                                  DataRow(
+                                    cells: [
+                                      DataCell(Text(e.bidID.toString())),
+                                      DataCell(Text(e.BuyOrSell.toString())),
+                                      DataCell(Text(e.biddingPrice.toString())),
+                                      DataCell(Text(e.energyAmount.toString())),
+                                    ]
+                                  )
+                                ).toList(),
+                            ),
+                          );
+                          }
+                        }
+                      ),
+              ),
                   ],
                 ),
               );

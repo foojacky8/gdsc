@@ -2,15 +2,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_application/market/controllers/market_fetch_data_controller.dart';
 import 'package:flutter_application/market/widgets/market_table.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
-class MarketBuyView extends StatefulWidget {
-  MarketBuyView({super.key});
-  double _currentEnergyValue = 30;
-  double _currentBidPriceValue = 30;
+import '../models/order.dart';
 
+class MarketBuyView extends StatefulWidget {
+  int _currentEnergyValue = 30;
+  double _currentBidPriceValue = 30;
   @override
   State<MarketBuyView> createState() => _MarketBuyViewState();
 }
@@ -18,6 +19,7 @@ class MarketBuyView extends StatefulWidget {
 class _MarketBuyViewState extends State<MarketBuyView> {
   @override
   Widget build(BuildContext context) {
+    MarketFetchDataController controller = Get.put(MarketFetchDataController());
 
     return Padding(
       padding: const EdgeInsets.all(20.0),
@@ -40,11 +42,11 @@ class _MarketBuyViewState extends State<MarketBuyView> {
                 max: 100,
                 min: 0,
                 divisions: 10,
-                value: widget._currentEnergyValue, 
+                value: widget._currentEnergyValue.toDouble(), 
                 label: widget._currentEnergyValue.round().toString(),
                 onChanged: (double value){
                   setState(() {
-                    widget._currentEnergyValue = value;
+                    widget._currentEnergyValue = value.toInt();
                   });
                 } 
               ),
@@ -97,7 +99,17 @@ class _MarketBuyViewState extends State<MarketBuyView> {
                       textColor: Colors.white,
                       fontSize: 14.0
                     );
-                    Get.back();
+                    // Get.back();
+                    Order order = Order(
+                      userID: '',
+                      bidID: '',
+                      energyAmount: widget._currentEnergyValue,
+                      biddingPrice: widget._currentBidPriceValue,
+                      BuyOrSell: 'Buy'
+                    );
+                    controller.postData(
+                      order
+                    );
                   }, 
                   child: Text('Submit Bid'),),
               ), 

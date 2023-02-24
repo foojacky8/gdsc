@@ -42,5 +42,22 @@ class MarketFetchDataController extends GetxController{
     }
   }
 
+  Future postData (Order order) async {
+    final response = await http.post(Uri.http(ApiConstants.baseUrl, 'handleEnergyRequest'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, dynamic>{
+          'energyAmount': order.energyAmount,
+          'biddingPrice': order.biddingPrice,
+          'BuyOrSell': order.BuyOrSell,
+        }));
+    if (response.statusCode == 200) {
+      print('success');
+    } else {
+      throw Exception('Failed to load data');
+    }
+  }
+
 
 }
