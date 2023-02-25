@@ -1,8 +1,9 @@
 import 'dart:convert';
 import 'package:flutter_application/market/controllers/market_controller.dart';
-import 'package:flutter_application/market/models/order.dart';
+import 'package:flutter_application/market/models/energy_request.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+
 
 import '../../repository/api/api_constants.dart';
 import '../models/market.dart';
@@ -34,7 +35,6 @@ class MarketFetchDataController extends GetxController{
           myController.addItem(item);
         }
       }
-
       return market;
 
     } else {
@@ -42,22 +42,33 @@ class MarketFetchDataController extends GetxController{
     }
   }
 
-  Future postData (Order order) async {
-    final response = await http.post(Uri.http(ApiConstants.baseUrl, 'handleEnergyRequest'),
+  Future postData (EnergyRequest energyRequest) async {
+    final response = await http.post(Uri.http(ApiConstants.baseUrl, 'energyRequest'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Bearer TPyh6lJ9MAWDq9no5jvF9ukeQGq1}',
         },
         body: jsonEncode(<String, dynamic>{
-          'energyAmount': order.energyAmount,
-          'biddingPrice': order.biddingPrice,
-          'BuyOrSell': order.BuyOrSell,
+          'energyAmount': energyRequest.energyAmount,
+          'biddingPrice': energyRequest.biddingPrice,
+          'BuyOrSell': energyRequest.buyOrSell,
         }));
-    if (response.statusCode == 200) {
-      print('success');
+    if (response.statusCode == 201) {
+      print('Successfully created');
+      handleInit();
+
     } else {
       throw Exception('Failed to load data');
     }
   }
 
+  Future handleInit () async {
+    final response = await http.get(Uri.http(ApiConstants.baseUrl, 'initAuction'));
+    if (response.statusCode == 200) {
+      print('Successfully initialized');
+    } else {
+      throw Exception('Failed to load data');
+    }
+  }
 
 }
