@@ -92,10 +92,10 @@ class MarketBuyView extends StatelessWidget {
                           // backgroundColor: Colors.red,
                           textColor: Colors.white,
                           fontSize: 14.0);
-                      Get.back();
+                      // Get.back();
                       EnergyRequest energyRequest = EnergyRequest(
                           energyAmount: _currentEnergyValue.value.toInt(),
-                          biddingPrice: _currentBidPriceValue.value,
+                          biddingPrice: _currentBidPriceValue.value.toDouble(),
                           buyOrSell: 'Buy', 
                           bidID: '',
                           userID: ''
