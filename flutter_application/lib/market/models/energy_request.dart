@@ -1,7 +1,7 @@
 class EnergyRequest{
   final String bidID;
   final String userID;
-  final int energyAmount;
+  final double energyAmount;
   final double biddingPrice;
   final String buyOrSell;
 

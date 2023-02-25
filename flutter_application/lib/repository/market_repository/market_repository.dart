@@ -22,4 +22,8 @@ class MarketRepository extends GetxController {
             textColor: Colors.white,
             fontSize: 14.0));
   }
+
+  getEnergyRequest() async {
+    return await _db.collection('energyRequest').get();
+  }
 }

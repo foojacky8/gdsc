@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application/market/controllers/market_controller.dart';
+import 'package:flutter_application/market/models/energy_request.dart';
+import 'package:flutter_application/repository/authentication_repository/authentication_repository.dart';
 import 'package:flutter_application/market/widgets/market_table.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
-class MarketBuyView extends StatelessWidget {
+class MarketBuyView extends GetView<MarketController> {
   MarketBuyView({super.key});
   final RxDouble _currentEnergyValue = 30.0.obs;
   final RxDouble _currentBidPriceValue = 30.0.obs;
@@ -78,6 +81,12 @@ class MarketBuyView extends StatelessWidget {
                   margin: const EdgeInsets.all(25),
                   child: OutlinedButton(
                     onPressed: () {
+                      EnergyRequest energyRequest = createEnergyRequest(
+                          "BD 69",
+                          _currentEnergyValue.value,
+                          _currentBidPriceValue.value,
+                          'Buy');
+                      controller.createBid(energyRequest);
                       Fluttertoast.showToast(
                           msg: "Bid Submmited",
                           toastLength: Toast.LENGTH_SHORT,
@@ -98,4 +107,17 @@ class MarketBuyView extends StatelessWidget {
       ),
     );
   }
+}
+
+createEnergyRequest(
+    String bidId, double energyAmount, double biddingPrice, String buyOrSell) {
+  String userId = AuthenticationRepository.instance.firebaseUser.value!.uid;
+
+  return EnergyRequest(
+    bidID: bidId,
+    userID: userId,
+    energyAmount: energyAmount,
+    biddingPrice: biddingPrice,
+    buyOrSell: buyOrSell,
+  );
 }

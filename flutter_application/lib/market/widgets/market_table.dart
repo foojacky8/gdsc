@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application/market/controllers/market_controller.dart';
 import 'package:get/get.dart';
 import 'package:flutter_application/market/controllers/market_fetch_data_controller.dart';
 
-class MarketTableData extends StatelessWidget {
+class MarketTableData extends GetView<MarketController> {
   String action;
 
   MarketTableData({super.key, required this.action});
@@ -12,27 +13,16 @@ class MarketTableData extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.all(4),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('Market Depth'),
-          FutureBuilder(
-              future: fetchDataController.futureMarket,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator());
-                } else if (snapshot.hasError) {
-                  return Text('${snapshot.error}');
-                } else {
-                  List marketdepth = snapshot.data!.marketdepth
-                      .where((element) => element.buyOrSell == action)
-                      .toList();
-                  marketdepth.take(5);
-                  return SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.25,
-                    width: MediaQuery.of(context).size.width * 0.8,
-                    child: DataTable(
+          const Text('Current market'),
+          Obx(() => controller.isLoading.value
+              ? const Center(child: CircularProgressIndicator())
+              : SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.25,
+                  width: MediaQuery.of(context).size.width * 0.8,
+                  child: DataTable(
                       columnSpacing: 12,
                       horizontalMargin: 12,
                       columns: const [
@@ -49,21 +39,72 @@ class MarketTableData extends StatelessWidget {
                           label: Text('Energy'),
                         ),
                       ],
-                      rows: marketdepth
+                      rows: controller.data
                           .map((e) => DataRow(cells: [
                                 DataCell(Text(e.bidID.toString())),
                                 DataCell(Text(e.buyOrSell.toString())),
                                 DataCell(Text(e.biddingPrice.toString())),
                                 DataCell(Text(e.energyAmount.toString())),
                               ]))
-                          .toList(),
-                    ),
-                  );
-                }
-              }),
+                          .toList()),
+                ))
         ],
       ),
     );
+
+    // return Container(
+    //   padding: const EdgeInsets.all(10),
+    //   child: Column(
+    //     crossAxisAlignment: CrossAxisAlignment.start,
+    //     children: [
+    //       const Text('Market Depth'),
+    //       FutureBuilder(
+    //           future: fetchDataController.futureMarket,
+    //           builder: (context, snapshot) {
+    //             if (snapshot.connectionState == ConnectionState.waiting) {
+    //               return const Center(child: CircularProgressIndicator());
+    //             } else if (snapshot.hasError) {
+    //               return Text('${snapshot.error}');
+    //             } else {
+    //               List marketdepth = snapshot.data!.marketdepth
+    //                   .where((element) => element.buyOrSell == action)
+    //                   .toList();
+    //               marketdepth.take(5);
+    //               return SizedBox(
+    //                 height: MediaQuery.of(context).size.height * 0.25,
+    //                 width: MediaQuery.of(context).size.width * 0.8,
+    //                 child: DataTable(
+    //                   columnSpacing: 12,
+    //                   horizontalMargin: 12,
+    //                   columns: const [
+    //                     DataColumn(
+    //                       label: Text('BidID'),
+    //                     ),
+    //                     DataColumn(
+    //                       label: Text('Actions'),
+    //                     ),
+    //                     DataColumn(
+    //                       label: Text('BiddingPrice'),
+    //                     ),
+    //                     DataColumn(
+    //                       label: Text('Energy'),
+    //                     ),
+    //                   ],
+    //                   rows: marketdepth
+    //                       .map((e) => DataRow(cells: [
+    //                             DataCell(Text(e.bidID.toString())),
+    //                             DataCell(Text(e.buyOrSell.toString())),
+    //                             DataCell(Text(e.biddingPrice.toString())),
+    //                             DataCell(Text(e.energyAmount.toString())),
+    //                           ]))
+    //                       .toList(),
+    //                 ),
+    //               );
+    //             }
+    //           }),
+    //     ],
+    //   ),
+    // );
   }
 }
 

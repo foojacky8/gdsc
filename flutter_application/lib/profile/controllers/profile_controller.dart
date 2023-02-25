@@ -1,13 +1,13 @@
 import 'package:flutter_application/authentication/models/user.dart';
-import 'package:flutter_application/repository/authentication_repository/authetication_repository.dart';
+import 'package:flutter_application/repository/authentication_repository/authentication_repository.dart';
 import 'package:flutter_application/repository/user_repository/user_repository.dart';
 import 'package:get/get.dart';
 
 class ProfileController extends GetxController {
   static ProfileController get instance => Get.find();
 
-  final AutheticationRepository _authenticationRepository =
-      Get.put(AutheticationRepository());
+  final AuthenticationRepository _authenticationRepository =
+      Get.put(AuthenticationRepository());
   final UserRepository _userRepository = Get.put(UserRepository());
 
   getUserData() {

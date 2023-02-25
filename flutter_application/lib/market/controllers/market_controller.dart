@@ -12,9 +12,10 @@ class MarketController extends GetxController
   List<Widget> tabHeaders = [];
   late final TabController tabController;
   RxInt selectedIndex = 0.obs;
+  RxBool isLoading = false.obs;
 
   RxInt count = 0.obs;
-  final data = List<EnergyRequest>.empty().obs;
+  RxList<EnergyRequest> data = List<EnergyRequest>.empty().obs;
 
   static MarketController to = Get.find();
   MarketRepository marketRepository = Get.put(MarketRepository());
@@ -23,8 +24,8 @@ class MarketController extends GetxController
   void onInit() {
     super.onInit();
     tabHeaders = [
-      Tab(text: 'Buy'),
-      Tab(text: 'Sell')
+      const Tab(text: 'Buy'),
+      const Tab(text: 'Sell')
     ];
     tabViews = [
       MarketBuyView(),
@@ -51,4 +52,26 @@ class MarketController extends GetxController
     count.value++;
     print('Count: $count');
   }
+
+  void createBid(EnergyRequest energyRequest) async {
+    isLoading.value = true;
+    await MarketRepository.instance.createEnergyRequest(energyRequest);
+    isLoading.value = false;
+  }
+
+  getTopBids() async {
+    isLoading.value = true;
+    data.clear();
+    await MarketRepository.instance.getEnergyRequest().then((value) {
+      value.docs.forEach((element) {
+        data.add(EnergyRequest.fromJson(element.data()));
+      });
+    });
+    sortBids();
+    isLoading.value = false;
+    return data;
+  }
+
+  sortBids() {
+    data.sort((a, b) => a.biddingPrice.compareTo(b.biddingPrice));}
 }

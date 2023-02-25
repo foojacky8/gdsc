@@ -6,8 +6,8 @@ import 'package:flutter_application/storage/secure_storage.dart';
 import 'package:flutter_login/flutter_login.dart';
 import 'package:get/get.dart';
 
-class AutheticationRepository extends GetxController {
-  static AutheticationRepository get instance => Get.find();
+class AuthenticationRepository extends GetxController {
+  static AuthenticationRepository get instance => Get.find();
 
   UserRepository userRepository = Get.put(UserRepository());
 
