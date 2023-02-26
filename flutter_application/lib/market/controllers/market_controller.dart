@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application/market/models/energy_request.dart';
+import 'package:flutter_application/repository/authentication_repository/authentication_repository.dart';
 import 'package:flutter_application/repository/market_repository/market_repository.dart';
 import 'package:get/get.dart';
 import '../widgets/market_buy.dart';
@@ -55,14 +56,14 @@ class MarketController extends GetxController
 
   void createBid(EnergyRequest energyRequest) async {
     isLoading.value = true;
-    await MarketRepository.instance.createEnergyRequest(energyRequest);
+    await MarketRepository.instance.addEnergyRequestToFirestore(energyRequest, updateObjectWithDocumentId: true);
     isLoading.value = false;
   }
 
   getTopBids() async {
     isLoading.value = true;
     data.clear();
-    await MarketRepository.instance.getEnergyRequest().then((value) {
+    await MarketRepository.instance.getAllEnergyRequestFromFirestore().then((value) {
       value.docs.forEach((element) {
         data.add(EnergyRequest.fromJson(element.data()));
       });
@@ -74,4 +75,16 @@ class MarketController extends GetxController
 
   sortBids() {
     data.sort((a, b) => a.biddingPrice.compareTo(b.biddingPrice));}
+
+  createEnergyRequest(double energyAmount, double biddingPrice, String buyOrSell) {
+    String userId = AuthenticationRepository.instance.firebaseUser.value!.uid;
+    
+    return EnergyRequest(
+    bidID: null,
+    userID: userId,
+    energyAmount: energyAmount,
+    biddingPrice: biddingPrice,
+    buyOrSell: buyOrSell,
+  );
+  }
 }

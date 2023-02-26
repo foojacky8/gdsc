@@ -1,5 +1,5 @@
 class EnergyRequest{
-  final String bidID;
+  String? bidID;  // Cannot be final because we want to set this as document ID from Firestore later
   final String userID;
   final double energyAmount;
   final double biddingPrice;

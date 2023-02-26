@@ -81,11 +81,11 @@ class MarketBuyView extends GetView<MarketController> {
                   margin: const EdgeInsets.all(25),
                   child: OutlinedButton(
                     onPressed: () {
-                      EnergyRequest energyRequest = createEnergyRequest(
-                          "BD 69",
-                          _currentEnergyValue.value,
-                          _currentBidPriceValue.value,
-                          'Buy');
+                      EnergyRequest energyRequest =
+                          controller.createEnergyRequest(
+                              _currentEnergyValue.value,
+                              _currentBidPriceValue.value,
+                              'Buy');
                       controller.createBid(energyRequest);
                       Fluttertoast.showToast(
                           msg: "Bid Submmited",
@@ -107,17 +107,4 @@ class MarketBuyView extends GetView<MarketController> {
       ),
     );
   }
-}
-
-createEnergyRequest(
-    String bidId, double energyAmount, double biddingPrice, String buyOrSell) {
-  String userId = AuthenticationRepository.instance.firebaseUser.value!.uid;
-
-  return EnergyRequest(
-    bidID: bidId,
-    userID: userId,
-    energyAmount: energyAmount,
-    biddingPrice: biddingPrice,
-    buyOrSell: buyOrSell,
-  );
 }
