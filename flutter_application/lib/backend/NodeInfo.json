@@ -1,0 +1,14 @@
+[
+    {
+     "nodeID": "Node_1",
+     "port": 8001
+    },
+    {
+     "nodeID": "Node_2",
+     "port": 8002
+    },
+    {
+     "nodeID": "Node_3",
+     "port": 8003
+    }
+]

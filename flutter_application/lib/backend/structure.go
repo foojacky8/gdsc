@@ -49,9 +49,9 @@ type Block struct {
 }
 
 type StakeRequest struct {
-	Node  int `json:"node"`
-	Port  int `json:"port"`
-	Stake int `json:"stake"`
+	Node  string `json:"nodeID"`
+	Port  int    `json:"port"`
+	Stake int    `json:"stake"`
 }
 
 type PredResult struct {

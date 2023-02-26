@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"crypto/sha256"
 	"encoding/hex"
 	"encoding/json"
@@ -64,6 +65,25 @@ func handleAppendBlockchain(w http.ResponseWriter, r *http.Request) {
 	ReceivedBlock := DecodeToBlock(ReceivedReq.SignHash)
 	fmt.Println(ReceivedBlock)
 	fmt.Println("Can convert to struct")
+	TransactionInString := stringifyData(ReceivedBlock.Data)
+	TransactionHash := createHash(TransactionInString)
+	data, _ := json.MarshalIndent(TransactionHash, "", "  ")
+	reader := bytes.NewReader(data)
+	resp, err := http.Post("http://localhost:8000/verifyTransaction", "application/json", reader)
+	if err != nil {
+		fmt.Println(err)
+	}
+	if resp.StatusCode == 202 {
+		fmt.Println("Transaction Data is correct")
+		fmt.Println("Ready to append new block to my blockchain")
+		http.Get("http://localhost:8000/readyToAppend")
+		Blockchain = append(Blockchain, ReceivedBlock)
+		writejson(Blockchain, "Blockchain.json")
+	} else {
+		fmt.Println("Transaction Data is incorrect")
+		fmt.Println("Notifying main server to restart PoS")
+		http.Get("http://localhost:8000/initPoS")
+	}
 
 }
 
