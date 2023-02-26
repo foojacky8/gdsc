@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application/market/models/energy_request.dart';
 import 'package:flutter_application/repository/authentication_repository/authentication_repository.dart';
@@ -6,9 +7,7 @@ import 'package:get/get.dart';
 import '../widgets/market_buy.dart';
 import '../widgets/market_sell.dart';
 
-class MarketController extends GetxController 
-    with GetTickerProviderStateMixin {
-
+class MarketController extends GetxController with GetTickerProviderStateMixin {
   List<Widget> tabViews = [];
   List<Widget> tabHeaders = [];
   late final TabController tabController;
@@ -24,46 +23,48 @@ class MarketController extends GetxController
   @override
   void onInit() {
     super.onInit();
-    tabHeaders = [
-      const Tab(text: 'Buy'),
-      const Tab(text: 'Sell')
-    ];
-    tabViews = [
-      MarketBuyView(),
-      MarketSellView()
-    ];
+    tabHeaders = [const Tab(text: 'Buy'), const Tab(text: 'Sell')];
+    tabViews = [MarketBuyView(), MarketSellView()];
     tabController = TabController(
-      initialIndex: selectedIndex.value,
-      length: tabHeaders.length, 
-      vsync: this);
+        initialIndex: selectedIndex.value,
+        length: tabHeaders.length,
+        vsync: this);
+
+    getAllBids();
+
+    FirebaseFirestore.instance
+        .collection('energyRequest')
+        .snapshots()
+        .listen((snapshot) {
+      final newEnergyRequestList =
+          snapshot.docs.map((doc) => EnergyRequest.fromJson(doc.data()));
+      data.assignAll(newEnergyRequestList);
+    });
   }
 
-  @override
-  void onClose() {
-    super.onClose();
-  }
-
-  void updateTabController (int index) {
+  void updateTabController(int index) {
     selectedIndex.value = index;
     tabController.animateTo(index);
   }
 
-  void addItem (EnergyRequest item) {
+  void addItem(EnergyRequest item) {
     data.add(item);
     count.value++;
-    print('Count: $count');
   }
 
   void createBid(EnergyRequest energyRequest) async {
     isLoading.value = true;
-    await MarketRepository.instance.addEnergyRequestToFirestore(energyRequest, updateObjectWithDocumentId: true);
+    await MarketRepository.instance.addEnergyRequestToFirestore(energyRequest,
+        updateObjectWithDocumentId: true);
     isLoading.value = false;
   }
 
   getTopBids() async {
     isLoading.value = true;
     data.clear();
-    await MarketRepository.instance.getAllEnergyRequestFromFirestore().then((value) {
+    await MarketRepository.instance
+        .getAllEnergyRequestFromFirestore()
+        .then((value) {
       value.docs.forEach((element) {
         data.add(EnergyRequest.fromJson(element.data()));
       });
@@ -73,18 +74,33 @@ class MarketController extends GetxController
     return data;
   }
 
-  sortBids() {
-    data.sort((a, b) => a.biddingPrice.compareTo(b.biddingPrice));}
+  getAllBids() async {
+    List<EnergyRequest> energyRequestList = [];
+    await MarketRepository.instance
+        .getAllEnergyRequestFromFirestore()
+        .then((value) {
+      value.docs.forEach((element) {
+        energyRequestList.add(EnergyRequest.fromJson(element.data()));
+      });
+    });
 
-  createEnergyRequest(double energyAmount, double biddingPrice, String buyOrSell) {
+    data.assignAll(energyRequestList);
+  }
+
+  sortBids() {
+    data.sort((a, b) => a.biddingPrice.compareTo(b.biddingPrice));
+  }
+
+  createEnergyRequest(
+      double energyAmount, double biddingPrice, String buyOrSell) {
     String userId = AuthenticationRepository.instance.firebaseUser.value!.uid;
-    
+
     return EnergyRequest(
-    bidID: null,
-    userID: userId,
-    energyAmount: energyAmount,
-    biddingPrice: biddingPrice,
-    buyOrSell: buyOrSell,
-  );
+      bidID: null,
+      userID: userId,
+      energyAmount: energyAmount,
+      biddingPrice: biddingPrice,
+      buyOrSell: buyOrSell,
+    );
   }
 }
