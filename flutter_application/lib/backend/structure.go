@@ -58,3 +58,8 @@ type PredResult struct {
 	GenData float64 `json:"genData"`
 	UseData float64 `json:"useData"`
 }
+
+type UserEnergyData struct {
+	GenData []float64 `json:"genData"`
+	UseData []float64 `json:"useData"`
+}
