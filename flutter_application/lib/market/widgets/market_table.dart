@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application/market/controllers/market_controller.dart';
 import 'package:get/get.dart';
-import 'package:flutter_application/market/controllers/market_fetch_data_controller.dart';
 
 class MarketTableData extends GetView<MarketController> {
+  // MarketBuyController marketBuyController = Get.put(MarketBuyController());
   String action;
-
   MarketTableData({super.key, required this.action});
-  MarketFetchDataController fetchDataController =
-      Get.put(MarketFetchDataController());
 
   @override
   Widget build(BuildContext context) {
