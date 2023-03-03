@@ -16,6 +16,8 @@ class MarketController extends GetxController with GetTickerProviderStateMixin {
 
   RxInt count = 0.obs;
   RxList<EnergyRequest> data = List<EnergyRequest>.empty().obs;
+  RxList<EnergyRequest> buyData = List<EnergyRequest>.empty().obs;
+  RxList<EnergyRequest> sellData = List<EnergyRequest>.empty().obs;
 
   static MarketController to = Get.find();
   MarketRepository marketRepository = Get.put(MarketRepository());
@@ -31,6 +33,8 @@ class MarketController extends GetxController with GetTickerProviderStateMixin {
         vsync: this);
 
     getAllBids();
+    getBuyEnergyRequests();
+    getSellEnergyRequests();
 
     FirebaseFirestore.instance
         .collection('energyRequest')
@@ -39,6 +43,11 @@ class MarketController extends GetxController with GetTickerProviderStateMixin {
       final newEnergyRequestList =
           snapshot.docs.map((doc) => EnergyRequest.fromJson(doc.data()));
       data.assignAll(newEnergyRequestList);
+    });
+
+    data.listen((_) {
+      getBuyEnergyRequests();
+      getSellEnergyRequests();
     });
   }
 
@@ -59,17 +68,10 @@ class MarketController extends GetxController with GetTickerProviderStateMixin {
     isLoading.value = false;
   }
 
-  getTopBids() async {
+  getTopBids(String action) {
     isLoading.value = true;
-    data.clear();
-    await MarketRepository.instance
-        .getAllEnergyRequestFromFirestore()
-        .then((value) {
-      value.docs.forEach((element) {
-        data.add(EnergyRequest.fromJson(element.data()));
-      });
-    });
-    sortBids();
+    var energyRequestList = data;
+    sortBids(energyRequestList, action);
     isLoading.value = false;
     return data;
   }
@@ -87,8 +89,41 @@ class MarketController extends GetxController with GetTickerProviderStateMixin {
     data.assignAll(energyRequestList);
   }
 
-  sortBids() {
-    data.sort((a, b) => a.biddingPrice.compareTo(b.biddingPrice));
+  getBuyEnergyRequests() {
+    List<EnergyRequest> buyEnergyRequestList = [];
+    for (var element in data) {
+      if (element.buyOrSell == 'Buy') {
+        buyEnergyRequestList.add(element);
+      }
+    }
+
+    // sort the list by highest bidding price first
+    sortBids(buyEnergyRequestList, 'Buy');
+    buyData.assignAll(buyEnergyRequestList);
+
+  }
+
+  getSellEnergyRequests() {
+    List<EnergyRequest> buyEnergyRequestList = [];
+    for (var element in data) {
+      if (element.buyOrSell == 'Sell') {
+        buyEnergyRequestList.add(element);
+      }
+    }
+    
+    // sort the list by lowest selling price first
+    sortBids(buyEnergyRequestList, 'Sell');
+    sellData.assignAll(buyEnergyRequestList);
+  }
+
+  sortBids(List<EnergyRequest> listOfEnergyRequest, String action) {
+    if (action == 'Buy') {
+      listOfEnergyRequest
+          .sort((a, b) => b.biddingPrice.compareTo(a.biddingPrice));
+    } else if (action == 'Sell') {
+      listOfEnergyRequest
+          .sort((a, b) => a.biddingPrice.compareTo(b.biddingPrice));
+    }
   }
 
   createEnergyRequest(
