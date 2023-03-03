@@ -13,7 +13,7 @@ class MarketTableData extends GetView<MarketController> {
       padding: const EdgeInsets.all(4),
       child: Column(
         children: [
-          const Text('Top 5 market finds'),
+          const Text('Top 3 market finds'),
           Obx(() => controller.isLoading.value
               ? const Center(child: CircularProgressIndicator())
               : SizedBox(
@@ -37,8 +37,8 @@ class MarketTableData extends GetView<MarketController> {
                         ),
                       ],
                       rows: (action == 'Buy'
-                              ? controller.buyData
-                              : controller.sellData)
+                              ? controller.buyData.take(3)
+                              : controller.sellData.take(3))
                           .map((e) => DataRow(cells: [
                                 DataCell(Text(e.bidID.toString())),
                                 DataCell(Text(e.buyOrSell.toString())),
