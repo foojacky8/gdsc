@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:flutter_application/market/controllers/market_controller.dart';
-import 'package:flutter_application/market/models/order.dart';
+import 'package:flutter_application/market/models/energy_request.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
