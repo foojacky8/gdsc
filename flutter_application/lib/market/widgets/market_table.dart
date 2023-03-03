@@ -13,7 +13,7 @@ class MarketTableData extends GetView<MarketController> {
       padding: const EdgeInsets.all(4),
       child: Column(
         children: [
-          const Text('Current market'),
+          const Text('Top 5 market finds'),
           Obx(() => controller.isLoading.value
               ? const Center(child: CircularProgressIndicator())
               : SizedBox(

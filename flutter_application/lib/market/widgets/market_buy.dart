@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application/market/controllers/market_controller.dart';
 import 'package:flutter_application/market/models/energy_request.dart';
-import 'package:flutter_application/repository/authentication_repository/authentication_repository.dart';
 import 'package:flutter_application/market/widgets/market_table.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
