@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_application/market/controllers/market_controller.dart';
 import 'package:flutter_application/market/models/energy_request.dart';
 import 'package:get/get.dart';
@@ -17,6 +19,14 @@ class MarketFetchDataController extends GetxController{
   @override
   void onInit() {
     super.onInit();
+
+    String userId = AuthenticationRepository.instance.firebaseUser.value!.uid;
+    FirebaseFirestore.instance
+      .collection('users')
+      .doc('user1').set(
+    );
+
+
     futureMarket = fetchData();
   }
 
@@ -72,5 +82,25 @@ class MarketFetchDataController extends GetxController{
       throw Exception('Failed to load data');
     }
   }
+
+
+  Future handleEnergyForecast() async {
+    final response = await http.get(Uri.http(ApiConstants.baseUrl, 'handleEnergyForecast'));
+    if (response.statusCode == 200) {
+      print('Successfully initialized');
+      readCsv();
+      return response;
+    } else {
+      throw Exception('Failed to load data');
+    }
+  }
+
+  void readCsv() async {
+    final file = await File('assets/energy_forecast.csv').readAsString();
+    print(file);
+  }
+
+  
+
 
 }
