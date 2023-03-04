@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application/repository/authentication_repository/authetication_repository.dart';
+import 'package:flutter_application/repository/authentication_repository/authentication_repository.dart';
 import 'package:flutter_application/authentication/controllers/signup_controller.dart';
 import 'package:get/get.dart';
 
@@ -41,7 +41,7 @@ class SplashScreen extends GetView<SignupController> {
                   shape: CircleBorder(),
                 ),
                 child: IconButton(
-                  onPressed: () => AutheticationRepository.instance.signOut(),
+                  onPressed: () => AuthenticationRepository.instance.signOut(),
                   icon: const Icon(Icons.logout),
                   color: Colors.white,
                 ),

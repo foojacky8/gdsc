@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application/market/controllers/market_controller.dart';
+import 'package:flutter_application/market/models/energy_request.dart';
 import 'package:flutter_application/market/widgets/market_table.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -6,7 +8,10 @@ import 'package:get/get.dart';
 import '../controllers/market_fetch_data_controller.dart';
 import '../models/energy_request.dart';
 
-class MarketSellView extends StatelessWidget {
+import '../controllers/market_fetch_data_controller.dart';
+import '../models/energy_request.dart';
+
+class MarketSellView extends GetView<MarketController> {
   MarketSellView({super.key});
   final RxDouble _currentEnergyValue = 30.0.obs;
   final RxDouble _currentBidPriceValue = 30.0.obs;
@@ -85,6 +90,12 @@ class MarketSellView extends StatelessWidget {
                   margin: const EdgeInsets.all(25),
                   child: OutlinedButton(
                     onPressed: () {
+                      EnergyRequest energyRequest =
+                          controller.createEnergyRequest(
+                              _currentEnergyValue.value,
+                              _currentBidPriceValue.value,
+                              'Sell');
+                      controller.createBid(energyRequest);
                       Fluttertoast.showToast(
                           msg: "Ask Submmited",
                           toastLength: Toast.LENGTH_SHORT,

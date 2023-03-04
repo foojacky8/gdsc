@@ -9,8 +9,8 @@ class MarketRepository extends GetxController {
 
   final _db = FirebaseFirestore.instance;
 
-  createEnergyRequest(EnergyRequest energyRequest) async {
-    await _db
+  addEnergyRequestToFirestore(EnergyRequest energyRequest, {bool updateObjectWithDocumentId = false}) async {
+    DocumentReference docRef = await _db
         .collection('energyRequest')
         .add(energyRequest.toJson())
         .whenComplete(() => Fluttertoast.showToast(
@@ -21,5 +21,14 @@ class MarketRepository extends GetxController {
             // backgroundColor: Colors.red,
             textColor: Colors.white,
             fontSize: 14.0));
+    
+    if (updateObjectWithDocumentId) {
+      energyRequest.bidID = docRef.id;
+      await docRef.update(energyRequest.toJson());
+    }
+  }
+
+  getAllEnergyRequestFromFirestore() async {
+    return await _db.collection('energyRequest').get();
   }
 }
