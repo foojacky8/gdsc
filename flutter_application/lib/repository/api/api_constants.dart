@@ -5,4 +5,5 @@ class ApiConstants {
   static const String signUpUrl = 'signUp';
   static const String logoutUrl = 'logout';
   static const String getEnergyDataUrl = 'getEnergyData';
+  static const String handleEnergyRequestUrl  = 'energyRequest';
 }
