@@ -10,6 +10,7 @@ require (
 require (
 	cloud.google.com/go/firestore v1.6.1
 	firebase.google.com/go v3.13.0+incompatible
+	github.com/davecgh/go-spew v1.1.0
 	github.com/golang-jwt/jwt v3.2.2+incompatible
 	gonum.org/v1/gonum v0.12.0
 	google.golang.org/api v0.96.0

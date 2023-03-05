@@ -7,9 +7,13 @@ import (
 	"net/http"
 	"os"
 	"strconv"
+	"crypto/aes"
+	"crypto/cipher"
+	"encoding/base64"
 
 	"github.com/gorilla/mux"
 )
+
 
 func makeMuxRouter() http.Handler {
 	r := mux.NewRouter()
@@ -75,7 +79,6 @@ func mineBlock(w http.ResponseWriter, r *http.Request) {
 	writejson(Blockchain, "Blockchain.json")
 
 }
-
 func respondWithJSON(w http.ResponseWriter, r *http.Request, code int, payload interface{}) {
 	response, err := json.MarshalIndent(payload, "", "  ")
 	if err != nil {

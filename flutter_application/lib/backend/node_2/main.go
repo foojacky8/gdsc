@@ -99,6 +99,7 @@ func readjson(Filename string, Data string) error {
 func CalcAmountTest (TransactionData []Transaction) string {
     for i := 0; i < len(TransactionData); i++ {
 		fmt.Println(TransactionData[i].BuyOrSell, calculateAmount(TransactionData[i].BuyOrSell, TransactionData[i].Price, TransactionData[i].ToGrid, TransactionData[i].ToMarket))
+		fmt.Printf("\n")
     }
 	return "Calculation Complete"
 }

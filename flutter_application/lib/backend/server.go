@@ -50,3 +50,13 @@ func respondWithJSON(w http.ResponseWriter, r *http.Request, code int, payload i
 	w.WriteHeader(code)
 	w.Write(response)
 }
+
+// Linear search to match strings
+func matchBlockString(arr []string, target string) int {
+    for i, str := range arr {
+        if str == target {
+            return i
+        }
+    }
+    return -1
+}
