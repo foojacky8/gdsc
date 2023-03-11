@@ -15,7 +15,7 @@ func makeMuxRouter() http.Handler {
 	r := mux.NewRouter()
 	//
 	r.HandleFunc("/getBlockchainHash", handleGetBlockchainHash).Methods("GET")
-	r.HandleFunc("/getBlockchain", handleGetBlockchain).Methods("GET")
+	r.HandleFunc("/getLocalBlockchain", handleGetLocalBlockchain).Methods("GET")
 	r.HandleFunc("/wantsToMine", handleWantsToMine).Methods("GET")
 	// takes in transaction data as input and create a new block and send to other node
 	r.HandleFunc("/mineBlock", mineBlock).Methods("POST")
@@ -31,9 +31,7 @@ func handleWantsToMine(w http.ResponseWriter, r *http.Request) {
 	req.Stake, _ = strconv.Atoi(os.Getenv("STAKE"))
 	respondWithJSON(w, r, http.StatusAccepted, req)
 }
-func handleGetBlockchain(w http.ResponseWriter, r *http.Request) {
 
-}
 func handleGetBlockchainHash(w http.ResponseWriter, r *http.Request) {
 
 }
@@ -60,7 +58,7 @@ func mineBlock(w http.ResponseWriter, r *http.Request) {
 	for i := 0; i < len(ListOfNodeInfo); i++ {
 		// Form new HTTP request and send to other nodes
 		var newRequest signatureReq
-		newRequest.NodeID = "Node_1"
+		newRequest.NodeID = MyNodeInfo.NodeID
 		newRequest.SignHash = signHash
 		newRequest.Signature = signature
 		data, _ := json.MarshalIndent(newRequest, "", "  ")
@@ -75,7 +73,6 @@ func mineBlock(w http.ResponseWriter, r *http.Request) {
 	writejson(Blockchain, "Blockchain.json")
 
 }
-
 func respondWithJSON(w http.ResponseWriter, r *http.Request, code int, payload interface{}) {
 	response, err := json.MarshalIndent(payload, "", "  ")
 	if err != nil {

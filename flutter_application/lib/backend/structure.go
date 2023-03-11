@@ -41,11 +41,14 @@ type Transaction struct {
 	ToMarket  float64 `json:"toMarket"`
 	BuyOrSell string  `json:"BuyOrSell"`
 }
+
 type Block struct {
-	Index    int         `json:"index"`
-	Hash     string      `json:"hash"`
-	PrevHash string      `json:"prevHash"`
-	Data     Transaction `json:"data"`
+	Index     int           `json:"index"`
+	Timestamp string        `json:"timestamp"`
+	Hash      string        `json:"hash"`
+	PrevHash  string        `json:"prevHash"`
+	Data      []Transaction `json:"data"`
+	Miner     string        `json:"miner"`
 }
 
 type StakeRequest struct {
@@ -57,4 +60,9 @@ type StakeRequest struct {
 type PredResult struct {
 	GenData float64 `json:"genData"`
 	UseData float64 `json:"useData"`
+}
+
+type UserEnergyData struct {
+	GenData []float64 `json:"genData"`
+	UseData []float64 `json:"useData"`
 }

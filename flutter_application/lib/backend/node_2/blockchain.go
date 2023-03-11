@@ -2,7 +2,10 @@ package main
 
 import (
 	"bytes"
+	"crypto/aes"
+	"crypto/cipher"
 	"crypto/sha256"
+	"encoding/base64"
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
@@ -130,20 +133,20 @@ func stringifyData(TransactionDataList []Transaction) string {
 }
 
 // Price & Profit calculations
-func calculateAmount (BuyOrSell string, Price float64, ToGrid float64, ToMarket float64) float64 {
+func calculateAmount(BuyOrSell string, Price float64, ToGrid float64, ToMarket float64) float64 {
 	if BuyOrSell == "Buy" {
 		// Price
-		return ToMarket * Price + ToGrid * 0.5
+		return ToMarket*Price + ToGrid*0.5
 	} else if BuyOrSell == "Sell" {
 		// Profit
-		return ToMarket * Price + ToGrid * 0.3
+		return ToMarket*Price + ToGrid*0.3
 	} else {
 		return 0.0
 	}
 }
 
 // Bytes for encoding
-var bytes = []byte{35, 46, 57, 24, 85, 35, 24, 74, 87, 35, 88, 98, 66, 32, 14, 05}
+var myBytes = []byte{35, 46, 57, 24, 85, 35, 24, 74, 87, 35, 88, 98, 66, 32, 14, 05}
 
 // Function to Encode Struct to String
 func Encode(b []byte) string {
@@ -157,20 +160,34 @@ func Encrypt(text, MySecret string) (string, error) {
 		return "", err
 	}
 	plainText := []byte(text)
-	cfb := cipher.NewCFBEncrypter(block, bytes)
+	// joshua cfb := cipher.NewCFBEncrypter(block, bytes)
+	cfb := cipher.NewCFBEncrypter(block, myBytes)
 	cipherText := make([]byte, len(plainText))
 	cfb.XORKeyStream(cipherText, plainText)
 	return Encode(cipherText), nil
-   }
+}
 
 // Convert blockchain into a string
-func stringifyBlock(block []Block){
+// joshua func stringifyBlock(block []Block) {
+func stringifyBlock(block []Block) string {
 	blockString, err := json.Marshal(block)
 	if err != nil {
-		panic (err)
+		panic(err)
 	}
 	fmt.Println(string(blockString))
-	return blockString
+	// joshua return blockString
+	return string(blockString)
+}
+
+func handleGetLocalBlockchain(w http.ResponseWriter, r *http.Request) {
+	blockchainString := stringifyBlock(Blockchain)
+	encryptedMsg, err := Encrypt(blockchainString, "MySecretKeyToEncryptBloc")
+	if err != nil {
+		fmt.Println(err)
+		respondWithJSON(w, r, http.StatusBadRequest, "")
+		return
+	}
+	respondWithJSON(w, r, 202, encryptedMsg)
 }
 
 // // SAMPLE CODE TO ENCRYPT AND DECRYPT BLOCKSTRING
