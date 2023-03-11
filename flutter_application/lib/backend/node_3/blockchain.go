@@ -150,15 +150,6 @@ func Encode(b []byte) string {
 	return base64.StdEncoding.EncodeToString(b)
 }
 
-// Function to Decode String to Struct
-func Decode(s string) []byte {
-	data, err := base64.StdEncoding.DecodeString(s)
-	if err != nil {
-		panic(err)
-	}
-	return data
-}
-
 // Encrypt method is to encrypt or hide any classified text
 func Encrypt(text, MySecret string) (string, error) {
 	block, err := aes.NewCipher([]byte(MySecret))
@@ -172,26 +163,14 @@ func Encrypt(text, MySecret string) (string, error) {
 	return Encode(cipherText), nil
    }
 
-// Decrypt method is to extract back the encrypted text
-func Decrypt(text, MySecret string) (string, error) {
-	block, err := aes.NewCipher([]byte(MySecret))
-	if err != nil {
-		return "", err
-	}
-	cipherText := Decode(text)
-	cfb := cipher.NewCFBDecrypter(block, bytes)
-	plainText := make([]byte, len(cipherText))
-	cfb.XORKeyStream(plainText, cipherText)
-	return string(plainText), nil
-}
-
 // Convert blockchain into a string
-func stringifyBlock(block Block){
+func stringifyBlock(block []Block){
 	blockString, err := json.Marshal(block)
 	if err != nil {
 		panic (err)
 	}
 	fmt.Println(string(blockString))
+	return blockString
 }
 
 // // SAMPLE CODE TO ENCRYPT AND DECRYPT BLOCKSTRING

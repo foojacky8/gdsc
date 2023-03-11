@@ -51,12 +51,58 @@ func respondWithJSON(w http.ResponseWriter, r *http.Request, code int, payload i
 	w.Write(response)
 }
 
+// Function to Decode String to Struct
+func Decode(s string) []byte {
+	data, err := base64.StdEncoding.DecodeString(s)
+	if err != nil {
+		panic(err)
+	}
+	return data
+}
+
+// Decrypt method is to extract back the encrypted text
+func Decrypt(text, MySecret string) (string, error) {
+	block, err := aes.NewCipher([]byte(MySecret))
+	if err != nil {
+		return "", err
+	}
+	cipherText := Decode(text)
+	cfb := cipher.NewCFBDecrypter(block, bytes)
+	plainText := make([]byte, len(cipherText))
+	cfb.XORKeyStream(plainText, cipherText)
+	return string(plainText), nil
+}
+
 // Linear search to match strings
-func matchBlockString(arr []string, target string) int {
-    for i, str := range arr {
-        if str == target {
-            return i
+// Change the matching to identify majority
+func matchBlockString(arr []string) int {
+
+	if len(arr) == 0 {
+		fmt.Printf("Array is Empty")
+		return
+	}
+
+    // Sort the array of strings
+    sort.Strings(arr)
+
+    // Count the occurrences of each string
+    counts := make(map[string]int)
+    for _, str := range arr {
+        counts[str]++
+    }
+
+    // Find the string with the most occurrences
+    maxCount := 0
+    maxStr := ""
+    for str, count := range counts {
+        if count > maxCount {
+            maxCount = count
+            maxStr = str
         }
     }
-    return -1
+
+    // Return the results
+    fmt.Printf("Blockchain with the most occurrences: %s (occurs %d times)\n", maxStr, maxCount)
+	return maxStr
 }
+
