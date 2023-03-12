@@ -42,7 +42,6 @@ type Transaction struct {
 	BuyOrSell   string  `json:"BuyOrSell"`
 	TotalAmount float64 `json:"totalAmount"`
 }
-
 type Block struct {
 	Index           int           `json:"index"`
 	Timestamp       string        `json:"timestamp"`

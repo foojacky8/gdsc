@@ -1,80 +1,91 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_application/market/controllers/market_controller.dart';
+import 'package:get/get.dart';
 
-class MarketTableData extends StatelessWidget {
-  const MarketTableData({super.key});
+class MarketTableData extends GetView<MarketController> {
+  // MarketBuyController marketBuyController = Get.put(MarketBuyController());
+  String action;
+  MarketTableData({super.key, required this.action});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(10),
+      padding: const EdgeInsets.all(4),
       child: Column(
         children: [
-          Text(
-            'Market Data',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          Table(
-            border: TableBorder(
-              top: BorderSide(
-                color: Colors.black,
-                width: 1,
-                style: BorderStyle.solid,
-              ),
-              bottom: BorderSide(
-                color: Colors.black,
-                width: 1,
-                style: BorderStyle.solid,
-              ),
-              horizontalInside: BorderSide(
-                color: Colors.black,
-                width: 1,
-                style: BorderStyle.solid,
-              ),
-              left: BorderSide(
-                color: Colors.black,
-                width: 1,
-                style: BorderStyle.solid,
-              ),
-              right: BorderSide(
-                color: Colors.black,
-                width: 1,
-                style: BorderStyle.solid,
-              ),
-              verticalInside: BorderSide(
-                color: Colors.black,
-                width: 1,
-                style: BorderStyle.solid,
-              ),
-            ),
-            
-            children: [
-              TableRow(
-                children: [
-                  Center(child: Text('Energy (kWh)')),
-                  Center(child: Text('Price (RM)')),
-                ]
-              ),
-              TableRow(
-                children: [
-                  Center(child: Text('10.0)')),
-                  Center(child: Text('10.0')),
-                ]
-              ),
-              TableRow(
-                children: [
-                  Center(child: Text('10.0)')),
-                  Center(child: Text('10.0')),
-                ]
-              ),
-            ]
-            ),
+          const Text('Top 3 market finds'),
+          Obx(() => controller.isLoading.value
+              ? const Center(child: CircularProgressIndicator())
+              : SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.25,
+                  width: MediaQuery.of(context).size.width * 0.8,
+                  child: DataTable(
+                      columnSpacing: 12,
+                      horizontalMargin: 12,
+                      columns: const [
+                        DataColumn(
+                          label: Text('BidID'),
+                        ),
+                        DataColumn(
+                          label: Text('Actions'),
+                        ),
+                        DataColumn(
+                          label: Text('BiddingPrice'),
+                        ),
+                        DataColumn(
+                          label: Text('Energy'),
+                        ),
+                      ],
+                      rows: (action == 'Buy'
+                              ? controller.buyData.take(3)
+                              : controller.sellData.take(3))
+                          .map((e) => DataRow(cells: [
+                                DataCell(Text(e.bidID.toString())),
+                                DataCell(Text(e.buyOrSell.toString())),
+                                DataCell(Text(e.biddingPrice.toString())),
+                                DataCell(Text(e.energyAmount.toString())),
+                              ]))
+                          .toList()),
+                ))
         ],
       ),
     );
+
+    
   }
+}
+
+Widget getDataTableBuy(context, snapshot) {
+  return Center(
+    child: SizedBox(
+      height: MediaQuery.of(context).size.height * 0.35,
+      width: MediaQuery.of(context).size.width * 0.8,
+      child: DataTable(
+        columnSpacing: 12,
+        horizontalMargin: 12,
+        columns: const [
+          DataColumn(
+            label: Text('BidID'),
+          ),
+          DataColumn(
+            label: Text('Actions'),
+          ),
+          DataColumn(
+            label: Text('BiddingPrice'),
+          ),
+          DataColumn(
+            label: Text('Energy'),
+          ),
+        ],
+        rows: snapshot.data!.marketdepth
+            .map((e) => DataRow(cells: [
+                  DataCell(Text(e.bidID.toString())),
+                  DataCell(Text(e.buyOrSell.toString())),
+                  DataCell(Text(e.biddingPrice.toString())),
+                  DataCell(Text(e.energyAmount.toString())),
+                ]))
+            .toList(),
+      ),
+    ),
+  );
 }

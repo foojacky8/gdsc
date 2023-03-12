@@ -49,7 +49,7 @@ func GetEnergyDataById(uid string) (User, error) {
 			fmt.Println("Failed to iterate:", err)
 			return retrieveUserData, err
 		}
-		if doc.Data()["userID"].(string) == uid {
+		if doc.Data()["id"].(string) == uid {
 			GenDataInterface = doc.Data()["genData"].([]interface{})
 			UseDataInterface = doc.Data()["useData"].([]interface{})
 			// type assertion
@@ -77,7 +77,7 @@ func GetUserById(uid string) (User, error) {
 		}
 		if doc.Data()["userID"].(string) == uid {
 			retrieveUserData.Email = doc.Data()["email"].(string)
-			retrieveUserData.UserID = doc.Data()["userID"].(string)
+			retrieveUserData.UserID = doc.Data()["id"].(string)
 			retrieveUserData.Username = doc.Data()["username"].(string)
 			retrieveUserData.Password = doc.Data()["password"].(string)
 			retrieveUserData.SmartMeterNo = doc.Data()["smartMeterNo"].(string)

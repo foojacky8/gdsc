@@ -13,12 +13,13 @@ import (
 func handleEnergyForecast(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	// verify jwt token and obtain user id
-	userID, err := verifyJWT(w, r)
-	if err != nil {
-		fmt.Println(err)
-	}
+	// userID, err := verifyJWT(w, r)
+	// if err != nil {
+	// 	fmt.Println(err)
+	// }
 
 	// use the user id to obtain user's energy data
+	userID := "L0HlKJZd79YP5zFFKi6SSP2CRn13"
 	UserData, err := GetEnergyDataById(userID)
 
 	// write the energy data into csv file
