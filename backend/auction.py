@@ -49,10 +49,10 @@ if __name__=="__main__":
     # At least 10% of the energy request must go to the market so everyone benefits from it
     for i in BuyRange:
         model += PowerGB[i]+PowerMB[i] == BuyEnergy[i]
-        model += PowerMB[i] >= 0.1*BuyEnergy[i]
+        # model += PowerMB[i] >= 0.1*BuyEnergy[i]
     for j in SellRange:
         model += PowerGS[j]+PowerMS[j] == SellEnergy[j]
-        model += PowerMS[j] >= 0.1*SellEnergy[j]
+        # model += PowerMS[j] >= 0.1*SellEnergy[j]
     
     # Total energy bought in market should be equal to energy sold in market
     model += (xsum(PowerMB[i] for i in BuyRange)) == (xsum(PowerMS[j] for j in SellRange))

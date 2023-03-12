@@ -154,6 +154,7 @@ func handleInitAuction(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		fmt.Println(err)
 	}
+	respondWithJSON(w, r, http.StatusOK, "Auction is done")
 	handleInitPoS(w, r)
 }
 

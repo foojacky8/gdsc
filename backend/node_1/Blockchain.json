@@ -148,5 +148,99 @@
   "miner": "Node_2",
   "noOfTransaction": 6,
   "tradedEnergy": 37.428571701049805
+ },
+ {
+  "index": 3,
+  "timestamp": "2023 March 12 21:00",
+  "hash": "5d8769bb8ba64d98edf69b264f080b3ad8767b73f55e3b33b52759b2dfe2c89d",
+  "prevHash": "8367b72ca5564a0e16580128466499448b66ecceb58c919eb977668d8e00d5c1",
+  "data": [
+   {
+    "bidID": "BD 1",
+    "userID": "",
+    "price": 30,
+    "toGrid": 0,
+    "toMarket": 30,
+    "BuyOrSell": "Buy",
+    "totalAmount": 900
+   },
+   {
+    "bidID": "BD 2",
+    "userID": "",
+    "price": 50,
+    "toGrid": 4.5,
+    "toMarket": 25.5,
+    "BuyOrSell": "Buy",
+    "totalAmount": 1277.25
+   },
+   {
+    "bidID": "BD 3",
+    "userID": "",
+    "price": 60,
+    "toGrid": 27,
+    "toMarket": 3,
+    "BuyOrSell": "Buy",
+    "totalAmount": 193.5
+   },
+   {
+    "bidID": "BD 4",
+    "userID": "",
+    "price": 30,
+    "toGrid": 1.5,
+    "toMarket": 28.5,
+    "BuyOrSell": "Sell",
+    "totalAmount": 855.45
+   },
+   {
+    "bidID": "BD 5",
+    "userID": "",
+    "price": 50,
+    "toGrid": 0,
+    "toMarket": 30,
+    "BuyOrSell": "Sell",
+    "totalAmount": 1500
+   }
+  ],
+  "miner": "Node_1",
+  "noOfTransaction": 5,
+  "tradedEnergy": 58.5
+ },
+ {
+  "index": 4,
+  "timestamp": "2023 March 12 21:00",
+  "hash": "e4616e9626597f383809cccb14f982cc21a340d127b011311c26059b9af2ed9b",
+  "prevHash": "5d8769bb8ba64d98edf69b264f080b3ad8767b73f55e3b33b52759b2dfe2c89d",
+  "data": [
+   {
+    "bidID": "BD 1",
+    "userID": "2yV2QatsyySgX1gBKRXB9D2pm922",
+    "price": 30,
+    "toGrid": 0,
+    "toMarket": 30,
+    "BuyOrSell": "Buy",
+    "totalAmount": 900
+   },
+   {
+    "bidID": "BD 2",
+    "userID": "2yV2QatsyySgX1gBKRXB9D2pm922",
+    "price": 60,
+    "toGrid": 30,
+    "toMarket": 0,
+    "BuyOrSell": "Buy",
+    "totalAmount": 15
+   },
+   {
+    "bidID": "BD 3",
+    "userID": "2yV2QatsyySgX1gBKRXB9D2pm922",
+    "price": 30,
+    "toGrid": 0,
+    "toMarket": 30,
+    "BuyOrSell": "Sell",
+    "totalAmount": 900
+   }
+  ],
+  "miner": "Node_2",
+  "noOfTransaction": 3,
+  "tradedEnergy": 30
  }
 ]
