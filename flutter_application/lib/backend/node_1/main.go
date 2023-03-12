@@ -43,7 +43,6 @@ func main() {
 	err = readjson("MyNodeInfo.json", "MyNodeInfo")
 	err = readjson("Blockchain.json", "Blockchain")
 	// fmt.Println("TransactionData: ", TransactionData)
-	fmt.Println("TransactionData: ", CalcAmountTest(TransactionData))
 	// fmt.Println("ListOfNodeInfo: ", ListOfNodeInfo)
 	// fmt.Println("MyNodeInfo: ", MyNodeInfo)
 	if Blockchain == nil {
@@ -94,14 +93,6 @@ func readjson(Filename string, Data string) error {
 	}
 	return nil
 
-}
-
-func CalcAmountTest (TransactionData []Transaction) string {
-    for i := 0; i < len(TransactionData); i++ {
-		fmt.Println(TransactionData[i].BuyOrSell, calculateAmount(TransactionData[i].BuyOrSell, TransactionData[i].Price, TransactionData[i].ToGrid, TransactionData[i].ToMarket), )
-		fmt.Printf("\n")
-    }
-	return "Calculation Complete"
 }
 
 // one time code - create necessary information of nodes

@@ -33,9 +33,18 @@ func createGenesisBlock() Block {
 	genesisBlock.PrevHash = ""
 	genesisBlock.Hash = calculateHash(genesisBlock)
 	genesisBlock.Miner = ""
-	genesisBlock.Timestamp = time.Now().String()
+	genesisBlock.Timestamp = createTimeStamp()
 
 	return genesisBlock
+}
+
+func createTimeStamp() string {
+	year, month, day := time.Now().Date()
+	hour := time.Now().Hour()
+	timestamp := fmt.Sprint(year) + " " + month.String() + " " + fmt.Sprint(day) + " " + fmt.Sprint(hour) + ":00"
+
+	fmt.Println(timestamp)
+	return timestamp
 }
 
 // This function receives the new block from the winning node
@@ -90,15 +99,17 @@ func handleAppendBlockchain(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func createBlock() Block {
+func createBlock(Data []Transaction) Block {
 	fmt.Println(Blockchain)
 	var newBlock Block
-	newBlock.Data = TransactionData
+	newBlock.Data = Data
 	newBlock.Index = Blockchain[len(Blockchain)-1].Index + 1
 	newBlock.PrevHash = Blockchain[len(Blockchain)-1].Hash
 	newBlock.Miner = MyNodeInfo.NodeID
-	newBlock.Timestamp = time.Now().String()
+	newBlock.Timestamp = createTimeStamp()
 	newBlock.Hash = calculateHash(newBlock)
+	newBlock.NoOfTransaction = len(Data)
+	newBlock.TradedEnergy = calculateTradedEnergy(Data)
 	fmt.Println("Can create Block Here")
 	return newBlock
 }
@@ -132,17 +143,14 @@ func stringifyData(TransactionDataList []Transaction) string {
 	return record
 }
 
-// Price & Profit calculations
-func calculateAmount(BuyOrSell string, Price float64, ToGrid float64, ToMarket float64) float64 {
-	if BuyOrSell == "Buy" {
-		// Price
-		return ToMarket*Price + ToGrid*0.5
-	} else if BuyOrSell == "Sell" {
-		// Profit
-		return ToMarket*Price + ToGrid*0.3
-	} else {
-		return 0.0
+func calculateTradedEnergy(Data []Transaction) float64 {
+	TotalTradedEnergy := 0.0
+	for i := 0; i < len(Data); i++ {
+		if Data[i].BuyOrSell == "Buy" {
+			TotalTradedEnergy += Data[i].ToMarket
+		}
 	}
+	return TotalTradedEnergy
 }
 
 // Bytes for encoding
@@ -177,6 +185,7 @@ func stringifyBlock(block []Block) string {
 }
 
 func handleGetLocalBlockchain(w http.ResponseWriter, r *http.Request) {
+	readjson("Blockchain.json", "Blockchain")
 	blockchainString := stringifyBlock(Blockchain)
 	encryptedMsg, err := Encrypt(blockchainString, "MySecretKeyToEncryptBloc") // the length must only be 16,24,32
 	if err != nil {

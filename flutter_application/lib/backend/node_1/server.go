@@ -48,7 +48,7 @@ func mineBlock(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// form a block
-	newBlock := createBlock()
+	newBlock := createBlock(Data)
 	fmt.Println("Done newBlock")
 
 	// sign the new formed block

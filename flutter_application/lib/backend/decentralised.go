@@ -14,6 +14,8 @@ import (
 // This is a handle function to start Proof Of Stake algo
 func handleInitPoS(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
+	ReceiveDoneCount = 0
+	CanProceed = false
 
 	for i := 0; i < len(ListOfValidators); i++ {
 		// Ask the node on how much stake they are willing to put in
@@ -43,8 +45,22 @@ func handleInitPoS(w http.ResponseWriter, r *http.Request) {
 	}
 	reader := bytes.NewReader(data)
 	http.Post(fmt.Sprintf("http://localhost:%d/mineBlock", Winner.Port), "application/json", reader)
+	fmt.Println("Completed handleInitPoS")
 	return
 
+}
+
+// Price & Profit calculations
+func calculateAmount(BuyOrSell string, Price float64, ToGrid float64, ToMarket float64) float64 {
+	if BuyOrSell == "Buy" {
+		// Price
+		return ToMarket*Price + ToGrid*0.5
+	} else if BuyOrSell == "Sell" {
+		// Profit
+		return ToMarket*Price + ToGrid*0.3
+	} else {
+		return 0.0
+	}
 }
 
 func pickWinner(AllStake []StakeRequest) StakeRequest {
@@ -84,6 +100,7 @@ func handleVerifyTransaction(w http.ResponseWriter, r *http.Request) {
 	h.Write([]byte(TransactionInString))
 	hashed := h.Sum(nil)
 	ActualHash := hex.EncodeToString(hashed)
+	fmt.Println("Actual Hash: ", ActualHash)
 	if ActualHash == ReceivedTransactionHash {
 		respondWithJSON(w, r, http.StatusAccepted, "Correct")
 		return
