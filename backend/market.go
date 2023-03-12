@@ -37,6 +37,7 @@ func handleEnergyRequest(w http.ResponseWriter, r *http.Request) {
 
 	// Append it to ListOfReq function
 	ListOfReq = append(ListOfReq, newEnergyReq)
+	fmt.Println("List", ListOfReq)
 	respondWithJSON(w, r, http.StatusCreated, newEnergyReq)
 	return
 }
@@ -153,6 +154,7 @@ func handleInitAuction(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		fmt.Println(err)
 	}
+	handleInitPoS(w, r)
 }
 
 // This function read the AuctionResult.csv and convert it to an array of Transaction

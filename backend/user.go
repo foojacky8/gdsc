@@ -20,6 +20,7 @@ func verifyJWT(_ http.ResponseWriter, request *http.Request) (string, error) {
 			fmt.Println("Error verifying token: ", err)
 		}
 		fmt.Println("The uid encoded is ", uid.UID)
+		return uid.UID, nil
 	}
 	return "", nil
 }
