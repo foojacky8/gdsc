@@ -125,3 +125,4 @@ var TransactionData []Transaction
 var Blockchain []Block
 var MyNodeInfo NodeInfo
 var ListOfNodeInfo []NodeInfo
+var Amount []float64

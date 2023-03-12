@@ -2,7 +2,10 @@ package main
 
 import (
 	"bytes"
+	"crypto/aes"
+	"crypto/cipher"
 	"crypto/sha256"
+	"encoding/base64"
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
@@ -30,9 +33,18 @@ func createGenesisBlock() Block {
 	genesisBlock.PrevHash = ""
 	genesisBlock.Hash = calculateHash(genesisBlock)
 	genesisBlock.Miner = ""
-	genesisBlock.Timestamp = time.Now().String()
+	genesisBlock.Timestamp = createTimeStamp()
 
 	return genesisBlock
+}
+
+func createTimeStamp() string {
+	year, month, day := time.Now().Date()
+	hour := time.Now().Hour()
+	timestamp := fmt.Sprint(year) + " " + month.String() + " " + fmt.Sprint(day) + " " + fmt.Sprint(hour) + ":00"
+
+	fmt.Println(timestamp)
+	return timestamp
 }
 
 // This function receives the new block from the winning node
@@ -75,26 +87,29 @@ func handleAppendBlockchain(w http.ResponseWriter, r *http.Request) {
 	}
 	if resp.StatusCode == 202 {
 		fmt.Println("Transaction Data is correct")
-		fmt.Println("Appending received block to my blockchain")
+		fmt.Println("Ready to append new block to my blockchain")
+		http.Get("http://localhost:8000/readyToAppend")
 		Blockchain = append(Blockchain, ReceivedBlock)
 		writejson(Blockchain, "Blockchain.json")
-		resp, err = http.Get("http://localhost:8000/doneAppend")
 	} else {
 		fmt.Println("Transaction Data is incorrect")
 		fmt.Println("Notifying main server to restart PoS")
+		http.Get("http://localhost:8000/initPoS")
 	}
 
 }
 
-func createBlock() Block {
+func createBlock(Data []Transaction) Block {
 	fmt.Println(Blockchain)
 	var newBlock Block
-	newBlock.Data = TransactionData
+	newBlock.Data = Data
 	newBlock.Index = Blockchain[len(Blockchain)-1].Index + 1
 	newBlock.PrevHash = Blockchain[len(Blockchain)-1].Hash
 	newBlock.Miner = MyNodeInfo.NodeID
-	newBlock.Timestamp = time.Now().String()
+	newBlock.Timestamp = createTimeStamp()
 	newBlock.Hash = calculateHash(newBlock)
+	newBlock.NoOfTransaction = len(Data)
+	newBlock.TradedEnergy = calculateTradedEnergy(Data)
 	fmt.Println("Can create Block Here")
 	return newBlock
 }
@@ -127,3 +142,70 @@ func stringifyData(TransactionDataList []Transaction) string {
 	fmt.Println("Can stringify data here")
 	return record
 }
+
+func calculateTradedEnergy(Data []Transaction) float64 {
+	TotalTradedEnergy := 0.0
+	for i := 0; i < len(Data); i++ {
+		if Data[i].BuyOrSell == "Buy" {
+			TotalTradedEnergy += Data[i].ToMarket
+		}
+	}
+	return TotalTradedEnergy
+}
+
+// Bytes for encoding
+var myBytes = []byte{35, 46, 57, 24, 85, 35, 24, 74, 87, 35, 88, 98, 66, 32, 14, 05}
+
+// Function to Encode Struct to String
+func Encode(b []byte) string {
+	return base64.StdEncoding.EncodeToString(b)
+}
+
+// Encrypt method is to encrypt or hide any classified text
+func Encrypt(text, MySecret string) (string, error) {
+	block, err := aes.NewCipher([]byte(MySecret))
+	if err != nil {
+		return "", err
+	}
+	plainText := []byte(text)
+	cfb := cipher.NewCFBEncrypter(block, myBytes)
+	cipherText := make([]byte, len(plainText))
+	cfb.XORKeyStream(cipherText, plainText)
+	return Encode(cipherText), nil
+}
+
+// Convert blockchain into a string
+func stringifyBlock(block []Block) string {
+	blockString, err := json.Marshal(block)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(string(blockString))
+	return string(blockString)
+}
+
+func handleGetLocalBlockchain(w http.ResponseWriter, r *http.Request) {
+	readjson("Blockchain.json", "Blockchain")
+	blockchainString := stringifyBlock(Blockchain)
+	encryptedMsg, err := Encrypt(blockchainString, "MySecretKeyToEncryptBloc") // the length must only be 16,24,32
+	if err != nil {
+		fmt.Println(err)
+		respondWithJSON(w, r, http.StatusBadRequest, "")
+		return
+	}
+	respondWithJSON(w, r, 202, encryptedMsg)
+}
+
+// // SAMPLE CODE TO ENCRYPT AND DECRYPT BLOCKSTRING
+// // To encrypt the blockString
+// encText, err := Encrypt(blockString, MySecret)
+// if err != nil {
+//  fmt.Println("error encrypting your classified text: ", err)
+// }
+// fmt.Println(encText)
+// // To decrypt the original blockString
+// decText, err := Decrypt("Li5E8RFcV/EPZY/neyCXQYjrfa/atA==", MySecret)
+// if err != nil {
+//  fmt.Println("error decrypting your encrypted text: ", err)
+// }
+// fmt.Println(decText)

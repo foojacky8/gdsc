@@ -167,13 +167,14 @@ func readAuctionResult() []Transaction {
 	if err != nil {
 		fmt.Println(err)
 	}
-	for i := 0; i < len(records); i++ {
+	for i := 1; i < len(records); i++ {
 		Record.BidID = records[i][0]
 		Record.UserID = records[i][1]
 		Record.Price, _ = strconv.ParseFloat(records[i][2], 32)
 		Record.ToGrid, _ = strconv.ParseFloat(records[i][3], 32)
 		Record.ToMarket, _ = strconv.ParseFloat(records[i][4], 32)
 		Record.BuyOrSell = "Buy"
+		Record.TotalAmount = calculateAmount(Record.BuyOrSell, Record.Price, Record.ToGrid, Record.ToMarket)
 		AuctionResult = append(AuctionResult, Record)
 	}
 	file, err = os.Open("SellAuctionResult.csv")
@@ -184,14 +185,16 @@ func readAuctionResult() []Transaction {
 	if err != nil {
 		fmt.Println(err)
 	}
-	for i := 0; i < len(records); i++ {
+	for i := 1; i < len(records); i++ {
 		Record.BidID = records[i][0]
 		Record.UserID = records[i][1]
 		Record.Price, _ = strconv.ParseFloat(records[i][2], 32)
 		Record.ToGrid, _ = strconv.ParseFloat(records[i][3], 32)
 		Record.ToMarket, _ = strconv.ParseFloat(records[i][4], 32)
 		Record.BuyOrSell = "Sell"
+		Record.TotalAmount = calculateAmount(Record.BuyOrSell, Record.Price, Record.ToGrid, Record.ToMarket)
 		AuctionResult = append(AuctionResult, Record)
 	}
+	fmt.Println("Auction Result: ", AuctionResult)
 	return AuctionResult
 }

@@ -15,7 +15,7 @@ func makeMuxRouter() http.Handler {
 	r := mux.NewRouter()
 	//
 	r.HandleFunc("/getBlockchainHash", handleGetBlockchainHash).Methods("GET")
-	r.HandleFunc("/getBlockchain", handleGetBlockchain).Methods("GET")
+	r.HandleFunc("/getLocalBlockchain", handleGetLocalBlockchain).Methods("GET")
 	r.HandleFunc("/wantsToMine", handleWantsToMine).Methods("GET")
 	// takes in transaction data as input and create a new block and send to other node
 	r.HandleFunc("/mineBlock", mineBlock).Methods("POST")
@@ -31,9 +31,7 @@ func handleWantsToMine(w http.ResponseWriter, r *http.Request) {
 	req.Stake, _ = strconv.Atoi(os.Getenv("STAKE"))
 	respondWithJSON(w, r, http.StatusAccepted, req)
 }
-func handleGetBlockchain(w http.ResponseWriter, r *http.Request) {
 
-}
 func handleGetBlockchainHash(w http.ResponseWriter, r *http.Request) {
 
 }
@@ -50,33 +48,31 @@ func mineBlock(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// form a block
-	newBlock := createBlock()
+	newBlock := createBlock(Data)
 	fmt.Println("Done newBlock")
 
 	// sign the new formed block
 	signHash, signature := signECDSA(newBlock)
 	fmt.Println("Done signing block")
 
-	// Form new HTTP request and send to other nodes
-	var newRequest signatureReq
-	newRequest.NodeID = "Node_1"
-	newRequest.SignHash = signHash
-	newRequest.Signature = signature
-	data, _ := json.MarshalIndent(newRequest, "", "  ")
-	reader := bytes.NewReader(data)
 	for i := 0; i < len(ListOfNodeInfo); i++ {
+		// Form new HTTP request and send to other nodes
+		var newRequest signatureReq
+		newRequest.NodeID = MyNodeInfo.NodeID
+		newRequest.SignHash = signHash
+		newRequest.Signature = signature
+		data, _ := json.MarshalIndent(newRequest, "", "  ")
+		reader := bytes.NewReader(data)
 		http.Post(fmt.Sprintf("http://localhost:%d/appendBlockchain", ListOfNodeInfo[i].Port), "application/json", reader)
 	}
 	fmt.Println("Done sending POST request")
 
 	// Append the new block to my blockchain
+	http.Get("http://localhost:8000/readyToAppend")
 	Blockchain = append(Blockchain, newBlock)
 	writejson(Blockchain, "Blockchain.json")
-	fmt.Println("Append mined block to blockchain")
-	http.Get("http://localhost:8000/doneAppend")
 
 }
-
 func respondWithJSON(w http.ResponseWriter, r *http.Request, code int, payload interface{}) {
 	response, err := json.MarshalIndent(payload, "", "  ")
 	if err != nil {
