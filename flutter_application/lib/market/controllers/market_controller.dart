@@ -63,6 +63,10 @@ class MarketController extends GetxController with GetTickerProviderStateMixin {
 
   void createBid(EnergyRequest energyRequest) async {
     isLoading.value = true;
+    // add energy request to go backend
+    marketRepository.addEnergyRequestToGoBackend(energyRequest);
+
+    // add energy request to firestore
     await MarketRepository.instance.addEnergyRequestToFirestore(energyRequest,
         updateObjectWithDocumentId: true);
     isLoading.value = false;
