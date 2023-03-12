@@ -114,9 +114,8 @@ func matchBlockString(arr []string) string {
 	return maxStr
 }
 
-var AllBlockchainFromNodes []string
-
 func handleGetBlockchain(w http.ResponseWriter, r *http.Request) {
+	var AllBlockchainFromNodes []string
 	w.Header().Set("Content-Type", "application/json")
 	for i := 0; i < len(ListOfValidators); i++ {
 		// Ask the node on how much stake they are willing to put in
