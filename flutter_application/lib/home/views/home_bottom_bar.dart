@@ -14,6 +14,9 @@ class HomeBottomAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ConvexAppBar(
+      backgroundColor: Colors.white,
+      color: Colors.grey,
+      activeColor: Colors.blue,
       height: MediaQuery.of(context).size.height * 0.08,
       items: controller.tabBottomList,
         onTap: (int i) {

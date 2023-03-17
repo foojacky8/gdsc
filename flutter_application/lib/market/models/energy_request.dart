@@ -15,7 +15,7 @@ class EnergyRequest{
     return EnergyRequest(
       bidID: json['bidID'],
       userID: json['userID'],
-      energyAmount: json['energyAmount'],
+      energyAmount: json['energyAmount'].toDouble(),
       biddingPrice: json['biddingPrice'].toDouble(),
       buyOrSell: json['BuyOrSell'],
     );

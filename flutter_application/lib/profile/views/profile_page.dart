@@ -9,8 +9,11 @@ import 'package:flutter_application/profile/widgets/recent_order.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
+import '../../repository/authentication_repository/authentication_repository.dart';
+
 class ProfilePage extends StatelessWidget {
-  const ProfilePage({super.key});
+  ProfilePage({super.key});
+  String? name = AuthenticationRepository.instance.firebaseUser.value!.email;
 
   @override
   Widget build(BuildContext context) {
@@ -24,8 +27,7 @@ class ProfilePage extends StatelessWidget {
           children: [
             ListTile(
               leading: Icon(Icons.person),
-              title: Text('Name'),
-              subtitle: Text('John Doe'),
+              title: Text('$name'),
             ),
             Container(
               height: MediaQuery.of(context).size.height * 0.4,

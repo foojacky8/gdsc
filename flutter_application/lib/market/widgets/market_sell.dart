@@ -5,20 +5,20 @@ import 'package:flutter_application/market/widgets/market_table.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
-import '../controllers/market_fetch_data_controller.dart';
+import '../controllers/market_data_controller.dart';
 import '../models/energy_request.dart';
 
-import '../controllers/market_fetch_data_controller.dart';
+import '../controllers/market_data_controller.dart';
 import '../models/energy_request.dart';
 
 class MarketSellView extends GetView<MarketController> {
   MarketSellView({super.key});
-  final RxDouble _currentEnergyValue = 30.0.obs;
-  final RxDouble _currentBidPriceValue = 30.0.obs;
+  final RxDouble _currentEnergyValue = 0.0.obs;
+  final RxDouble _currentBidPriceValue = 0.0.obs;
 
   @override
   Widget build(BuildContext context) {
-    MarketFetchDataController controller = Get.put(MarketFetchDataController());
+    MarketDataController marketdatacontroller = Get.put(MarketDataController());
 
     return Obx(
       () => Padding(
@@ -42,15 +42,18 @@ class MarketSellView extends GetView<MarketController> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                Slider(
-                    max: 100,
+                Obx((){
+                  double maxNum = double.parse((marketdatacontroller.forecastGenData.value).toStringAsFixed(2));
+                  return Slider(
+                    max: maxNum,
                     min: 0,
                     divisions: 10,
                     value: _currentEnergyValue.value,
                     label: _currentEnergyValue.round().toString(),
                     onChanged: (double value) {
-                      _currentEnergyValue.value = value;
-                    }),
+                      _currentEnergyValue.value = double.parse((value).toStringAsFixed(2));
+                    });
+                }),
                 Text(
                   'Amount of Energy Selected: $_currentEnergyValue kWh',
                   style: Theme.of(context).textTheme.bodyLarge,
@@ -105,14 +108,14 @@ class MarketSellView extends GetView<MarketController> {
                           textColor: Colors.white,
                           fontSize: 14.0);
                       // Get.back();
-                      EnergyRequest energyRequest = EnergyRequest(
-                          energyAmount: _currentEnergyValue.value.toInt(),
-                          biddingPrice: _currentBidPriceValue.value,
-                          buyOrSell: 'Sell', 
-                          bidID: '',
-                          userID: ''
-                          );
-                      controller.postData(energyRequest);
+                      // EnergyRequest energyRequest = EnergyRequest(
+                      //     energyAmount: _currentEnergyValue.value.toInt(),
+                      //     biddingPrice: _currentBidPriceValue.value,
+                      //     buyOrSell: 'Sell', 
+                      //     bidID: '',
+                      //     userID: ''
+                      //     );
+                      // controller.postData(energyRequest);
                     },
                     child: const Text('Submit Ask',
                         style: TextStyle(color: Colors.red)),
