@@ -142,4 +142,8 @@ class MarketController extends GetxController with GetTickerProviderStateMixin {
       buyOrSell: buyOrSell,
     );
   }
+
+  runAuction() async {
+    await MarketRepository.instance.initAuction();
+  }
 }

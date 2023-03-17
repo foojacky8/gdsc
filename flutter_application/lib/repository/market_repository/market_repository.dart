@@ -18,7 +18,8 @@ class MarketRepository extends GetxController {
 
   final _db = FirebaseFirestore.instance;
 
-  addEnergyRequestToFirestore(EnergyRequest energyRequest, {bool updateObjectWithDocumentId = false}) async {
+  addEnergyRequestToFirestore(EnergyRequest energyRequest,
+      {bool updateObjectWithDocumentId = false}) async {
     DocumentReference docRef = await _db
         .collection('energyRequest')
         .add(energyRequest.toJson())
@@ -30,7 +31,7 @@ class MarketRepository extends GetxController {
             // backgroundColor: Colors.red,
             textColor: Colors.white,
             fontSize: 14.0));
-    
+
     if (updateObjectWithDocumentId) {
       energyRequest.bidID = docRef.id;
       await docRef.update(energyRequest.toJson());
@@ -44,13 +45,17 @@ class MarketRepository extends GetxController {
   addEnergyRequestToGoBackend(EnergyRequest energyRequest) async {
     // convert the energyRequest object to JSON string
     var jsonBody = jsonEncode(energyRequest.toJson());
-    var jwt = await AuthenticationRepository.instance.firebaseUser.value!.getIdToken();
-    var headers = {'Token' : jwt};
+    var jwt = await AuthenticationRepository.instance.firebaseUser.value!
+        .getIdToken();
+    var headers = {'Token': jwt};
     ApiResponse apiResponse = ApiResponse();
     try {
-      final response = await http.post(Uri.http(ApiConstants.baseUrl, ApiConstants.handleEnergyRequestUrl), body: jsonBody, headers: headers);
+      final response = await http.post(
+          Uri.http(ApiConstants.baseUrl, ApiConstants.handleEnergyRequestUrl),
+          body: jsonBody,
+          headers: headers);
 
-      switch(response.statusCode) {
+      switch (response.statusCode) {
         case 200:
           apiResponse.data = response.body;
           break;
@@ -73,5 +78,44 @@ class MarketRepository extends GetxController {
     } on SocketException catch (e) {
       apiResponse.apiError = ApiError(error: e.message);
     }
+  }
+
+  initAuction() async {
+    ApiResponse apiResponse = ApiResponse();
+    try {
+      final response = await http
+          .get(Uri.http(ApiConstants.baseUrl, ApiConstants.handleInitAuction));
+
+      switch (response.statusCode) {
+        case 200:
+          apiResponse.data = response.body;
+          break;
+        case 201:
+          apiResponse.data = response.body;
+          break;
+        case 202:
+          apiResponse.data = response.body;
+          break;
+        case 400:
+          apiResponse.apiError = ApiError.fromJson(jsonDecode(response.body));
+          break;
+        case 401:
+          apiResponse.apiError = ApiError.fromJson(jsonDecode(response.body));
+          break;
+        default:
+          apiResponse.apiError = ApiError.fromJson(jsonDecode(response.body));
+          break;
+      }
+    } on SocketException catch (e) {
+      apiResponse.apiError = ApiError(error: e.message);
+    }
+
+    Fluttertoast.showToast(
+        msg: apiResponse.data.toString(),
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        textColor: Colors.white,
+        fontSize: 14.0);
   }
 }
