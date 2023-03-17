@@ -26,6 +26,16 @@ class ProfileChangePassword extends StatelessWidget {
               decoration: InputDecoration(
                 labelText: 'Current Password',
               ),
+              // validator: (value) {
+              //     if (value!.isEmpty) {
+              //       return 'Please enter your current password.';
+              //     }
+              //     // perform additional validation here if needed
+              //     return null;
+              //   },
+              //   onSaved: (value) {
+              //     _currentPassword = value;
+              //   },
             ),
             TextFormField(
               decoration: InputDecoration(

@@ -18,6 +18,7 @@ class MarketController extends GetxController with GetTickerProviderStateMixin {
   RxList<EnergyRequest> data = List<EnergyRequest>.empty().obs;
   RxList<EnergyRequest> buyData = List<EnergyRequest>.empty().obs;
   RxList<EnergyRequest> sellData = List<EnergyRequest>.empty().obs;
+  RxList<EnergyRequest> recentData = List<EnergyRequest>.empty().obs;
 
   static MarketController to = Get.find();
   MarketRepository marketRepository = Get.put(MarketRepository());
@@ -35,6 +36,7 @@ class MarketController extends GetxController with GetTickerProviderStateMixin {
     getAllBids();
     getBuyEnergyRequests();
     getSellEnergyRequests();
+    getRecentEnergyRequest();
 
     FirebaseFirestore.instance
         .collection('energyRequest')
@@ -48,6 +50,7 @@ class MarketController extends GetxController with GetTickerProviderStateMixin {
     data.listen((_) {
       getBuyEnergyRequests();
       getSellEnergyRequests();
+      getRecentEnergyRequest();
     });
   }
 
@@ -143,6 +146,29 @@ class MarketController extends GetxController with GetTickerProviderStateMixin {
     );
   }
 
+  getRecentEnergyRequest() {
+    List<EnergyRequest> recentEnergyRequestList = [];
+    for (var element in data) {
+      if (element.userID == AuthenticationRepository.instance.firebaseUser.value!.uid) {
+        recentEnergyRequestList.add(element);
+      }
+    }
+
+    recentData.assignAll(recentEnergyRequestList);
+  }
+
+  deleteDocument(String documentId) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('energyRequest')
+          .doc(documentId)
+          .delete();
+    print('Document deleted successfully');
+  } catch (e) {
+    print('Error deleting document: $e');
+  }
+
+}
   runAuction() async {
     await MarketRepository.instance.initAuction();
   }

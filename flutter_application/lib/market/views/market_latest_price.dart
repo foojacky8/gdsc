@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application/market/controllers/market_controller.dart';
-import 'package:flutter_application/market/controllers/market_fetch_data_controller.dart';
+import 'package:flutter_application/market/controllers/market_data_controller.dart';
 import 'package:flutter_application/market/models/market.dart';
 import 'package:flutter_application/market/views/market_submit_layout.dart';
 import 'package:get/get.dart';
@@ -15,7 +15,7 @@ class MarketLatestPrice extends StatelessWidget {
   MarketLatestPrice({super.key});
 
   MarketController controller = Get.put(MarketController());
-  MarketFetchDataController fetchDataController = Get.put(MarketFetchDataController());
+  MarketDataController fetchDataController = Get.put(MarketDataController());
 
   @override
   Widget build(BuildContext context) {

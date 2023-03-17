@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:get/get.dart';
 
-class RecentOrder extends StatelessWidget {
+import '../../market/controllers/market_controller.dart';
+
+class RecentOrder extends GetView<MarketController> {
   const RecentOrder({super.key});
 
   @override
@@ -13,46 +16,73 @@ class RecentOrder extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Table(
-        children: [
-          TableRow(
-            children: [
-              Text(''),
-              Text('Order ID'),
-              Text('Energy (kWh)'),
-              Text('Price (RM)'),
-              Text('Action'),
-            ]
-          ),
-          TableRow(
-            children: [
-              Text('BUY'),
-              Text('123'),
-              Text('10.0)'),
-              Text('10.0'),
-              Icon(Icons.delete, color: Colors.blue,)
-            ]
-          ),
-          TableRow(
-            children: [
-              Text('SELL'),
-              Text('124'),
-              Text('20.0'),
-              Text('10.0'),
-              Icon(Icons.delete, color: Colors.blue,)
-            ]
-          ),
-          TableRow(
-            children: [
-              Text('BUY'),
-              Text('125'),
-              Text('20.0'),
-              Text('20.0'),
-              Icon(Icons.delete, color: Colors.blue,)
-            ]
-          ),
-        ]
-        ),
+        child: Obx(() => controller.isLoading.value
+              ? const Center(child: CircularProgressIndicator())
+              : SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.2,
+                  width: MediaQuery.of(context).size.width * 0.8,
+                  child: DataTable(
+
+                      columnSpacing: 12,
+                      horizontalMargin: 12,
+                      columns: const [
+                        DataColumn(
+                          label: Text('BidID'),
+                        ),
+                        DataColumn(
+                          label: Text('Actions'),
+                        ),
+                        DataColumn(
+                          label: Text('BiddingPrice'),
+                        ),
+                        DataColumn(
+                          label: Text('Energy'),
+                        ),
+                        DataColumn(
+                          label: Text(''),
+                        ),
+                      ],
+                      rows: (controller.recentData)
+                          .map((e) => DataRow(
+                            cells: [
+                                DataCell(Text(e.bidID.toString())),
+                                DataCell(Text(e.buyOrSell.toString())),
+                                DataCell(Text(e.biddingPrice.toString())),
+                                DataCell(Text(e.energyAmount.toString())),
+                                DataCell(IconButton(
+                                  icon: Icon(Icons.delete, color: Colors.red),
+                                  onPressed: () {
+                                    showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: Text('Confirm Delete'),
+                                        content: Text('Are you sure you want to delete this order?'),
+                                        actions: [
+                                          TextButton(
+                                            child: Text('Cancel'),
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                          ),
+                                          TextButton(
+                                            child: Text('Delete'),
+                                            onPressed: () {
+                                              // call the deleteDocument function with the documentId
+                                              controller.deleteDocument(e.bidID.toString());
+                                              Navigator.of(context).pop();
+                                            },
+                                          ),
+                                        ],
+                                      );
+                                    }
+                                    );
+                                  },
+                                ))
+                              ]))
+                          .toList()),
+                )
+              )
       ),
     );
   }

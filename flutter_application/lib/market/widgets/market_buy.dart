@@ -1,17 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/src/widgets/container.dart';
+import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_application/market/models/energy_request.dart';
 import 'package:flutter_application/market/controllers/market_controller.dart';
 import 'package:flutter_application/market/models/energy_request.dart';
 import 'package:flutter_application/market/widgets/market_table.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
+import '../controllers/market_data_controller.dart';
+import '../models/forecast_energy.dart';
+
 class MarketBuyView extends GetView<MarketController> {
   MarketBuyView({super.key});
-  final RxDouble _currentEnergyValue = 30.0.obs;
-  final RxDouble _currentBidPriceValue = 30.0.obs;
+  final RxDouble _currentEnergyValue = 0.0.obs;
+  final RxDouble _currentBidPriceValue = 0.0.obs;
 
   @override
   Widget build(BuildContext context) {
+    MarketDataController marketdatacontroller = Get.put(MarketDataController());
+
     return Obx(
       () => Padding(
         padding: const EdgeInsets.all(20.0),
@@ -32,15 +40,19 @@ class MarketBuyView extends GetView<MarketController> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                Slider(
-                    max: 100,
-                    min: 0,
-                    divisions: 10,
-                    value: _currentEnergyValue.value,
-                    label: _currentEnergyValue.round().toString(),
-                    onChanged: (double value) {
-                      _currentEnergyValue.value = value;
-                    }),
+                Obx((){
+                  double maxNum = double.parse((marketdatacontroller.forecastUseData.value).toStringAsFixed(2));
+                  return Slider(
+                      max: maxNum,
+                      min: 0,
+                      divisions: 20,
+                      value: _currentEnergyValue.value,
+                      label: _currentEnergyValue.round().toString(),
+                      onChanged: (double value) {
+                        _currentEnergyValue.value = double.parse((value).toStringAsFixed(2));
+                      });
+                    }
+                ),
                 Text(
                   'Amount of Energy Selected: $_currentEnergyValue kWh',
                   style: Theme.of(context).textTheme.bodyLarge,
@@ -94,7 +106,15 @@ class MarketBuyView extends GetView<MarketController> {
                           // backgroundColor: Colors.red,
                           textColor: Colors.white,
                           fontSize: 14.0);
-                      Get.back();
+                      // Get.back();
+                      // EnergyRequest energyRequest = EnergyRequest(
+                      //     energyAmount: _currentEnergyValue.value.toInt(),
+                      //     biddingPrice: _currentBidPriceValue.value.toDouble(),
+                      //     buyOrSell: 'Buy', 
+                      //     bidID: '',
+                      //     userID: ''
+                      //     );
+                      // controller.postData(energyRequest);
                     },
                     child: const Text('Submit Bid'),
                   ),
