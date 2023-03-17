@@ -119,8 +119,13 @@ class MarketBuyView extends GetView<MarketController> {
                     child: const Text('Submit Bid'),
                   ),
                 ),
+                ElevatedButton(
+                    onPressed: () {
+                      controller.runAuction();
+                    },
+                    child: const Text('Auction'))
               ],
-            ))
+            )),
           ],
         ),
       ),

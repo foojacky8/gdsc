@@ -1,0 +1,6 @@
+{
+    "nodeID": "Node_3",
+    "nodePubKey": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAES0nPtV7kRpxNnVeynEJ1KlUOkH0k\nwKmIwqWYfi5W4xpXsV0ZRpBOPwXdAqbYmTOj/fWV/oarcnq53KI27/qTbg==\n-----END PUBLIC KEY-----\n",
+    "nodePrivKey": "-----BEGIN PRIVATE KEY-----\nMHcCAQEEINje+KuC5olGj+RRfVtY3QxyhmK6vQ1Iz3ZmX1gVX0+9oAoGCCqGSM49\nAwEHoUQDQgAES0nPtV7kRpxNnVeynEJ1KlUOkH0kwKmIwqWYfi5W4xpXsV0ZRpBO\nPwXdAqbYmTOj/fWV/oarcnq53KI27/qTbg==\n-----END PRIVATE KEY-----\n",
+    "port": 8003
+}

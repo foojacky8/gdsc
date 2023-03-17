@@ -120,7 +120,12 @@ class MarketSellView extends GetView<MarketController> {
                     child: const Text('Submit Ask',
                         style: TextStyle(color: Colors.red)),
                   ),
-                )
+                ),
+                ElevatedButton(
+                    onPressed: () {
+                      controller.runAuction();
+                    },
+                    child: const Text('Auction'))
               ],
             ))
           ],
