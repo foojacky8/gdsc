@@ -60,4 +60,29 @@ class BlockChainController extends GetxController {
     );
   } 
 
+  //   Future handleEnergyForecast() async {
+  //   // var jsonBody = jsonEncode(energyRequest.toJson());
+  //   // final response = await http.post(Uri.http(ApiConstants.baseUrl, 
+  //   //ApiConstants.handleEnergyRequestUrl), body: jsonBody, headers: headers);
+  //   String userId = AuthenticationRepository.instance.firebaseUser.value!.uid;
+  //   String uri = Uri.http(ApiConstants.baseUrl, 'energyForecast').toString();
+  //   final response = await http.get(Uri.parse('$uri?id=$userId'),
+  //       headers: <String, String>{
+  //         'Authorization': 'Bearer $userId}'
+  //       }
+  //   );
+  //   if (response.statusCode == 202){
+  //     // await Future.delayed(Duration(seconds: 1));
+  //     print('Successfully initialized');
+  //     final model = ForecastEnergy.fromJson(jsonDecode(response.body));
+  //     _forecastGenData.value = model.genData;
+  //     _forecastUseData.value = model.useData;
+  //     update();
+  //     return model;
+  //   }
+  //   else {
+  //     throw Exception('Failed to load data: ${response.statusCode}');
+  //   }
+  // }
+
 }

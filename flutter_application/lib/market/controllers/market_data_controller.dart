@@ -101,7 +101,11 @@ class MarketDataController extends GetxController with GetTickerProviderStateMix
     //ApiConstants.handleEnergyRequestUrl), body: jsonBody, headers: headers);
     String userId = AuthenticationRepository.instance.firebaseUser.value!.uid;
     String uri = Uri.http(ApiConstants.baseUrl, 'energyForecast').toString();
-    final response = await http.get(Uri.parse('$uri?id=$userId'));
+    final response = await http.get(Uri.parse('$uri?id=$userId'),
+        headers: <String, String>{
+          'Authorization': 'Bearer $userId}'
+        }
+    );
     if (response.statusCode == 202){
       // await Future.delayed(Duration(seconds: 1));
       print('Successfully initialized');
