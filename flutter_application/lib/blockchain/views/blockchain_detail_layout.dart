@@ -51,7 +51,7 @@ class BlockChainDetailLayout extends GetView<BlockChainController>{
                       Text('SELL', style: TextStyle(fontSize: 20, 
                         fontWeight: FontWeight.bold
                       ),),
-                      BlockChainBuyDetail(),
+                      BlockChainSellDetail(),
                     ],
                   ),
                 ],
