@@ -12,7 +12,7 @@ class RecentOrder extends GetView<MarketController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(child: Text('Recent Order')),
+        title: Text('Recent Order'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),

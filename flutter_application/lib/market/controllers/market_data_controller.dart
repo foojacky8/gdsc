@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 import '../../repository/api/api_constants.dart';
 import '../../repository/authentication_repository/authentication_repository.dart';
 import '../models/forecast_energy.dart';
-import '../models/market.dart';
+import '../../blockchain/models/market.dart';
 
 class MarketDataController extends GetxController with GetTickerProviderStateMixin{
 
@@ -99,11 +99,10 @@ class MarketDataController extends GetxController with GetTickerProviderStateMix
     // var jsonBody = jsonEncode(energyRequest.toJson());
     // final response = await http.post(Uri.http(ApiConstants.baseUrl, 
     //ApiConstants.handleEnergyRequestUrl), body: jsonBody, headers: headers);
-    String userId = AuthenticationRepository.instance.firebaseUser.value!.uid;
-    String uri = Uri.http(ApiConstants.baseUrl, 'energyForecast').toString();
-    final response = await http.get(Uri.parse('$uri?id=$userId'),
+    var jwt = await AuthenticationRepository.instance.firebaseUser.value!.getIdToken();
+    final response = await http.get(Uri.http(ApiConstants.baseUrl, 'energyForecast'),
         headers: <String, String>{
-          'Authorization': 'Bearer $userId}'
+          'Token': jwt,
         }
     );
     if (response.statusCode == 202){
