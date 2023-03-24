@@ -97,6 +97,7 @@ class BlockChainController extends GetxController {
       // await Future.delayed(Duration(seconds: 1));
       print('Successfully initialized');
       final model = BlockChainMarket.fromJson(jsonDecode(response.body));
+      model.blockchaindepth.removeAt(0);
       blockChainData.value = model.blockchaindepth;
       update();
       isLoading.value = false;
