@@ -45,7 +45,8 @@ class ProfileEditProfile extends GetView<ProfileController> {
                   ),
                   onChanged: (value) {
                     String _smartMeterNo = value;
-                    
+                    print('Smart Meter No: $_smartMeterNo');
+                    controller.updateSmartMeterData(_smartMeterNo);
 
                   },
                 ),

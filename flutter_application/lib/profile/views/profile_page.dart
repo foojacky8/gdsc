@@ -45,22 +45,22 @@ class ProfilePage extends StatelessWidget {
                     onTap: (){
                       Get.to(RecentOrder());
                     },),
-                  ListTile(
-                    onTap: (){
-                      Get.to(ProfileEditProfile());
-                    },
-                    leading: Icon(Icons.edit),
-                    title: Text('Edit Profile'),
-                    trailing: Icon(Icons.arrow_forward_ios),
-                  ),
+                  // ListTile(
+                  //   onTap: (){
+                  //     Get.to(ProfileEditProfile());
+                  //   },
+                  //   leading: Icon(Icons.edit),
+                  //   title: Text('Edit Profile'),
+                  //   trailing: Icon(Icons.arrow_forward_ios),
+                  // ),
 
-                  ListTile(
-                    leading: Icon(Icons.lock),
-                    title: Text('Change Password'),
-                    trailing: Icon(Icons.arrow_forward_ios),
-                    onTap: (){
-                      Get.to(ProfileChangePassword());
-                    },),
+                  // ListTile(
+                  //   leading: Icon(Icons.lock),
+                  //   title: Text('Change Password'),
+                  //   trailing: Icon(Icons.arrow_forward_ios),
+                  //   onTap: (){
+                  //     Get.to(ProfileChangePassword());
+                  //   },),
 
                   // ListTile(
                   //   trailing: Icon(Icons.arrow_forward_ios),

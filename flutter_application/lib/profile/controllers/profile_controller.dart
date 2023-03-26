@@ -33,16 +33,18 @@ class ProfileController extends GetxController {
     await _userRepository.updateUser(user);
   }
 
-  // updateSmartMeterData() async {
+  updateSmartMeterData(smartMeterNo) async {
 
-  //   // final user = await getUserData();
-  //   var user = AuthenticationRepository.instance.firebaseUser.value!;
+    // final user = await getUserData();
+    var user = AuthenticationRepository.instance.firebaseUser.value!;
 
-  //   FirebaseFirestore.instance
-  //       .collection('users')
-  //       .doc(user.id)
-  //       .update({'smartMeter': user.smartMeterNo});
-  // }
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(user.uid)
+        .update({'smartMeterNo': smartMeterNo});
+
+    update();
+  }
 
   
 }
