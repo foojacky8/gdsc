@@ -5,11 +5,13 @@ class EnergyRequest{
   final double biddingPrice;
   final String buyOrSell;
 
-  EnergyRequest({required this.bidID, 
+  EnergyRequest(
+        {required this.bidID, 
         required this.userID, 
         required this.energyAmount, 
         required this.biddingPrice, 
-        required this.buyOrSell});
+        required this.buyOrSell,
+        });
 
   factory EnergyRequest.fromJson(Map<String, dynamic> json) {
     return EnergyRequest(
