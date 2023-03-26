@@ -17,7 +17,7 @@ var dB *firestore.Client
 
 // updated the credentials file path
 func initFirebase() {
-	opt := option.WithCredentialsFile("E:/gdsc-4b58d-firebase-adminsdk-fctt7-6bbd2ea761.json")
+	opt := option.WithCredentialsFile("gdsc-4b58d-firebase-adminsdk-fctt7-6bbd2ea761.json")
 	config := &firebase.Config{ProjectID: "gdsc-4b58d"}
 	app, err := firebase.NewApp(context.Background(), config, opt)
 	if err != nil {
