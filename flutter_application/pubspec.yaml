@@ -47,6 +47,7 @@ dependencies:
   introduction_screen: ^3.1.2
   lottie: ^2.2.0
   material_design_icons_flutter: ^6.0.7096
+  mobile_scanner: ^3.1.1
   percent_indicator: ^4.2.2
   responsive_framework: ^0.2.0
 
