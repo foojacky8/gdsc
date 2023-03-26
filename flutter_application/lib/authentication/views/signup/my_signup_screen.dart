@@ -20,22 +20,22 @@ class MySignupScreen extends StatelessWidget {
         primaryColor: const Color(0xFF198f4c),
         errorColor: Colors.deepOrange,
       ),
-      title: 'Re:Energize',
+      title: 'Power2Ppl',
       onLogin: controller.authUser,
       onSignup: controller.signupUser,
 
-        loginProviders: [
-          LoginProvider(
-            icon: FontAwesomeIcons.google,
-            label: 'Google',
-            callback: () async {
-              debugPrint('start google sign in');
-              await Future.delayed(loginTime);
-              debugPrint('stop google sign in');              
-              return null;
-            },
-          )
-        ],
+        // loginProviders: [
+        //   LoginProvider(
+        //     icon: FontAwesomeIcons.google,
+        //     label: 'Google',
+        //     callback: () async {
+        //       debugPrint('start google sign in');
+        //       await Future.delayed(loginTime);
+        //       debugPrint('stop google sign in');              
+        //       return null;
+        //     },
+        //   )
+        // ],
       onSubmitAnimationCompleted: () {
         Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (context) => HomePage(),

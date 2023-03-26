@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_application/profile/controllers/profile_controller.dart';
 import 'package:flutter_application/profile/widgets/profile_change_password.dart';
 import 'package:flutter_application/profile/widgets/profile_edit_profile.dart';
 import 'package:flutter_application/profile/widgets/profile_notifcations.dart';
@@ -17,6 +18,8 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ProfileController _profileController = Get.put(ProfileController());
+
     return Scaffold(
       appBar: AppBar(
         title: Center(child: Text('Profile')),
@@ -42,35 +45,37 @@ class ProfilePage extends StatelessWidget {
                     onTap: (){
                       Get.to(RecentOrder());
                     },),
-                  ListTile(
-                    onTap: (){
-                      Get.to(ProfileEditProfile());
-                    },
-                    leading: Icon(Icons.edit),
-                    title: Text('Edit Profile'),
-                    trailing: Icon(Icons.arrow_forward_ios),
-                  ),
+                  // ListTile(
+                  //   onTap: (){
+                  //     Get.to(ProfileEditProfile());
+                  //   },
+                  //   leading: Icon(Icons.edit),
+                  //   title: Text('Edit Profile'),
+                  //   trailing: Icon(Icons.arrow_forward_ios),
+                  // ),
 
-                  ListTile(
-                    leading: Icon(Icons.lock),
-                    title: Text('Change Password'),
-                    trailing: Icon(Icons.arrow_forward_ios),
-                    onTap: (){
-                      Get.to(ProfileChangePassword());
-                    },),
+                  // ListTile(
+                  //   leading: Icon(Icons.lock),
+                  //   title: Text('Change Password'),
+                  //   trailing: Icon(Icons.arrow_forward_ios),
+                  //   onTap: (){
+                  //     Get.to(ProfileChangePassword());
+                  //   },),
 
-                  ListTile(
-                    trailing: Icon(Icons.arrow_forward_ios),
-                    leading: Icon(Icons.notifications),
-                    title: Text('Notifications'),
-                    onTap: (){
-                      Get.to(ProfileNotification());
-                    },)
+                  // ListTile(
+                  //   trailing: Icon(Icons.arrow_forward_ios),
+                  //   leading: Icon(Icons.notifications),
+                  //   title: Text('Notifications'),
+                  //   onTap: (){
+                  //     Get.to(ProfileNotification());
+                  //   },)
                 ],
               ),
             ),
           CupertinoButton(
-            onPressed: () {},
+            onPressed: () {
+              AuthenticationRepository.instance.signOut();
+            },
             color: Colors.red,
             child: Text('Log Out'),),
           Spacer(),

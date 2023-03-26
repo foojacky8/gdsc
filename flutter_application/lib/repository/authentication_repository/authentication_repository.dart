@@ -79,6 +79,24 @@ class AuthenticationRepository extends GetxController {
     return null;
   }
 
+  // void _changePassword(String currentPassword, String newPassword) async {
+  //   final user = await FirebaseAuth.instance.currentUser;
+  //   String? email = AuthenticationRepository.instance.firebaseUser.value!.email;
+    
+  //   final cred = EmailAuthProvider.credential(
+  //       email: email, password: currentPassword);
+
+  //   user?.reauthenticateWithCredential(cred).then((value) {
+  //     user.updatePassword(newPassword).then((_) {
+  //       //Success, do something
+  //     }).catchError((error) {
+  //       //Error, show something
+  //     });
+  //   }).catchError((err) {
+  //     //Error, show something
+  //   });
+  // }
+
   Future<void> signOut() async {
     try {
       await _auth.signOut();
