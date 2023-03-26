@@ -6,6 +6,14 @@ import 'package:get/get_state_manager/get_state_manager.dart';
 class EVChargeController extends GetxController{
 
   RxString randomNumber = ''.obs;
+  RxString selectedChargingStation = 'Petron Subang Jaya'.obs;
+
+  List<String> chargingStationList = [
+  'Petron Subang Jaya',
+  'Shell Ampang Jaya',
+  'Petron Mid Valley',
+  'Petronas TTDI'
+];
 
   @override
   void onInit() {
