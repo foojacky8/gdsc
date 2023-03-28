@@ -14,7 +14,7 @@ import '../models/energy_request.dart';
 class MarketSellView extends GetView<MarketController> {
   MarketSellView({super.key});
   final RxDouble _currentEnergyValue = 0.0.obs;
-  final RxDouble _currentBidPriceValue = 0.0.obs;
+  final RxDouble _currentBidPriceValue = 0.3.obs;
 
   @override
   Widget build(BuildContext context) {
@@ -74,11 +74,11 @@ class MarketSellView extends GetView<MarketController> {
                   ),
                 ),
                 Slider(
-                    max: 100,
-                    min: 0,
-                    divisions: 10,
+                    max: 0.5,
+                    min: 0.3,
+                    divisions: 20,
                     value: _currentBidPriceValue.value,
-                    label: _currentBidPriceValue.round().toString(),
+                    // label: _currentBidPriceValue.round().toString(),
                     onChanged: (double value) {
                       _currentBidPriceValue.value = value;
                     }),
