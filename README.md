@@ -1,5 +1,12 @@
 # GDSC Solution Challenge
 
+## Instruction to set up the frontend
+Download and setup Flutter
+You may refer to the follwing link to do so: https://docs.flutter.dev/get-started/install/windows
+Note that this is assuming the user is using Windows operating system.
+
+
+
 
 ## Instruction to set up the backend
 
