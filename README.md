@@ -63,3 +63,8 @@ cd backend/node_3
 go run .
 ```
 Click the Allow button if there is a pop up warning message
+
+## Start using the app
+After starting up the frontend and backend, you may start using the app as a normal user would. If this is your first time, you may create an account to access the features in the app.
+
+**Have fun! Thank you.**
