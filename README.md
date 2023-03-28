@@ -1,7 +1,7 @@
 # GDSC Solution Challenge
 
 ## Instruction to set up the frontend
-Download and setup Flutter
+Download and setup Flutter.
 You may refer to the follwing link to do so: https://docs.flutter.dev/get-started/install/windows.
 Note that this is assuming the user is using Windows operating system.
 
@@ -14,7 +14,7 @@ After that, start the Android emulator. Run the following command in the termina
 ```
 flutter run
 ```
-
+Note: At this stage, the app cannot fully work yet. The backend needs to be started. Refer to the section below which contains instructions to set up the backend.
 
 ## Instruction to set up the backend
 
