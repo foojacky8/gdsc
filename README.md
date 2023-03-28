@@ -2,13 +2,17 @@
 
 ## Instruction to set up the frontend
 Download and setup Flutter
-You may refer to the follwing link to do so: https://docs.flutter.dev/get-started/install/windows /n
+You may refer to the follwing link to do so: https://docs.flutter.dev/get-started/install/windows.
 Note that this is assuming the user is using Windows operating system.
 
 ### Updating packages
-After cloning this repo, user should run the following command in the terminal to get latest packages/dependencies
+After cloning this repo, user should run the following command in the terminal to get latest packages/dependencies. Make sure you are in the **flutter_application** directory.
 ```
 flutter pub get
+```
+After that, start the Android emulator. Run the following command in the terminal to start the Flutter app
+```
+flutter run
 ```
 
 
