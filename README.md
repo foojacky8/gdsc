@@ -2,10 +2,14 @@
 
 ## Instruction to set up the frontend
 Download and setup Flutter
-You may refer to the follwing link to do so: https://docs.flutter.dev/get-started/install/windows
+You may refer to the follwing link to do so: https://docs.flutter.dev/get-started/install/windows /n
 Note that this is assuming the user is using Windows operating system.
 
-
+### Updating packages
+After cloning this repo, user should run the following command in the terminal to get latest packages/dependencies
+```
+flutter pub get
+```
 
 
 ## Instruction to set up the backend
