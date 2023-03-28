@@ -22,17 +22,22 @@ class BlockChainPage extends StatelessWidget {
         child: SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              height: MediaQuery.of(context).size.height * 0.8,
-              // child: controller.buildDataTable(),
-              child: Column(
-                children: [
-                  BlockChainTable(),
-                ],
-              ),
-            )
-          ),
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                height: MediaQuery.of(context).size.height * 0.8,
+                // child: controller.buildDataTable(),
+                child: Column(
+                  children: [
+                    BlockChainTable(),
+                    ElevatedButton(
+                      onPressed: () async {
+                        controller.handleBlockChain();
+                      },
+                      child: Text('Refresh'),
+                    )
+                  ],
+                ),
+              )),
         ),
       ),
     );

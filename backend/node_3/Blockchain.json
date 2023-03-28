@@ -481,5 +481,110 @@
   "miner": "Node_2",
   "noOfTransaction": 2,
   "tradedEnergy": 0
+ },
+ {
+  "index": 12,
+  "timestamp": "2023 March 28 14:00",
+  "hash": "f272471eaad8c4a01db042cfd474e2be8b4b455c0282511ecb1c4bc5748561d2",
+  "prevHash": "02bf8320b77110ea8bd14399190701c9eca70fcfe81b5f689a39aa83f4304b82",
+  "data": [
+   {
+    "bidID": "BD 1",
+    "userID": "2yV2QatsyySgX1gBKRXB9D2pm922",
+    "price": 0.30000001192092896,
+    "toGrid": 0.5099999904632568,
+    "toMarket": 7.769999980926514,
+    "BuyOrSell": "Buy",
+    "totalAmount": 2.5860000821352003
+   },
+   {
+    "bidID": "BD 2",
+    "userID": "2yV2QatsyySgX1gBKRXB9D2pm922",
+    "price": 0.30000001192092896,
+    "toGrid": 0,
+    "toMarket": 7.769999980926514,
+    "BuyOrSell": "Sell",
+    "totalAmount": 2.331000086903572
+   }
+  ],
+  "miner": "Node_2",
+  "noOfTransaction": 2,
+  "tradedEnergy": 7.769999980926514
+ },
+ {
+  "index": 13,
+  "timestamp": "2023 March 28 14:00",
+  "hash": "6891ad6b05908ab51ce0b286131d17dfac4052a6b05b5f63f29977d12850cd9d",
+  "prevHash": "f272471eaad8c4a01db042cfd474e2be8b4b455c0282511ecb1c4bc5748561d2",
+  "data": [
+   {
+    "bidID": "BD 1",
+    "userID": "2yV2QatsyySgX1gBKRXB9D2pm922",
+    "price": 0.30000001192092896,
+    "toGrid": 0,
+    "toMarket": 8.279999732971191,
+    "BuyOrSell": "Buy",
+    "totalAmount": 2.484000018596646
+   },
+   {
+    "bidID": "BD 3",
+    "userID": "DKSAtdq6h0Y7kePnrcpsehTxj8t1",
+    "price": 0.30000001192092896,
+    "toGrid": 0,
+    "toMarket": 6.75,
+    "BuyOrSell": "Buy",
+    "totalAmount": 2.0250000804662704
+   },
+   {
+    "bidID": "BD 2",
+    "userID": "2yV2QatsyySgX1gBKRXB9D2pm922",
+    "price": 0.30000001192092896,
+    "toGrid": 0,
+    "toMarket": 7.769999980926514,
+    "BuyOrSell": "Sell",
+    "totalAmount": 2.331000086903572
+   },
+   {
+    "bidID": "BD 4",
+    "userID": "DKSAtdq6h0Y7kePnrcpsehTxj8t1",
+    "price": 0.30000001192092896,
+    "toGrid": 0.47999998927116394,
+    "toMarket": 7.260000228881836,
+    "BuyOrSell": "Sell",
+    "totalAmount": 2.3220001519918467
+   }
+  ],
+  "miner": "Node_3",
+  "noOfTransaction": 4,
+  "tradedEnergy": 15.029999732971191
+ },
+ {
+  "index": 14,
+  "timestamp": "2023 March 28 14:00",
+  "hash": "5281890e6d639168fa2b2a9e3c542c3de0cb505dcafb3233fd5e48e38b000532",
+  "prevHash": "6891ad6b05908ab51ce0b286131d17dfac4052a6b05b5f63f29977d12850cd9d",
+  "data": [
+   {
+    "bidID": "BD 1",
+    "userID": "DKSAtdq6h0Y7kePnrcpsehTxj8t1",
+    "price": 0.30000001192092896,
+    "toGrid": 0,
+    "toMarket": 9.640000343322754,
+    "BuyOrSell": "Buy",
+    "totalAmount": 2.8920002179145854
+   },
+   {
+    "bidID": "BD 2",
+    "userID": "DKSAtdq6h0Y7kePnrcpsehTxj8t1",
+    "price": 0.30000001192092896,
+    "toGrid": 0.03999999910593033,
+    "toMarket": 9.640000343322754,
+    "BuyOrSell": "Sell",
+    "totalAmount": 2.9040002176463644
+   }
+  ],
+  "miner": "Node_3",
+  "noOfTransaction": 2,
+  "tradedEnergy": 9.640000343322754
  }
 ]
