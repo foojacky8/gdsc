@@ -35,7 +35,7 @@ pip install pandas
 pip install numpy
 pip install tensorflow
 ```
-Download the firebase credentials json file from the Google Drive link in the submission form and replace the path in firebase.go
+Download the firebase credentials json file from https://drive.google.com/file/d/1BCiaMlrgT7YLDm7iSrDbgoUEurE_iuVM/view?usp=sharing and replace the path in firebase.go
 ```
 opt := option.WithCredentialsFile(<Path_to_firebase_credentials.json>)
 ```
